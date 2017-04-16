@@ -1,6 +1,4 @@
-# Myzsh
-可选plugins:
-	zsh-syntax-highlighting
-	zsh-autosuggestions
-
-zsh-completions 使用github上的plugin
+# Change logs:
+    2017-4-16 19:45:055:
+    1.注释了一些要注意的地方
+    2.去掉了一些plugin的加载, 加快Shell终端响应
