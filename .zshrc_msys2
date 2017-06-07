@@ -1,0 +1,488 @@
+# Path to your oh-my-zsh installation.
+  export ZSH=$HOME/.oh-my-zsh
+  export MSYS="winsymlinks:lnk"
+# Set name of the theme to load.
+# Look in ~/.oh-my-zsh/themes/
+# Optionally, if you set this to "random", it'll load a random theme each
+# time that oh-my-zsh is loaded.
+#ZSH_THEME="agnoster"
+ZSH_THEME="bullet-train"
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion. Case
+# sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+ DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+ export UPDATE_ZSH_DAYS=3
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+#ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# HIST_STAMPS="mm/dd"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup. tmux thefuck archlinux
+
+plugins=(z autojump bundler cp colored-man-pages git pip python ssh-agent)
+autoload -U compinit && compinit
+# User configuration
+
+export PATH="/bin:/sbin:/usr/bin:/usr/bin/bind:/usr/local/bin:/usr/x86_64-pc-msys/bin:/opt/php-bin/:/c/Windows/System32"
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+source $ZSH/oh-my-zsh.sh
+
+# You may need to manually set your language environment
+ export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+ if [[ -n $SSH_CONNECTION ]]; then
+   export EDITOR='vim'
+ else
+   export EDITOR='mvim'
+ fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+ export SSH_KEY_PATH="~/.ssh/dsa_id"
+
+export VIM="/usr/share/vim"
+#
+export CHEATCOLORS=true
+#
+autoload colors
+colors
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+
+ #alias cmd='cmd.exe /k "%ConEmuBaseDir%\CmdInit.cmd" -new_console:a:s:t:"CMD"'
+ alias hp='htop'
+ alias cp='cp -i'
+ alias mv='mv -i'
+ alias rm='rm -i'
+ alias rmaf="rm -rf"
+ alias mmi="make -j2&&make install"
+ alias grep='grep --color=auto'
+ alias llg="ll -h|grep"
+ alias ll='ls -ahl'
+ alias la='ls -ah'
+ alias vimconfig='vim ~/.vimrc'
+ alias rpms="rpm -qa |grep"
+ alias rpmu="rpm -Uvh "
+ alias dstat="dstat -cdlmnpsy"
+ alias pss="ps -ef |grep"
+ alias gls="glances"
+ alias gcl="git clone "
+ alias ips="ipython"
+ alias dfh='df -Th'
+ alias piu="pip uninstall "
+ alias pii="pip install "
+ alias eai="easy_install "
+ alias zyi="zypper install"
+ alias yumi="yum -y install"
+ alias zshreload='source ~/.zshrc'
+ alias zshconfig="vim ~/.zshrc"
+ alias tmuxconfig='vim ~/.tmux.conf'
+ alias tmuxreload='tmux source-file ~/.tmux.conf'
+ alias tmuxah='tmux attach'
+ alias -s gz='tar xf'
+ alias -s xz='tar xf'
+ alias -s bz2='tar xf'
+ alias -s tgz='tar xf'
+ alias -s zip='unzip'
+ alias -s rpm='rpm -ivh'
+ alias -s html='vim'
+ alias -s php='vim'
+ alias -s py='python'
+ alias -s md='less'
+
+# for Pacman command
+alias pacin='pacman -S'
+alias pacins='pacman -U'
+alias pacinsd='pacman -S --asdeps'
+alias pacloc='pacman -Qi'
+alias paclocs='pacman -Qs'
+alias paclsorphans='pacman -Qdt'
+alias pacmir='pacman -Syy'
+alias pacre='pacman -R'
+alias pacrem='pacman -Rns'
+alias pacrep='pacman -Si'
+alias pacreps='pacman -Ss'
+alias pacrmorphans='pacman -Rs $(pacman -Qtdq)'
+alias pacupd='pacman -Sy'
+alias pacupg='pacman -Syu'
+
+#eval $(thefuck --alias)
+#eval $(thefuck --alias fuck)
+#
+##############################################
+#
+#
+#关于历史纪录的配置 {{{
+##历史纪录条目数量
+export HISTSIZE=10000
+##注销后保存的历史纪录条目数量
+export SAVEHIST=10000
+##历史纪录文件
+export HISTFILE=~/.zhistory
+##以附加的方式写入历史纪录
+setopt INC_APPEND_HISTORY
+##如果连续输入的命令相同，历史纪录中只保留一个
+setopt HIST_IGNORE_DUPS
+##为历史纪录中的命令添加时间戳
+setopt EXTENDED_HISTORY
+#
+##启用 cd 命令的历史纪录，cd -[TAB]进入历史路径
+setopt AUTO_PUSHD
+##相同的历史路径只保留一个
+setopt PUSHD_IGNORE_DUPS
+#
+#每个目录使用独立的历史纪录{{{
+cd() {
+builtin cd "$@"                             # do actual cd
+fc -W                                       # write current history  file
+local HISTDIR="$HOME/zsh_history$PWD"      # use nested folders for history
+if  [ ! -d "$HISTDIR" ] ; then          # create folder if needed
+mkdir -p "$HISTDIR"
+fi
+export HISTFILE="$HISTDIR/zhistory"     # set new history file
+touch $HISTFILE
+local ohistsize=$HISTSIZE
+HISTSIZE=0                              # Discard previous dir's history
+HISTSIZE=$ohistsize                     # Prepare for new dir's history
+fc -R                                       #read from current histfile
+}
+mkdir -p $HOME/zsh_history$PWD
+export HISTFILE="$HOME/zsh_history$PWD/zhistory"
+
+function rnb { mv $1 $1.bak }
+function cpb { cp $1 $1.bak }
+function cph { cp $1 $HOME }
+function llf { find . -name "$1" }
+function lls { find . -name "*.$1" }
+function txh { tar xf $1 -C $HOME }
+function tca { tar -czvf $1.tar.gz $1 }
+function uzh { unzip -d $HOME $1 }
+function allhistory { cat $(find $HOME/zsh_history -name zhistory) }
+function convhistory {
+sort $1 | uniq |
+sed 's/^:\([ 0-9]*\):[0-9]*;\(.*\)/\1::::::\2/' |
+awk -F"::::::" '{ $1=strftime("%Y-%m-%d %T",$1) "|"; print }'
+}
+#
+
+#使用 histall 命令查看全部历史纪录
+function histall { convhistory =(allhistory) |
+sed '/^.\{20\} *cd/i\\' }
+##使用 hist 查看当前目录历史纪录
+function hist { convhistory $HISTFILE }
+#
+##全部历史纪录 top50
+function hista50 { allhistory | awk -F':[ 0-9]*:[0-9]*;' '{ $1="" ; print }' | sed 's/ /\n/g' | sed '/^$/d' | sort | uniq -c | sort -nr | head -n 50 }
+##}}}
+
+##历史命令 history top10
+alias hista10='print -l  ${(o)history%% *} | uniq -c | sort -nr | head -n 10'
+##}}}
+
+#扩展路径
+##/v/c/p/p => /var/cache/pacman/pkg
+setopt complete_in_word
+
+#禁用 core dumps
+#limit coredumpsize 0
+#
+##Emacs风格 键绑定
+bindkey -e
+#bindkey -v
+#bindkey jj vi-cmd-mode
+
+#以下字符视为单词的一部分
+WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
+##}}}
+#
+##自动补全功能 {{{
+setopt AUTO_LIST
+setopt AUTO_MENU
+#setopt AUTO_CD
+#开启此选项，补全时会直接选中菜单项
+##setopt MENU_COMPLETE
+#
+autoload -U compinit
+compinit
+#
+#自动补全选项
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*' menu select
+zstyle ':completion:*:*:default' force-list always
+zstyle ':completion:*' select-prompt '%SSelect:  lines: %L  matches: %M  [%p]'
+
+zstyle ':completion:*:match:*' original only
+zstyle ':completion::prefix-1:*' completer _complete
+zstyle ':completion:predict:*' completer _complete
+zstyle ':completion:incremental:*' completer _complete _correct
+#zstyle ':completion:*' completer _complete _prefix _correct _prefix _match _approximate
+#
+#路径补全
+zstyle ':completion:*' expand 'yes'
+zstyle ':completion:*' squeeze-shlashes 'yes'
+zstyle ':completion::complete:*' '\\'
+#
+#彩色补全菜单
+eval $(dircolors -b)
+export ZLSCOLORS="${LS_COLORS}"
+zmodload zsh/complist
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+
+#修正大小写
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
+##错误校正
+zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*:match:*' original only
+zstyle ':completion:*:approximate:*' max-errors 1 numeric
+#
+#补全类型提示分组
+zstyle ':completion:*:matches' group 'yes'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*:options' description 'yes'
+zstyle ':completion:*:options' auto-description '%d'
+zstyle ':completion:*:descriptions' format $'\e[01;33m -- %d --\e[0m'
+zstyle ':completion:*:messages' format $'\e[01;35m -- %d --\e[0m'
+zstyle ':completion:*:warnings' format $'\e[01;31m -- No Matches Found --\e[0m'
+zstyle ':completion:*:corrections' format $'\e[01;32m -- %d (errors: %e) --\e[0m'
+
+# cd ~ 补全顺序
+zstyle ':completion:*:-tilde-:*' group-order 'named-directories' 'path-directories' 'users' 'expand'
+
+#Tab complete cd
+user-complete(){
+    if [[ -n $BUFFER ]];then
+        zle expand-or-complete
+    else
+        BUFFER="cd"
+        zle end-of-line
+        zle expand-or-complete
+    fi
+}
+
+zle -N user-complete
+bindkey "\t" user-complete
+
+#[Esc][h] man 当前命令时，显示简短说明
+alias run-help >&/dev/null && unalias run-help
+autoload run-help
+
+#路径别名 {{{
+##进入相应的路径时只要 cd ~xxx
+hash -d ci="/usr/local/"
+hash -d cm="/etc/"
+hash -d ss="/etc/rc.d/init.d/"
+hash -d sh="/usr/include/"
+hash -d lf="/etc/ld.so.conf.d/"
+##}}}
+
+#{{{自定义补全
+##补全 ping
+zstyle ':completion:*:ping:*' hosts 192.168.99.{129,130,131,132,128} google.com baidu.com
+
+#补全 ssh scp sftp 等
+zstyle -e ':completion::*:*:*:hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
+##}}}
+
+####{{{
+function timeconv { date -d @$1 +"%Y-%m-%d %T" }
+## }}}
+
+zmodload zsh/mathfunc
+autoload -U zsh-mime-setup
+zsh-mime-setup
+setopt EXTENDED_GLOB
+
+#setopt correctall
+autoload compinstal
+
+#漂亮又实用的命令高亮界面
+setopt extended_glob
+TOKENS_FOLLOWED_BY_COMMANDS=('|' '||' ';' '&' '&&' 'sudo' 'do' 'time' 'strace')
+
+ recolor-cmd() {
+     region_highlight=()
+     colorize=true
+     start_pos=0
+     for arg in ${(z)BUFFER}; do
+         ((start_pos+=${#BUFFER[$start_pos+1,-1]}-${#${BUFFER[$start_pos+1,-1]## #}}))
+         ((end_pos=$start_pos+${#arg}))
+         if $colorize; then
+             colorize=false
+             res=$(LC_ALL=C builtin type $arg 2>/dev/null)
+             case $res in
+                 *'reserved word'*)   style="fg=magenta,bold";;
+                 *'alias for'*)       style="fg=cyan,bold";;
+                 *'shell builtin'*)   style="fg=yellow,bold";;
+                 *'shell function'*)  style='fg=green,bold';;
+                 *"$arg is"*)
+                     [[ $arg = 'sudo' ]] && style="fg=red,bold" || style="fg=blue,bold";;
+                 *)                   style='none,bold';;
+             esac
+             region_highlight+=("$start_pos $end_pos $style")
+         fi
+         [[ ${${TOKENS_FOLLOWED_BY_COMMANDS[(r)${arg//|/\|}]}:+yes} = 'yes' ]] && colorize=true
+         start_pos=$end_pos
+     done
+ }
+check-cmd-self-insert() { zle .self-insert && recolor-cmd }
+check-cmd-backward-delete-char() { zle .backward-delete-char && recolor-cmd }
+
+zle -N self-insert check-cmd-self-insert
+zle -N backward-delete-char check-cmd-backward-delete-char
+
+#
+#---------------------PenBox tools alias--------------------------------------------------
+alias androarsc='python2 /tools-bin/androidsecurity/androguard/androarsc.py'
+alias androauto='python2 /tools-bin/androidsecurity/androguard/androauto.py'
+alias androaxml='python2 /tools-bin/androidsecurity/androguard/androaxml.py'
+alias androbugs=/tools-bin/androidsecurity/AndroBugs_Framework/androbugs
+alias androcsign='python2 /tools-bin/androidsecurity/androguard/androcsign.py'
+alias androdd='python2 /tools-bin/androidsecurity/androguard/androdd.py'
+alias androdiff='python2 /tools-bin/androidsecurity/androguard/androdiff.py'
+alias androdis='python2 /tools-bin/androidsecurity/androguard/androdis.py'
+alias androgui='python2 /tools-bin/androidsecurity/androguard/androgui.py'
+alias androlyze='python2 /tools-bin/androidsecurity/androguard/androlyze.py'
+alias androsign='python2 /tools-bin/androidsecurity/androguard/androsign.py'
+alias androsim='python2 /tools-bin/androidsecurity/androguard/androsim.py'
+alias androwarn='python2 /tools-bin/androidsecurity/androwarn/androwarn.py'
+alias apktool='/base/jdk1.8.0_74/bin/java -jar /tools-bin/androidsecurity/apktool/apktool.jar'
+alias atom='/tools-bin/Atom/atom" $1 -new_console:s60H'
+alias automater='python2 /tools-bin/InformationGathering/TekDefense-Automater/Automater.py'
+alias baksmali='/base/jdk1.8.0_74/bin/java -jar /tools-bin/ReverseEngineering/smali/baksmali-2.0.6.jar'
+alias beefproject='/usr/bin/ruby /tools-bin/beef/beef'
+alias bulkextractor=/tools-bin/ForensicTools/bulk_extractor/bulk_extractor
+alias burpsuite='$javaw -jar "/tools-bin/burpsuite/burpsuite.jar" -new_console'
+alias bytecodeviewer='"$java -jar /tools-bin/androidsecurity/bytecode-viewer/BytecodeViewer-2.9.8-fatjar.jar" $* -new_console'
+alias captipper='python2 /tools-bin/ForensicTools/CapTipper/CapTipper.py'
+alias cmsmap='python2 /tools-bin/WebApplications/CMSmap/cmsmap.py'
+alias commix='python2 /tools-bin/WebApplications/commix/commix.py'
+alias crackmapexec=/tools-bin/ExploitationTools/CrackMapExecWin/crackmapexec
+alias dirbuster='$javaw -jar "/tools-bin/WebApplications/DirBuster/DirBuster.jar" -new_console'
+alias dnschef=/tools-bin/Sniffing/dnschef/dnschef
+alias dnsrecon='python2 /tools-bin/InformationGathering/dnsrecon/dnsrecon.py'
+alias dotdotpwn='portableshell /tools-bin/WebApplications/dotdotpwn/dotdotpwn.pl'
+alias droopescan='python2 /tools-bin/WebApplications/droopescan/droopescan'
+alias dumpzilla='python2 /tools-bin/ForensicTools/dumpzilla/dumpzilla.py'
+alias ettercap=/tools-bin/Sniffing/ettercap/ettercap
+alias fimap='python2 /tools-bin/WebApplications/fimap/src/fimap.py'
+alias findmyhash='python2 /tools-bin/password_attacks/findmyhash/findmyhash.py'
+alias golismero='python2 /tools-bin/WebApplications/golismero/golismero.py'
+alias hashcat-cli32=/tools-bin/password_attacks/hashcat/hashcat-cli32
+alias hashcat-cli64=/tools-bin/password_attacks/hashcat/hashcat-cli64
+alias hashcat-cliXOP=/tools-bin/password_attacks/hashcat/hashcat-cliXOP
+alias hashidentifier='python2 /tools-bin/password_attacks/hashidentifier/Hash_ID.py'
+alias hydra=/tools-bin/Password_Attacks/thc-hydra-windows/hydra
+alias instarecon='python2 /tools-bin/InformationGathering/instarecon/instarecon.py'
+alias ipscan='/base/jdk1.8.0_74/bin/java -jar /tools-bin/InformationGathering/ipscan/ipscan'
+alias jSQL='$javaw -jar "/tools-bin/WebApplications/jSQL/jsql-injection.jar" -new_console'
+alias jad=/tools-bin/ReverseEngineering/jad/jad
+alias jadx=/tools-bin/androidsecurity/jadx/tools-bin/jadx.bat
+alias javasnoop='$javaw -jar "/tools-bin/ReverseEngineering/JavaSnoop/JavaSnoop.jar" $1 -new_console'
+alias jd-gui=/tools-bin/ReverseEngineering/jd-gui/jd-gui
+alias johntheripper=/tools-bin/password_attacks/johntheripper/run/john
+alias joomscan='portableshell /tools-bin/WebApplications/OWASP-Joomla-Vulnerability-Scanner/joomscan.pl'
+alias lazagne=/tools-bin/password_attacks/laZagne/laZagne
+alias loki=/tools-bin/ForensicTools/Loki/loki
+alias make-pdf-embedded='python2 /tools-bin/ForensicTools/make-pdf/make-pdf-embedded.py'
+alias make-pdf-javascript='python2 /tools-bin/ForensicTools/make-pdf/make-pdf-embedded.py'
+alias msfbinscan='/usr/bin/ruby /tools-bin/metasploit-framework/msfbinscan'
+alias msfconsole='/usr/bin/ruby /tools-bin/metasploit-framework/msfconsole'
+alias msfd='/usr/bin/ruby /tools-bin/metasploit-framework/msfd'
+alias msfelfscan='/usr/bin/ruby /tools-bin/metasploit-framework/msfelfscan'
+alias msfmachscan='/usr/bin/ruby /tools-bin/metasploit-framework/msfmachscan'
+alias msfpescan='/usr/bin/ruby /tools-bin/metasploit-framework/msfpescan'
+alias msfvenom='/usr/bin/ruby /tools-bin/metasploit-framework/msfvenom'
+alias ncat=/tools-bin/Nmap/ncat
+alias ndiff=/tools-bin/Nmap/ndiff
+alias networkminer='"/tools-bin/Sniffing/NetworkMiner/NetworkMiner" $* -new_console'
+alias ngrep=/tools-bin/Sniffing/ngrep/ngrep
+alias nikto='portableshell /tools-bin/WebApplications/nikto/program/nikto.pl'
+alias nmap=/tools-bin/Nmap/nmap
+alias nmap-update=/tools-bin/Nmap/nmap-update
+alias nping=/tools-bin/Nmap/nping
+alias ollydbg='"/tools-bin/ReverseEngineering/ollydbg/OLLYDBG" $1 -new_console'
+alias padbuster='portableshell /tools-bin/WebApplications/PadBuster/padBuster.pl'
+alias patator='python2 /tools-bin/password_attacks/patator/patator.py'
+alias pbtlist='bash /tools-bin/scripts/list.sh'
+alias pbupdate='python2 /tools-bin/scripts/update.py'
+alias pdf-parser='python2 /tools-bin/ForensicTools/pdf-parser/pdf-parser.py'
+alias pdfid='python2 /tools-bin/ForensicTools/pdfid/pdfid.py'
+alias peepdf='python2 /tools-bin/ForensicTools/peepdf/peepdf.py'
+alias pff=/tools-bin/FirefoxPortable/FirefoxPortable
+alias pidcat='python2 /tools-bin/androidsecurity/pidcat/pidcat.py'
+alias pw-inspector=/tools-bin/Password_Attacks/thc-hydra-windows/pw-inspector
+alias radare2=/tools-bin/ReverseEngineering/radare2/radare2
+alias radare2directory=/tools-bin/ReverseEngineering/radare2
+alias rekall=/tools-bin/ForensicTools/Rekall/rekal
+alias responder='python2 /tools-bin/InformationGathering/Responder/Responder.py'
+alias smali='/base/jdk1.8.0_74/bin/java -jar /tools-bin/ReverseEngineering/smali/smali-2.0.6.jar'
+alias snmpwalk=/tools-bin/InformationGathering/snmpwalk/SnmpWalk
+alias spiderfoot=/tools-bin/InformationGathering/spiderfoot-2.6.1/sf.bat
+alias sqlitebrowser='"/tools-bin/SQLiteDatabaseBrowser64/sqlitebrowser" -new_console'
+alias sqlmap='python2 /tools-bin/WebApplications/sqlmap/sqlmap.py'
+alias sslscan=/tools-bin/InformationGathering/sslscan/sslscan
+alias sslstrip='python2 /tools-bin/InformationGathering/sslstrip/sslstrip.py'
+alias sslyze=/tools-bin/InformationGathering/sslyze/sslyze_cli
+alias subbrute='python2 /tools-bin/InformationGathering/subbrute/subbrute.py'
+alias sublist3r='python2 /tools-bin/InformationGathering/Sublist3r/sublist3r.py'
+alias testsslserver=/tools-bin/InformationGathering/testsslserver/TestSSLServer
+alias thc-ssl-dos=/tools-bin/StressTesting/thc-ssl-dos/thc-ssl-dos
+alias theHarvester='python2 /tools-bin/InformationGathering/theHarvester/theHarvester.py'
+alias toolsmanager='python2 /tools-bin/scripts/toolsmanager.py'
+alias tshark=/tools-bin/Wireshark/App/Wireshark/tshark
+alias unshadow=/tools-bin/password_attacks/johntheripper/run/unshadow
+alias urlcrazy='/usr/bin/ruby /tools-bin/InformationGathering/urlcrazy/urlcrazy'
+alias vbscan=/tools-bin/WebApplications/vbscan/vbscan.bat
+alias vega='"/tools-bin/WebApplications/Vega/Vega" -new_console'
+alias volatility=/tools-bin/ForensicTools/volatility/volatility
+alias windump=/tools-bin/Sniffing/windump/WinDump
+alias winpmem=/tools-bin/ForensicTools/rekall/winpmem_2.0.1
+alias wireshark='"/tools-bin/Wireshark/Wireshark" $1 -new_console'
+alias wpscan='/usr/bin/ruby /tools-bin/WebApplications/wpscan/wpscan.rb'
+alias yasuo='/usr/bin/ruby /tools-bin/WebApplications/yasuo/yasuo.rb'
+alias zap='/base/jdk1.8.0_74/bin/java -Xmx512m -jar /tools-bin/WebApplications/ZAP_2.4.3/zap-2.4.3.jar'
+alias zapdirectory=/tools-bin/WebApplications/ZAP_2.4.0
+alias zenmap='"/tools-bin/Nmap/zenmap" -new_console'
