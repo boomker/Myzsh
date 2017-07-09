@@ -4,8 +4,8 @@
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="agnoster"
-#ZSH_THEME="bullet-train"
+#ZSH_THEME="agnoster"
+ZSH_THEME="bullet-train-mod"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -50,9 +50,10 @@ ZSH_THEME="agnoster"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup. tmux thefuck archlinux
 
-plugins=(autojump bundler cp colored-man-pages git pip python ssh-agent yum z tmux)
-autoload -U compinit && compinit
+plugins=(autojump bundler cp colored-man-pages git pip python ssh-agent ubuntu tmux thefuck)
+# autoload -U compinit && compinit
 # User configuration
+eval $(thefuck --alias fuck)
 
 export PATH="/bin:/sbin/:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
 
@@ -68,16 +69,22 @@ source $ZSH/oh-my-zsh.sh
    export EDITOR='vim'
    # export EDITOR='nvim'
  else
-   export EDITOR='mvim'
+   export EDITOR='vim'
  fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
 # ssh
- export SSH_KEY_PATH="~/.ssh/dsa_id"
+ if [[ -d ~/.ssh ]]; then
+    export SSH_KEY_PATH="~/.ssh/dsa_id"
+else
+    mkdir ~/.ssh
+    export SSH_KEY_PATH="~/.ssh/dsa_id"
+fi
 
-export VIM="/usr/local/share/vim80"
+export VIM="/usr/share/vim"
+export VIMRUNTIME="/usr/share/vim/vim74"
 export NVIM="/usr/local/share/nvim"
 #
 export CHEATCOLORS=true
@@ -97,14 +104,15 @@ colors
  alias hp='htop'
  alias cp='cp -i'
  alias mv='mv -i'
- alias rm='rm -i'
+ alias rm='rm-p'
  alias rmaf="rm -rf"
+ alias lockrmf="protect "
+ alias lockrmd="protect -R "
  alias rmf="ranger"
  alias mmi="make -j2&&make install"
  alias grep='grep --color=auto'
- #alias ls='ls -F --color=auto'
  alias llg="ll -h|grep"
- alias ll='ls -ahl'
+ alias ll='ls -arthl'
  alias la='ls -ah'
  alias vimconfig='vim ~/.vimrc'
  alias nvimconfig='nvim ~/.nvimrc'
@@ -126,11 +134,13 @@ colors
  alias tmuxconfig='vim ~/.tmux.conf'
  alias tmuxreload='tmux source-file ~/.tmux.conf'
  alias tmuxah='tmux attach'
+ alias pcswget='proxychains wget'
  alias -s gz='tar xf'
  alias -s xz='tar xf'
  alias -s bz2='tar xf'
  alias -s tgz='tar xf'
  alias -s zip='unzip'
+ alias -s 7z='p7zip -d'
  alias -s rpm='rpm -ivh'
  alias -s html='vim'
  alias -s php='vim'
@@ -153,9 +163,7 @@ alias pacrmorphans='pacman -Rs $(pacman -Qtdq)'
 alias pacupd='pacman -Sy'
 alias pacupg='pacman -Syu'
 
-# #eval $(thefuck --alias)
-# #eval $(thefuck --alias fuck)
-# #
+
 # ##############################################
 # #
 # #
@@ -249,8 +257,8 @@ setopt AUTO_MENU
 #开启此选项，补全时会直接选中菜单项
 ##setopt MENU_COMPLETE
 #
-autoload -U compinit
-compinit
+# autoload -U compinit
+# compinit
 #
 #自动补全选项
 zstyle ':completion:*' verbose yes
