@@ -27,7 +27,7 @@ ZSH_THEME="bullet-train-mod"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-#ENABLE_CORRECTION="true"
+# ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # COMPLETION_WAITING_DOTS="true"
@@ -50,16 +50,19 @@ ZSH_THEME="bullet-train-mod"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup. tmux thefuck archlinux
 
-plugins=(autojump bundler cp colored-man-pages git pip python ssh-agent ubuntu tmux thefuck)
+plugins=(autojump cp colored-man-pages git pip python ssh-agent ubuntu tmux thefuck history-substring-search zsh-autosuggestions)
+# zsh-syntax-highlighting
 # autoload -U compinit && compinit
+#
 # User configuration
 eval $(thefuck --alias fuck)
 
-export PATH="/bin:/sbin/:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
+export PATH="/bin:/sbin/:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/opt/pycharm/bin"
 
 export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
+xmodmap ~/.xmodmap
 
 # You may need to manually set your language environment
  export LANG=en_US.UTF-8
@@ -84,8 +87,15 @@ else
 fi
 
 export VIM="/usr/share/vim"
-export VIMRUNTIME="/usr/share/vim/vim74"
+export VIMRUNTIME="/usr/share/vim/vim80"
 export NVIM="/usr/local/share/nvim"
+
+export JAVA_HOME=/usr/lib/jvm/jdk
+export TOMCAT_HOME=/opt/tomcat8
+export CATALINA_HOME=$TOMCAT_HOME
+export CLASSPATH=.:${JAVA_HOME}/lib:${CATALINA_HOME}/lib
+export PATH=${JAVA_HOME}/bin:$PATH
+
 #
 export CHEATCOLORS=true
 # export PAGER=most
@@ -101,9 +111,9 @@ colors
 # Example aliases
 
  #alias cmd='cmd.exe /k "%ConEmuBaseDir%\CmdInit.cmd" -new_console:a:s:t:"CMD"'
- alias hp='htop'
  alias cp='cp -i'
  alias mv='mv -i'
+ alias sedi='sed -i'
  alias rm='rm-p'
  alias rmaf="rm -rf"
  alias lockrmf="protect "
@@ -112,12 +122,20 @@ colors
  alias mmi="make -j2&&make install"
  alias grep='grep --color=auto'
  alias llg="ll -h|grep"
- alias ll='ls -arthl'
+ alias ll='ls -rtlh'
  alias la='ls -ah'
+ alias duhl='du -ah --max-depth=1 '
+ alias treel='teer -L 1 '
  alias vimconfig='vim ~/.vimrc'
  alias nvimconfig='nvim ~/.nvimrc'
- alias rpms="rpm -qa |grep"
- alias rpmu="rpm -Uvh "
+ alias zshreload='source ~/.zshrc'
+ alias zshconfig="vim ~/.zshrc"
+ alias tmuxconfig='vim ~/.tmux.conf'
+ alias tmuxreload='tmux source-file ~/.tmux.conf'
+ alias tmuxah='tmux attach'
+ # alias rpms="rpm -qa |grep"
+ # alias rpmu="rpm -Uvh "
+ alias hp='htop'
  alias dstat="dstat -cdlmnpsy"
  alias pss="ps -ef |grep"
  alias gls="glances"
@@ -127,14 +145,12 @@ colors
  alias piu="pip uninstall "
  alias pii="pip install "
  alias eai="easy_install "
- alias zyi="zypper install"
- alias yumi="yum -y install"
- alias zshreload='source ~/.zshrc'
- alias zshconfig="vim ~/.zshrc"
- alias tmuxconfig='vim ~/.tmux.conf'
- alias tmuxreload='tmux source-file ~/.tmux.conf'
- alias tmuxah='tmux attach'
- alias pcswget='proxychains wget'
+ # alias zyi="zypper install"
+ # alias yumi="yum -y install"
+ alias axcdl='aria2c -x6 -c '
+ alias pcswget='proxychains wget '
+ alias pcsaxcdl='proxychains aria2c -x6 -c '
+ alias ucsc='ucaresystem-core'
  alias -s gz='tar xf'
  alias -s xz='tar xf'
  alias -s bz2='tar xf'
@@ -148,49 +164,53 @@ colors
  alias -s md='less'
 
 # for Pacman command
-alias pacin='pacman -S'
-alias pacins='pacman -U'
-alias pacinsd='pacman -S --asdeps'
-alias pacloc='pacman -Qi'
-alias paclocs='pacman -Qs'
-alias paclsorphans='pacman -Qdt'
-alias pacmir='pacman -Syy'
-alias pacre='pacman -R'
-alias pacrem='pacman -Rns'
-alias pacrep='pacman -Si'
-alias pacreps='pacman -Ss'
-alias pacrmorphans='pacman -Rs $(pacman -Qtdq)'
-alias pacupd='pacman -Sy'
-alias pacupg='pacman -Syu'
+    # alias pacin='pacman -S'
+    # alias pacins='pacman -U'
+    # alias pacinsd='pacman -S --asdeps'
+    # alias pacloc='pacman -Qi'
+    # alias paclocs='pacman -Qs'
+    # alias paclsorphans='pacman -Qdt'
+    # alias pacmir='pacman -Syy'
+    # alias pacre='pacman -R'
+    # alias pacrem='pacman -Rns'
+    # alias pacrep='pacman -Si'
+    # alias pacreps='pacman -Ss'
+    # alias pacrmorphans='pacman -Rs $(pacman -Qtdq)'
+    # alias pacupd='pacman -Sy'
+    # alias pacupg='pacman -Syu'
 
 
 # ##############################################
-# #
-# #
-#关于历史纪录的配置 {{{
-##历史纪录条目数量
+## 关于历史纪录的配置
+## 历史纪录条目数量
 export HISTSIZE=10000
-##注销后保存的历史纪录条目数量
+
+## 注销后保存的历史纪录条目数量
 export SAVEHIST=10000
-##历史纪录文件
+
+## 历史纪录文件
 export HISTFILE=~/.zhistory
-##以附加的方式写入历史纪录
+
+## 以附加的方式写入历史纪录
 setopt INC_APPEND_HISTORY
-##如果连续输入的命令相同，历史纪录中只保留一个
+
+## 如果连续输入的命令相同，历史纪录中只保留一个
 setopt HIST_IGNORE_DUPS
-##为历史纪录中的命令添加时间戳
+
+## 为历史纪录中的命令添加时间戳
 setopt EXTENDED_HISTORY
-#
+
 ##启用 cd 命令的历史纪录，cd -[TAB]进入历史路径
 setopt AUTO_PUSHD
+
 ##相同的历史路径只保留一个
 setopt PUSHD_IGNORE_DUPS
-#
-#每个目录使用独立的历史纪录{{{
+
+## 每个目录使用独立的历史纪录
 cd() {
-builtin cd "$@"                             # do actual cd
-fc -W                                       # write current history  file
-local HISTDIR="$HOME/zsh_history$PWD"      # use nested folders for history
+builtin cd "$@"                         # do actual cd
+fc -W                                   # write current history  file
+local HISTDIR="$HOME/zsh_history$PWD"   # use nested folders for history
 if  [ ! -d "$HISTDIR" ] ; then          # create folder if needed
 mkdir -p "$HISTDIR"
 fi
@@ -199,7 +219,7 @@ touch $HISTFILE
 local ohistsize=$HISTSIZE
 HISTSIZE=0                              # Discard previous dir's history
 HISTSIZE=$ohistsize                     # Prepare for new dir's history
-fc -R                                       #read from current histfile
+fc -R                                   # read from current histfile
 }
 mkdir -p $HOME/zsh_history$PWD
 export HISTFILE="$HOME/zsh_history$PWD/zhistory"
@@ -218,93 +238,90 @@ sort $1 | uniq |
 sed 's/^:\([ 0-9]*\):[0-9]*;\(.*\)/\1::::::\2/' |
 awk -F"::::::" '{ $1=strftime("%Y-%m-%d %T",$1) "|"; print }'
 }
-#
 
-#使用 histall 命令查看全部历史纪录
+## 使用 histall 命令查看全部历史纪录
 function histall { convhistory =(allhistory) |
 sed '/^.\{20\} *cd/i\\' }
-##使用 hist 查看当前目录历史纪录
+
+## 使用 hist 查看当前目录历史纪录
 function hist { convhistory $HISTFILE }
-#
-##全部历史纪录 top50
+
+## 全部历史纪录 top50
 function hista50 { allhistory | awk -F':[ 0-9]*:[0-9]*;' '{ $1="" ; print }' | sed 's/ /\n/g' | sed '/^$/d' | sort | uniq -c | sort -nr | head -n 50 }
-##}}}
 
-##历史命令 history top10
+## 历史命令 history top10
 alias hista10='print -l  ${(o)history%% *} | uniq -c | sort -nr | head -n 10'
-##}}}
 
-#扩展路径
-##/v/c/p/p => /var/cache/pacman/pkg
+## 扩展路径
+# /v/c/p/p => /var/cache/pacman/pkg
 setopt complete_in_word
 
-#禁用 core dumps
-#limit coredumpsize 0
+##  禁用 core dumps
+# limit coredumpsize 1
 #
-##Emacs风格 键绑定
+## Emacs风格 键绑定
 bindkey -e
-#bindkey -v
-#bindkey jj vi-cmd-mode
+# bindkey -v
+# bindkey jj vi-cmd-mode
 
 #以下字符视为单词的一部分
 WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
-##}}}
 #
-##自动补全功能 {{{
-setopt AUTO_LIST
-setopt AUTO_MENU
-#setopt AUTO_CD
-#开启此选项，补全时会直接选中菜单项
-##setopt MENU_COMPLETE
+## 自动补全功能 {{{
+# setopt AUTO_LIST
+# setopt AUTO_MENU
+# setopt AUTO_CD
 #
-# autoload -U compinit
-# compinit
-#
-#自动补全选项
-zstyle ':completion:*' verbose yes
-zstyle ':completion:*' menu select
-zstyle ':completion:*:*:default' force-list always
-zstyle ':completion:*' select-prompt '%SSelect:  lines: %L  matches: %M  [%p]'
+## 开启此选项，补全时会直接选中菜单项
+# setopt MENU_COMPLETE
 
-zstyle ':completion:*:match:*' original only
-zstyle ':completion::prefix-1:*' completer _complete
-zstyle ':completion:predict:*' completer _complete
-zstyle ':completion:incremental:*' completer _complete _correct
+
+## 自动补全选项
+# zstyle ':completion:*' verbose yes
+# zstyle ':completion:*' menu select
+# zstyle ':completion:*:*:default' force-list always
+# zstyle ':completion:*' select-prompt '%SSelect:  lines: %L  matches: %M  [%p]'
+
+# zstyle ':completion:*:match:*' original only
+# zstyle ':completion::prefix-1:*' completer _complete
+# zstyle ':completion:predict:*' completer _complete
+# zstyle ':completion:incremental:*' completer _complete _correct
 #zstyle ':completion:*' completer _complete _prefix _correct _prefix _match _approximate
 #
-#路径补全
-zstyle ':completion:*' expand 'yes'
-zstyle ':completion:*' squeeze-shlashes 'yes'
-zstyle ':completion::complete:*' '\\'
+## 路径补全
+# zstyle ':completion:*' expand 'yes'
+# zstyle ':completion:*' squeeze-shlashes 'yes'
+# zstyle ':completion::complete:*' '\\'
 #
-#彩色补全菜单
-eval $(dircolors -b)
-export ZLSCOLORS="${LS_COLORS}"
-zmodload zsh/complist
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+## 彩色补全菜单
+# eval $(dircolors -b)
+# export ZLSCOLORS="${LS_COLORS}"
+# zmodload zsh/complist
+# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 
-#修正大小写
-zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
-##错误校正
-zstyle ':completion:*' completer _complete _match _approximate
-zstyle ':completion:*:match:*' original only
-zstyle ':completion:*:approximate:*' max-errors 1 numeric
+## 修正大小写
+# zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 #
-#补全类型提示分组
-    zstyle ':completion:*:matches' group 'yes'
-    zstyle ':completion:*' group-name ''
-    zstyle ':completion:*:options' description 'yes'
-    zstyle ':completion:*:options' auto-description '%d'
-    zstyle ':completion:*:descriptions' format $'\e[01;33m -- %d --\e[0m'
-    zstyle ':completion:*:messages' format $'\e[01;35m -- %d --\e[0m'
-    zstyle ':completion:*:warnings' format $'\e[01;31m -- No Matches Found --\e[0m'
-    zstyle ':completion:*:corrections' format $'\e[01;32m -- %d (errors: %e) --\e[0m'
+## 错误校正
+# zstyle ':completion:*' completer _complete _match _approximate
+# zstyle ':completion:*:match:*' original only
+# zstyle ':completion:*:approximate:*' max-errors 1 numeric
+#
+## 补全类型提示分组
+    # zstyle ':completion:*:matches' group 'yes'
+    # zstyle ':completion:*' group-name ''
+    # zstyle ':completion:*:options' description 'yes'
+    # zstyle ':completion:*:options' auto-description '%d'
+    # zstyle ':completion:*:descriptions' format $'\e[01;33m -- %d --\e[0m'
+    # zstyle ':completion:*:messages' format $'\e[01;35m -- %d --\e[0m'
+    # zstyle ':completion:*:warnings' format $'\e[01;31m -- No Matches Found --\e[0m'
+    # zstyle ':completion:*:corrections' format $'\e[01;32m -- %d (errors: %e) --\e[0m'
 
-# cd ~ 补全顺序
-zstyle ':completion:*:-tilde-:*' group-order 'named-directories' 'path-directories' 'users' 'expand'
+## cd ~ 补全顺序
+# zstyle ':completion:*:-tilde-:*' group-order 'named-directories' 'path-directories' 'users' 'expand'
 
-#Tab complete cd
+## Tab complete cd
 user-complete(){
     if [[ -n $BUFFER ]];then
         zle expand-or-complete
