@@ -50,19 +50,18 @@ ZSH_THEME="bullet-train-mod"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup. tmux thefuck archlinux
 
-plugins=(autojump cp colored-man-pages git pip python ssh-agent ubuntu tmux thefuck history-substring-search zsh-autosuggestions)
-# zsh-syntax-highlighting
+plugins=(autojump cp colored-man-pages git osx pip python ssh-agent tmux history-substring-search zsh-autosuggestions zsh-syntax-highlighting)
 # autoload -U compinit && compinit
 #
 # User configuration
-eval $(thefuck --alias fuck)
+# eval $(thefuck --alias fuck)
 
-export PATH="/bin:/sbin/:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/opt/pycharm/bin"
+export PATH="/bin:/sbin/:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
+export HOMEBREW_BOTTLE_DOMAIN=http://7xkcej.dl1.z0.glb.clouddn.com
 
 export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
-xmodmap ~/.xmodmap
 
 # You may need to manually set your language environment
  export LANG=en_US.UTF-8
@@ -86,15 +85,15 @@ else
     export SSH_KEY_PATH="~/.ssh/dsa_id"
 fi
 
-export VIM="/usr/share/vim"
-export VIMRUNTIME="/usr/share/vim/vim80"
-export NVIM="/usr/local/share/nvim"
+export VIM="/usr/local/opt/vim/share/vim"
+export VIMRUNTIME="/usr/local/opt/vim/share/vim/vim80"
+# export NVIM="/usr/local/share/nvim"
 
-export JAVA_HOME=/usr/lib/jvm/jdk
-export TOMCAT_HOME=/opt/tomcat8
-export CATALINA_HOME=$TOMCAT_HOME
-export CLASSPATH=.:${JAVA_HOME}/lib:${CATALINA_HOME}/lib
-export PATH=${JAVA_HOME}/bin:$PATH
+# export JAVA_HOME=/usr/lib/jvm/jdk
+# export TOMCAT_HOME=/opt/tomcat8
+# export CATALINA_HOME=$TOMCAT_HOME
+# export CLASSPATH=.:${JAVA_HOME}/lib:${CATALINA_HOME}/lib
+# export PATH=${JAVA_HOME}/bin:$PATH
 
 #
 export CHEATCOLORS=true
@@ -110,7 +109,6 @@ colors
 #
 # Example aliases
 
- #alias cmd='cmd.exe /k "%ConEmuBaseDir%\CmdInit.cmd" -new_console:a:s:t:"CMD"'
  alias cp='cp -i'
  alias mv='mv -i'
  alias sedi='sed -i'
@@ -127,14 +125,11 @@ colors
  alias duhl='du -ah --max-depth=1 '
  alias treel='teer -L 1 '
  alias vimconfig='vim ~/.vimrc'
- alias nvimconfig='nvim ~/.nvimrc'
  alias zshreload='source ~/.zshrc'
  alias zshconfig="vim ~/.zshrc"
  alias tmuxconfig='vim ~/.tmux.conf'
  alias tmuxreload='tmux source-file ~/.tmux.conf'
  alias tmuxah='tmux attach'
- # alias rpms="rpm -qa |grep"
- # alias rpmu="rpm -Uvh "
  alias hp='htop'
  alias dstat="dstat -cdlmnpsy"
  alias pss="ps -ef |grep"
@@ -145,12 +140,9 @@ colors
  alias piu="pip uninstall "
  alias pii="pip install "
  alias eai="easy_install "
- # alias zyi="zypper install"
- # alias yumi="yum -y install"
  alias axcdl='aria2c -x6 -c '
- alias pcswget='proxychains wget '
- alias pcsaxcdl='proxychains aria2c -x6 -c '
- alias ucsc='ucaresystem-core'
+ alias pcwget='proxychains wget '
+ alias pcaxcdl='proxychains aria2c -x6 -c '
  alias -s gz='tar xf'
  alias -s xz='tar xf'
  alias -s bz2='tar xf'
@@ -162,22 +154,6 @@ colors
  alias -s php='vim'
  alias -s py='python'
  alias -s md='less'
-
-# for Pacman command
-    # alias pacin='pacman -S'
-    # alias pacins='pacman -U'
-    # alias pacinsd='pacman -S --asdeps'
-    # alias pacloc='pacman -Qi'
-    # alias paclocs='pacman -Qs'
-    # alias paclsorphans='pacman -Qdt'
-    # alias pacmir='pacman -Syy'
-    # alias pacre='pacman -R'
-    # alias pacrem='pacman -Rns'
-    # alias pacrep='pacman -Si'
-    # alias pacreps='pacman -Ss'
-    # alias pacrmorphans='pacman -Rs $(pacman -Qtdq)'
-    # alias pacupd='pacman -Sy'
-    # alias pacupg='pacman -Syu'
 
 
 # ##############################################
@@ -247,17 +223,17 @@ sed '/^.\{20\} *cd/i\\' }
 function hist { convhistory $HISTFILE }
 
 ## 全部历史纪录 top50
-function hista50 { allhistory | awk -F':[ 0-9]*:[0-9]*;' '{ $1="" ; print }' | sed 's/ /\n/g' | sed '/^$/d' | sort | uniq -c | sort -nr | head -n 50 }
+function hist50 { allhistory | awk -F':[ 0-9]*:[0-9]*;' '{ $1="" ; print }' | sed 's/ /\n/g' | sed '/^$/d' | sort | uniq -c | sort -nr | head -n 50 }
 
 ## 历史命令 history top10
-alias hista10='print -l  ${(o)history%% *} | uniq -c | sort -nr | head -n 10'
+alias hist10='print -l  ${(o)history%% *} | uniq -c | sort -nr | head -n 10'
 
 ## 扩展路径
 # /v/c/p/p => /var/cache/pacman/pkg
 setopt complete_in_word
 
 ##  禁用 core dumps
-# limit coredumpsize 1
+limit coredumpsize 1
 #
 ## Emacs风格 键绑定
 bindkey -e
@@ -342,8 +318,4 @@ autoload run-help
 #路径别名 {{{
 ##进入相应的路径时只要 cd ~xxx
 hash -d ci="/usr/local/"
-hash -d cm="/etc/"
-hash -d ss="/etc/rc.d/init.d/"
-hash -d sh="/usr/include/"
-hash -d lf="/etc/ld.so.conf.d/"
 ##}}}
