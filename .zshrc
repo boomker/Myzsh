@@ -5,6 +5,7 @@
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 #ZSH_THEME="agnoster"
+#ZSH_THEME="macovsky-ruby"
 ZSH_THEME="bullet-train-mod"
 
 # Uncomment the following line to use case-sensitive completion.
@@ -50,22 +51,28 @@ ZSH_THEME="bullet-train-mod"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup. tmux thefuck archlinux history-substring-search osx
 
-plugins=(autojump colored-man-pages git pip python ssh-agent tmux zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(autojump colored-man-pages git pip python ssh-agent zsh-autosuggestions zsh-syntax-highlighting)
 autoload -U compinit && compinit
 
 # User configuration
 # eval $(thefuck --alias fuck)
 
-# export HOMEBREW_BOTTLE_DOMAIN=http://7xkcej.dl1.z0.glb.clouddn.com
-# export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
-export PATH="/bin:/sbin/:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
-export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+## other zsh plugins
+# iterm2_shell_integration.zsh
+# test -e "${HOME}/.iterm2_shell_integration.zsh" && mv "${HOME}/.iterm2_shell_integration.zsh" ${ZSH_CUSTOM}/plugins
+# test -e "${ZSH_CUSTOM}/plugins/.iterm2_shell_integration.zsh" && source "${ZSH_CUSTOM}/plugins/.iterm2_shell_integration.zsh"
 
-export MANPATH="/usr/local/man:$MANPATH"
-
+# incr func:实时自动tab
+# wget http://mimosa-pudica.net/src/incr-0.2.zsh -O .oh-my-zsh/plugins/incr.zsh
+source .oh-my-zsh/plugins/incr.zsh
 source $ZSH/oh-my-zsh.sh
 # source /usr/local/etc/profile.d/autojump.sh
+
+# export HOMEBREW_BOTTLE_DOMAIN=http://7xkcej.dl1.z0.glb.clouddn.com
+# export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
+export PATH="/bin:/sbin/:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/sbin:$PATH"
+export PATH="/usr/local/opt/coreutils/bin:/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+export MANPATH="/usr/local/man:/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
 # You may need to manually set your language environment
  export LANG=en_US.UTF-8
@@ -127,22 +134,27 @@ colors
     alias rmaf="rm -rf"
     alias lockrmf="protect "
     alias lockrmd="protect -R "
+    alias gfd="gfind"
+    alias wcl="wc -l"
     alias ls='gls -p --width=80 --color=auto'
     alias ll='ls -rtlh'
-    alias llg="ll -h|grep"
-    alias mmi="make -j2&&make install"
+    alias lla="ll -h|ag "
+    alias llg="ll -h|grep "
+    alias agv="ag -v "
     alias grep='grep -i --color=auto'
+    alias egrep='egrep -i --color=auto'
+    alias mmi="make -j2&&make install"
     alias duhl='du -ah --max-depth=1 '
-    alias treel='teer -L 1 '
+    alias trel='teer -L 1 '
     alias zshreload='source ~/.zshrc'
     alias zshconfig="vim ~/.zshrc"
     alias vimconfig='vim ~/.vimrc'
     alias tmuxconfig='vim ~/.tmux.conf'
     alias tmuxreload='tmux source-file ~/.tmux.conf'
-    alias tmuxah='tmux attach'
+    alias tmuath='tmux attach'
     alias hp='htop'
     alias dstat="dstat -cdlmnpsy"
-    alias pss="ps -ef |grep"
+    alias pss="ps -ef |ag "
     alias gcl="git clone "
     alias ips="ipython"
     alias dfh='df -Th'
@@ -220,7 +232,7 @@ export HISTFILE="$HOME/zsh_history$PWD/zhistory"
 function mvb { mv $1 $1.bak }
 function cpb { cp $1 $1.bak }
 function cph { cp $1 $HOME }
-function finf { find . -name "$1" }
+function finf { gfind "$1" -name "$2" }
 function txh { tar xf $1 -C $HOME }
 function tca { tar -czvf $1.tar.gz $1 }
 function uzh { unzip -d $HOME $1 }
@@ -336,7 +348,3 @@ autoload run-help
 hash -d ci="/usr/local/"
 ##}}}
 
-# test -e "${HOME}/.iterm2_shell_integration.zsh" && mv "${HOME}/.iterm2_shell_integration.zsh" ${ZSH_CUSTOM}/plugins
-# test -e "${ZSH_CUSTOM}/plugins/.iterm2_shell_integration.zsh" && source "${ZSH_CUSTOM}/plugins/.iterm2_shell_integration.zsh"
-# wget http://mimosa-pudica.net/src/incr-0.2.zsh -O .oh-my-zsh/plugins/incr.zsh
-source .oh-my-zsh/plugins/incr.zsh
