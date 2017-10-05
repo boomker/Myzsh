@@ -100,7 +100,7 @@ if [[ $(uname -s) == "Linux" ]]; then
     export VIM="/usr/share/vim" # for Linux
     export VIMRUNTIME="/usr/share/vim/vim74" # for Linux
 else
-    export vim="/usr/local/opt/vim/share/vim" # for MacOS_Darwin
+    export VIM="/usr/local/opt/vim/share/vim" # for MacOS_Darwin
     export VIMRUNTIME="/usr/local/opt/vim/share/vim/vim80" # for MacOS_Darwin
 fi
 # export NVIM="/usr/local/share/nvim"
@@ -126,6 +126,7 @@ colors
 # Example aliases
 
 # alias for MacOS_Darwin
+    alias brua='brew outdated |awk '{print $1}' |brew upgrade'
     alias cp='cp -i'
     alias mv='mv -i'
     alias sedi='gsed -i '
@@ -228,6 +229,8 @@ fc -R                                   # read from current histfile
 }
 mkdir -p $HOME/zsh_history$PWD
 export HISTFILE="$HOME/zsh_history$PWD/zhistory"
+## 历史命令 history top10
+alias hist10='print -l ${(o)history%% *} |uniq -c |sort -nr |head -n 10'
 
 function mvb { mv $1 $1.bak }
 function cpb { cp $1 $1.bak }
@@ -236,25 +239,6 @@ function finf { gfind "$1" -name "$2" }
 function txh { tar xf $1 -C $HOME }
 function tca { tar -czvf $1.tar.gz $1 }
 function uzh { unzip -d $HOME $1 }
-function allhistory { cat $(find $HOME/zsh_history -name zhistory) }
-function convhistory {
-sort $1 | uniq |
-sed 's/^:\([ 0-9]*\):[0-9]*;\(.*\)/\1::::::\2/' |
-awk -F"::::::" '{ $1=strftime("%Y-%m-%d %T",$1) "|"; print }'
-}
-
-## 使用 histall 命令查看全部历史纪录
-function histall { convhistory =(allhistory) |
-sed '/^.\{20\} *cd/i\\' }
-
-## 使用 hist 查看当前目录历史纪录
-function hist { convhistory $HISTFILE }
-
-## 全部历史纪录 top50
-function hist50 { allhistory | awk -F':[ 0-9]*:[0-9]*;' '{ $1="" ; print }' | sed 's/ /\n/g' | sed '/^$/d' | sort | uniq -c | sort -nr | head -n 50 }
-
-## 历史命令 history top10
-alias hist10='print -l  ${(o)history%% *} | uniq -c | sort -nr | head -n 10'
 
 ## 扩展路径
 # /v/c/p/p => /var/cache/pacman/pkg
