@@ -31,7 +31,7 @@ ZSH_THEME="bullet-train-mod"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -41,7 +41,7 @@ ZSH_THEME="bullet-train-mod"
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd"
+HIST_STAMPS="mm/dd"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -51,7 +51,7 @@ ZSH_THEME="bullet-train-mod"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup. tmux thefuck archlinux history-substring-search osx
 
-plugins=(autojump colored-man-pages git pip python ssh-agent zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(autojump colored-man-pages git pip python sudo ssh-agent zsh-autosuggestions zsh-syntax-highlighting)
 autoload -U compinit && compinit
 
 # User configuration
@@ -63,14 +63,16 @@ autoload -U compinit && compinit
 # test -e "${ZSH_CUSTOM}/plugins/.iterm2_shell_integration.zsh" && source "${ZSH_CUSTOM}/plugins/.iterm2_shell_integration.zsh"
 
 # incr func:实时自动tab
-# wget http://mimosa-pudica.net/src/incr-0.2.zsh -O .oh-my-zsh/plugins/incr.zsh
-source .oh-my-zsh/plugins/incr.zsh
+# [ -d $HOME/.oh-my-zsh/plugins/incr ] || {
+    # mkdir $HOME/.oh-my-zsh/plugins/incr
+    # wget http://mimosa-pudica.net/src/incr-0.2.zsh -O .oh-my-zsh/plugins/incr/incr.plugin.zsh
+# }
 source $ZSH/oh-my-zsh.sh
-# source /usr/local/etc/profile.d/autojump.sh
+source /usr/local/etc/profile.d/autojump.sh
 
 # export HOMEBREW_BOTTLE_DOMAIN=http://7xkcej.dl1.z0.glb.clouddn.com
-# export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
-export PATH="/bin:/sbin/:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/sbin:$PATH"
+export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
+export PATH="/bin:/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/sbin:$PATH"
 export PATH="/usr/local/opt/coreutils/bin:/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export MANPATH="/usr/local/man:/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
@@ -127,9 +129,12 @@ colors
 
 # alias for MacOS_Darwin
     alias brua='brew outdated |awk '{print $1}' |brew upgrade'
-    alias cp='cp -i'
-    alias mv='mv -i'
+    alias brin='brew install '
+    alias cp='cp -fu'
+    alias mv='mv -fu'
     alias sedi='gsed -i '
+    alias scecw='screencapture -c -W'
+    alias scecs='screencapture -c -s'
     alias raf="ranger"
     alias rm='rm-p'
     alias rmaf="rm -rf"
