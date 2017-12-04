@@ -19,7 +19,7 @@ ZSH_THEME="bullet-train-mod"
 # DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
- export UPDATE_ZSH_DAYS=3
+ export UPDATE_ZSH_DAYS=9
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -51,11 +51,18 @@ HIST_STAMPS="mm/dd"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup. tmux thefuck archlinux history-substring-search osx
 
-plugins=(autojump colored-man-pages git pip python sudo ssh-agent zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(autojump colored-man-pages extract git pip python sudo ssh-agent zsh-autosuggestions zsh-syntax-highlighting)
 autoload -U compinit && compinit
 
 # User configuration
 # eval $(thefuck --alias fuck)
+
+# pyenv &&pyenv-virtualenv configuration:
+export PYENV_ROOT="/usr/local/opt/pyenv"
+export VIRTUALENV_ROOT="/usr/local/opt/pyenv-virtualenv"
+export PATH="$PYENV_ROOT/bin:$VIRTUALENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 ## other zsh plugins
 # iterm2_shell_integration.zsh
@@ -67,9 +74,14 @@ autoload -U compinit && compinit
     # mkdir $HOME/.oh-my-zsh/plugins/incr
     # wget http://mimosa-pudica.net/src/incr-0.2.zsh -O .oh-my-zsh/plugins/incr/incr.plugin.zsh
 # }
-source $ZSH/oh-my-zsh.sh
-source /usr/local/etc/profile.d/autojump.sh
 
+source $ZSH/oh-my-zsh.sh
+# source /usr/local/etc/profile.d/autojump.sh
+
+# git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+# git clone git://github.com/zsh-users/zsh-syntax-highlighting $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+
+export HOMEBREW_GITHUB_API_TOKEN="3c062425d4c789b50b48d0a9748db39747265907"
 # export HOMEBREW_BOTTLE_DOMAIN=http://7xkcej.dl1.z0.glb.clouddn.com
 export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 export PATH="/bin:/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/sbin:$PATH"
@@ -128,11 +140,12 @@ colors
 # Example aliases
 
 # alias for MacOS_Darwin
-    alias brua='brew outdated |awk '{print $1}' |brew upgrade'
+    alias brua='brew outdated |gawk '{print $1}' |brew upgrade'
     alias brin='brew install '
     alias cp='cp -fu'
     alias mv='mv -fu'
     alias sedi='gsed -i '
+    alias sedv='gsed -n '
     alias scecw='screencapture -c -W'
     alias scecs='screencapture -c -s'
     alias raf="ranger"
@@ -160,12 +173,12 @@ colors
     alias tmuath='tmux attach'
     alias hp='htop'
     alias dstat="dstat -cdlmnpsy"
-    alias pss="ps -ef |ag "
     alias gcl="git clone "
     alias ips="ipython"
     alias dfh='df -Th'
     alias piu="pip uninstall "
     alias pii="pip install "
+    alias piua="pip list --outdate |gawk 'NR>2{print $1}' |xargs pip install --upgrade"
     alias eai="easy_install "
     alias axcdl='aria2c -x6 -c '
     alias pcwget='proxychains wget '
@@ -183,6 +196,7 @@ colors
     alias -s md='less'
 
 if [[ $(uname -s) == "Linux" ]]; then
+    alias jubook = 'cd;jupyter notebook >$HOME/.jupyter/jupyter_notebook_running.log 2>&1 &'
     alias ls='ls -p --width=80 --color=auto'
     alias sedi='sed -i '
     alias rmaf="rm -rf"
@@ -190,6 +204,16 @@ if [[ $(uname -s) == "Linux" ]]; then
     unalias lockrmf
     unalias lockrmd
 fi
+
+function mvb { mv $1 $1.bak }
+function cpb { cp $1 $1.bak }
+function cph { cp $1 $HOME }
+function txh { tar xf $1 -C $HOME }
+function tca { tar -czvf $1.tar.gz $1 }
+function uzh { unzip -d $HOME $1 }
+function psa { ps -ef |ag "$1" |ag -vw "ag" }
+function hels { find $HOME/.tldrc/tldr-master/pages -name "$1*";tldr $1 }
+function fmusic { find /Volumes/document/视音频资料/CloudMusic -iname "*$1*.mp3" }
 
 # ##############################################
 ## 关于历史纪录的配置
@@ -236,14 +260,6 @@ mkdir -p $HOME/zsh_history$PWD
 export HISTFILE="$HOME/zsh_history$PWD/zhistory"
 ## 历史命令 history top10
 alias hist10='print -l ${(o)history%% *} |uniq -c |sort -nr |head -n 10'
-
-function mvb { mv $1 $1.bak }
-function cpb { cp $1 $1.bak }
-function cph { cp $1 $HOME }
-function finf { gfind "$1" -name "$2" }
-function txh { tar xf $1 -C $HOME }
-function tca { tar -czvf $1.tar.gz $1 }
-function uzh { unzip -d $HOME $1 }
 
 ## 扩展路径
 # /v/c/p/p => /var/cache/pacman/pkg
