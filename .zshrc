@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-  export ZSH=$HOME/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
@@ -19,7 +19,7 @@ ZSH_THEME="bullet-train-mod"
 # DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
- export UPDATE_ZSH_DAYS=9
+# export UPDATE_ZSH_DAYS=9
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -49,13 +49,18 @@ HIST_STAMPS="mm/dd"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup. tmux thefuck archlinux history-substring-search osx
+# Add wisely, as too many plugins slow down shell startup. tmux thefuck history-substring-search osx pip python web-search 
 
 plugins=(autojump colored-man-pages extract git pip python sudo ssh-agent zsh-autosuggestions zsh-syntax-highlighting)
 autoload -U compinit && compinit
 
 # User configuration
 # eval $(thefuck --alias fuck)
+
+# less hightlight
+# export LESSOPEN="| /usr/local/Cellar/source-highlight/3.1.8_7/bin/source-highlight-esc.sh %s"
+# export LESSOPEN="| /usr/local/Cellar/source-highlight/3.1.8_7/bin/src-hilite-lesspip3e.sh %s"
+# export LESS=" -R"
 
 # pyenv &&pyenv-virtualenv configuration:
 export PYENV_ROOT="/usr/local/opt/pyenv"
@@ -64,42 +69,15 @@ export PATH="$PYENV_ROOT/bin:$VIRTUALENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
-## other zsh plugins
-# iterm2_shell_integration.zsh
-# test -e "${HOME}/.iterm2_shell_integration.zsh" && mv "${HOME}/.iterm2_shell_integration.zsh" ${ZSH_CUSTOM}/plugins
-# test -e "${ZSH_CUSTOM}/plugins/.iterm2_shell_integration.zsh" && source "${ZSH_CUSTOM}/plugins/.iterm2_shell_integration.zsh"
-
-# incr func:实时自动tab
-# [ -d $HOME/.oh-my-zsh/plugins/incr ] || {
-    # mkdir $HOME/.oh-my-zsh/plugins/incr
-    # wget http://mimosa-pudica.net/src/incr-0.2.zsh -O .oh-my-zsh/plugins/incr/incr.plugin.zsh
-# }
-
-source $ZSH/oh-my-zsh.sh
-# source /usr/local/etc/profile.d/autojump.sh
-
-# git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
-# git clone git://github.com/zsh-users/zsh-syntax-highlighting $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
-
-export HOMEBREW_GITHUB_API_TOKEN="3c062425d4c789b50b48d0a9748db39747265907"
 # export HOMEBREW_BOTTLE_DOMAIN=http://7xkcej.dl1.z0.glb.clouddn.com
+export HOMEBREW_GITHUB_API_TOKEN="3c062425d4c789b50b48d0a9748db39747265907"
 export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
-export PATH="/bin:/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/sbin:$PATH"
+export PATH="/bin:/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:$PATH"
 export PATH="/usr/local/opt/coreutils/bin:/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export MANPATH="/usr/local/man:/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
 # You may need to manually set your language environment
  export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
- if [[ -n $SSH_CONNECTION ]]; then
-   export EDITOR='vim'
- else
-   export EDITOR='vim'
- fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
 
 ## ssh
  if [[ -d ~/.ssh ]]; then
@@ -114,12 +92,12 @@ if [[ $(uname -s) == "Linux" ]]; then
     export VIM="/usr/share/vim" # for Linux
     export VIMRUNTIME="/usr/share/vim/vim74" # for Linux
 else
-    export VIM="/usr/local/opt/vim/share/vim" # for MacOS_Darwin
-    export VIMRUNTIME="/usr/local/opt/vim/share/vim/vim80" # for MacOS_Darwin
+    export VIM="/Applications/MacVim.app/Contents/Resources/vim" # for MacOS_Darwin
+    export VIMRUNTIME="/Applications/MacVim.app/Contents/Resources/vim/runtime" # for MacOS_Darwin
+    export EDITOR="/Applications/MacVim.app/Contents/Resources/vim" 
 fi
-# export NVIM="/usr/local/share/nvim"
 
-## Tomcat Path
+# Tomcat Path
 # export JAVA_HOME=/usr/lib/jvm/jdk
 # export TOMCAT_HOME=/opt/tomcat8
 # export CATALINA_HOME=$TOMCAT_HOME
@@ -132,6 +110,20 @@ export CHEATCOLORS=true
 autoload colors
 colors
 
+## other zsh plugins
+# iterm2_shell_integration.zsh
+# test -e "${HOME}/.iterm2_shell_integration.zsh" && mv "${HOME}/.iterm2_shell_integration.zsh" ${ZSH_CUSTOM}/plugins
+# test -e "${ZSH_CUSTOM}/plugins/.iterm2_shell_integration.zsh" && source "${ZSH_CUSTOM}/plugins/.iterm2_shell_integration.zsh"
+
+# incr func:实时自动tab
+# [ -d $HOME/.oh-my-zsh/plugins/incr ] || {
+    # mkdir $HOME/.oh-my-zsh/plugins/incr
+    # wget http://mimosa-pudica.net/src/incr-0.2.zsh -O .oh-my-zsh/plugins/incr/incr.plugin.zsh
+# }
+
+# git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+# git clone git://github.com/zsh-users/zsh-syntax-highlighting $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -140,9 +132,10 @@ colors
 # Example aliases
 
 # alias for MacOS_Darwin
-    alias brua='brew outdated |gawk '{print $1}' |brew upgrade'
+    alias brua="brew outdated |gawk '{print $1}' |brew upgrade"
     alias brin='brew install '
     alias cp='cp -fu'
+    # alias cat='ccat'
     alias mv='mv -fu'
     alias sedi='gsed -i '
     alias sedv='gsed -n '
@@ -155,7 +148,7 @@ colors
     alias lockrmd="protect -R "
     alias gfd="gfind"
     alias wcl="wc -l"
-    alias ls='gls -p --width=80 --color=auto'
+    alias gls='gls -p --width=80 --color=auto'
     alias ll='ls -rtlh'
     alias lla="ll -h|ag "
     alias llg="ll -h|grep "
@@ -176,10 +169,10 @@ colors
     alias gcl="git clone "
     alias ips="ipython"
     alias dfh='df -Th'
-    alias piu="pip uninstall "
-    alias pii="pip install "
-    alias piua="pip list --outdate |gawk 'NR>2{print $1}' |xargs pip install --upgrade"
-    alias eai="easy_install "
+    alias piu="pip3 uninstall "
+    alias pii="pip3 install "
+    alias piua="for i in $(pip3 list --outdate |gawk 'NR>2{print $1}');do pip3 install --upgrade $i;done"
+    alias jpnb='cd;jupyter notebook >$HOME/.jupyter/jupyter_notebook_running.log 2>&1 &'
     alias axcdl='aria2c -x6 -c '
     alias pcwget='proxychains wget '
     alias pcaxcdl='proxychains aria2c -x6 -c '
@@ -196,7 +189,6 @@ colors
     alias -s md='less'
 
 if [[ $(uname -s) == "Linux" ]]; then
-    alias jubook = 'cd;jupyter notebook >$HOME/.jupyter/jupyter_notebook_running.log 2>&1 &'
     alias ls='ls -p --width=80 --color=auto'
     alias sedi='sed -i '
     alias rmaf="rm -rf"
@@ -260,6 +252,8 @@ mkdir -p $HOME/zsh_history$PWD
 export HISTFILE="$HOME/zsh_history$PWD/zhistory"
 ## 历史命令 history top10
 alias hist10='print -l ${(o)history%% *} |uniq -c |sort -nr |head -n 10'
+alias histail='history |tail'
+alias histls='history |tail -100 |ag '
 
 ## 扩展路径
 # /v/c/p/p => /var/cache/pacman/pkg
@@ -269,9 +263,9 @@ setopt complete_in_word
 limit coredumpsize 1
 
 ## Emacs风格 键绑定
-bindkey -e
-# bindkey -v
-# bindkey jj vi-cmd-mode
+# bindkey -e
+bindkey -v
+bindkey jj vi-cmd-mode
 
 #以下字符视为单词的一部分
 WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
@@ -330,7 +324,7 @@ zstyle ':completion:*:approximate:*' max-errors 1 numeric
 ## cd ~ 补全顺序
 zstyle ':completion:*:-tilde-:*' group-order 'named-directories' 'path-directories' 'users' 'expand'
 
-## Tab complete cd
+# Tab complete cd
 user-complete(){
     if [[ -n $BUFFER ]];then
         zle expand-or-complete
@@ -344,12 +338,11 @@ user-complete(){
 zle -N user-complete
 bindkey "\t" user-complete
 
-#[Esc][h] man 当前命令时，显示简短说明
+# [Esc][h] man 当前命令时，显示简短说明
 alias run-help >&/dev/null && unalias run-help
 autoload run-help
 
-#路径别名 {{{
-##进入相应的路径时只要 cd ~xxx
+# 路径别名进入相应的路径时只要 cd ~xxx
 hash -d ci="/usr/local/"
-##}}}
 
+source $ZSH/oh-my-zsh.sh
