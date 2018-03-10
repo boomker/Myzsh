@@ -1,12 +1,7 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-#ZSH_THEME="agnoster"
-#ZSH_THEME="macovsky-ruby"
-ZSH_THEME="bullet-train-mod"
+
+ZSH_THEME="bullet-train"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -16,7 +11,7 @@ ZSH_THEME="bullet-train-mod"
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=9
@@ -31,7 +26,7 @@ ZSH_THEME="bullet-train-mod"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-COMPLETION_WAITING_DOTS="true"
+# COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -49,10 +44,9 @@ HIST_STAMPS="mm/dd"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup. tmux thefuck history-substring-search osx pip python web-search 
+# Add wisely, as too many plugins slow down shell startup. tmux thefuck history-substring-search osx pip python web-search
 
-plugins=(autojump colored-man-pages extract git pip python sudo ssh-agent zsh-autosuggestions zsh-syntax-highlighting)
-autoload -U compinit && compinit
+plugins=(autojump colored-man-pages extract git pip ssh-agent zsh-autosuggestions zsh-syntax-highlighting)
 
 # User configuration
 # eval $(thefuck --alias fuck)
@@ -70,7 +64,7 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 # export HOMEBREW_BOTTLE_DOMAIN=http://7xkcej.dl1.z0.glb.clouddn.com
-export HOMEBREW_GITHUB_API_TOKEN="3c062425d4c789b50b48d0a9748db39747265907"
+export HOMEBREW_GITHUB_API_TOKEN="9ae2a43710d7679bb3dce0e0ce0fc23683e9b434"
 export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 export PATH="/bin:/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:$PATH"
 export PATH="/usr/local/opt/coreutils/bin:/usr/local/opt/coreutils/libexec/gnubin:$PATH"
@@ -87,14 +81,21 @@ else
     export SSH_KEY_PATH="~/.ssh/dsa_id"
 fi
 
-## Vim
+## default editor config Vim or neovim(nvim):
+if [[ -e /bin/vim ]]; then
+    export EDITOR="/bin/vim"
+else
+    export EDITOR="/bin/nvim"
+    # alias vim="/bin/nvim"
+fi
 if [[ $(uname -s) == "Linux" ]]; then
     export VIM="/usr/share/vim" # for Linux
     export VIMRUNTIME="/usr/share/vim/vim74" # for Linux
 else
-    export VIM="/Applications/MacVim.app/Contents/Resources/vim" # for MacOS_Darwin
-    export VIMRUNTIME="/Applications/MacVim.app/Contents/Resources/vim/runtime" # for MacOS_Darwin
-    export EDITOR="/Applications/MacVim.app/Contents/Resources/vim" 
+    # export VIM="/usr/local/opt/neovim/share/nvim" # for MacOS_Darwin
+    export VIM="/Applications/MacVim.app/Contents/Resources/vim"
+    # export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime" # for MacOS_Darwin
+    export VIMRUNTIME="/Applications/MacVim.app/Contents/Resources/vim/runtime"
 fi
 
 # Tomcat Path
@@ -104,11 +105,11 @@ fi
 # export CLASSPATH=.:${JAVA_HOME}/lib:${CATALINA_HOME}/lib
 # export PATH=${JAVA_HOME}/bin:$PATH
 
-export CHEATCOLORS=true
+# export CHEATCOLORS=true
 # export PAGER=most
 
-autoload colors
-colors
+# autoload colors
+# colors
 
 ## other zsh plugins
 # iterm2_shell_integration.zsh
@@ -137,12 +138,11 @@ colors
     alias cp='cp -fu'
     # alias cat='ccat'
     alias mv='mv -fu'
-    alias sedi='gsed -i '
-    alias sedv='gsed -n '
-    alias scecw='screencapture -c -W'
-    alias scecs='screencapture -c -s'
+    # alias sedi='gsed -i '
+    # alias sedv='gsed -n '
+    # alias scecw='screencapture -c -W'
+    # alias scecs='screencapture -c -s'
     alias raf="ranger"
-    alias rm='rm-p'
     alias rmaf="rm -rf"
     alias lockrmf="protect "
     alias lockrmd="protect -R "
@@ -150,9 +150,9 @@ colors
     alias wcl="wc -l"
     alias gls='gls -p --width=80 --color=auto'
     alias ll='ls -rtlh'
-    alias lla="ll -h|ag "
-    alias llg="ll -h|grep "
-    alias agv="ag -v "
+    # alias lla="ll -h|ag "
+    # alias llg="ll -h|grep "
+    # alias agv="ag -v "
     alias grep='grep -i --color=auto'
     alias egrep='egrep -i --color=auto'
     alias mmi="make -j2&&make install"
@@ -164,10 +164,9 @@ colors
     alias tmuxconfig='vim ~/.tmux.conf'
     alias tmuxreload='tmux source-file ~/.tmux.conf'
     alias tmuath='tmux attach'
-    alias hp='htop'
-    alias dstat="dstat -cdlmnpsy"
+    # alias dstat="dstat -cdlmnpsy"
     alias gcl="git clone "
-    alias ips="ipython"
+    alias ips="/usr/bin/ipython"
     alias dfh='df -Th'
     alias piu="pip3 uninstall "
     alias pii="pip3 install "
@@ -185,7 +184,7 @@ colors
     alias -s rpm='rpm -ivh'
     alias -s html='vim'
     alias -s php='vim'
-    alias -s py='python'
+    alias -s py='python3'
     alias -s md='less'
 
 if [[ $(uname -s) == "Linux" ]]; then
@@ -263,9 +262,7 @@ setopt complete_in_word
 limit coredumpsize 1
 
 ## Emacs风格 键绑定
-# bindkey -e
-bindkey -v
-bindkey jj vi-cmd-mode
+bindkey -e
 
 #以下字符视为单词的一部分
 WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
@@ -276,8 +273,8 @@ setopt AUTO_MENU
 # setopt AUTO_CD
 
 ## 开启此选项，补全时会直接选中菜单项
-# setopt MENU_COMPLETE
-# autoload -U compinit &&compinit
+setopt MENU_COMPLETE
+autoload -U compinit &&compinit
 
 ## 自动补全选项
 # zstyle ':completion:*' verbose yes
@@ -346,3 +343,13 @@ autoload run-help
 hash -d ci="/usr/local/"
 
 source $ZSH/oh-my-zsh.sh
+
+## tmux auto attach
+TPC=`ps -ef |ag -w "tmux" |ag -vw ag|wc -l`
+if [[ $TPC == 0 ]]; then
+    tmux
+elif [[ $TPC == 1 ]]; then
+    tmux attach
+# else
+    # tmux list-windows
+fi
