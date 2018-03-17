@@ -63,8 +63,13 @@ export PATH="$PYENV_ROOT/bin:$VIRTUALENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
+# git more speed conf:
+# git config --global http.useragent https://github.com.proxy http://127.0.0.1:8090
+# git config --global http.proxy 'socks5://127.0.0.1:1086
+# git config --global https.proxy 'socks5://127.0.0.1:1086
+
 # export HOMEBREW_BOTTLE_DOMAIN=http://7xkcej.dl1.z0.glb.clouddn.com
-export HOMEBREW_GITHUB_API_TOKEN="9ae2a43710d7679bb3dce0e0ce0fc23683e9b434"
+export HOMEBREW_GITHUB_API_TOKEN="b3c51e1b6d58cd68770f3d526d88621f44f46936"
 export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 export PATH="/bin:/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:$PATH"
 export PATH="/usr/local/opt/coreutils/bin:/usr/local/opt/coreutils/libexec/gnubin:$PATH"
@@ -135,28 +140,17 @@ fi
 # alias for MacOS_Darwin
     alias brua="brew outdated |gawk '{print $1}' |brew upgrade"
     alias brin='brew install '
+    alias brci='brew cask install '
     alias cp='cp -fu'
-    # alias cat='ccat'
     alias mv='mv -fu'
-    # alias sedi='gsed -i '
-    # alias sedv='gsed -n '
-    # alias scecw='screencapture -c -W'
-    # alias scecs='screencapture -c -s'
-    alias raf="ranger"
     alias rmaf="rm -rf"
-    alias lockrmf="protect "
-    alias lockrmd="protect -R "
-    alias gfd="gfind"
+    #alias lockrmf="protect "
+    #alias lockrmd="protect -R "
     alias wcl="wc -l"
     alias gls='gls -p --width=80 --color=auto'
     alias ll='ls -rtlh'
-    # alias lla="ll -h|ag "
-    # alias llg="ll -h|grep "
-    # alias agv="ag -v "
-    alias grep='grep -i --color=auto'
-    alias egrep='egrep -i --color=auto'
-    alias mmi="make -j2&&make install"
-    alias duhl='du -ah --max-depth=1 '
+    #alias mmi="make -j2&&make install"
+    #alias duhl='du -ah --max-depth=1 '
     alias trel='teer -L 1 '
     alias zshreload='source ~/.zshrc'
     alias zshconfig="vim ~/.zshrc"
@@ -173,19 +167,20 @@ fi
     alias piua="for i in $(pip3 list --outdate |gawk 'NR>2{print $1}');do pip3 install --upgrade $i;done"
     alias jpnb='cd;jupyter notebook >$HOME/.jupyter/jupyter_notebook_running.log 2>&1 &'
     alias axcdl='aria2c -x6 -c '
-    alias pcwget='proxychains wget '
-    alias pcaxcdl='proxychains aria2c -x6 -c '
-    alias -s gz='tar xf'
-    alias -s xz='tar xf'
-    alias -s bz2='tar xf'
-    alias -s tgz='tar xf'
-    alias -s zip='unzip'
-    alias -s 7z='p7zip -d'
-    alias -s rpm='rpm -ivh'
-    alias -s html='vim'
-    alias -s php='vim'
-    alias -s py='python3'
-    alias -s md='less'
+    alias ffw='proxychains4 '
+    alias ffww='proxychains4 wget '
+    alias ffwa='proxychains4 aria2c -x6 -c '
+    #alias -s gz='tar xf'
+    #alias -s xz='tar xf'
+    #alias -s bz2='tar xf'
+    #alias -s tgz='tar xf'
+    #alias -s zip='unzip'
+    #alias -s 7z='p7zip -d'
+    #alias -s rpm='rpm -ivh'
+    #alias -s html='vim'
+    #alias -s php='vim'
+    #alias -s py='python3'
+    #alias -s md='less'
 
 if [[ $(uname -s) == "Linux" ]]; then
     alias ls='ls -p --width=80 --color=auto'
@@ -343,13 +338,16 @@ autoload run-help
 hash -d ci="/usr/local/"
 
 source $ZSH/oh-my-zsh.sh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 ## tmux auto attach
-TPC=`ps -ef |ag -w "tmux" |ag -vw ag|wc -l`
+TPC=`ps -ef |ag -w "tmux" |ag -vw "ag"|wc -l`
 if [[ $TPC == 0 ]]; then
-    tmux
+    #tmux
 elif [[ $TPC == 1 ]]; then
     tmux attach
+    # tmux attach -t 0
 # else
     # tmux list-windows
 fi
+
