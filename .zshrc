@@ -46,7 +46,7 @@ HIST_STAMPS="mm/dd"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup. tmux thefuck history-substring-search osx pip python web-search
 
-plugins=(autojump colored-man-pages extract git pip ssh-agent zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(colored-man-pages extract git ssh-agent zsh-autosuggestions zsh-syntax-highlighting)
 
 # User configuration
 # eval $(thefuck --alias fuck)
@@ -69,10 +69,10 @@ eval "$(pyenv virtualenv-init -)"
 # git config --global https.proxy 'socks5://127.0.0.1:1086
 
 # export HOMEBREW_BOTTLE_DOMAIN=http://7xkcej.dl1.z0.glb.clouddn.com
-export HOMEBREW_GITHUB_API_TOKEN="b3c51e1b6d58cd68770f3d526d88621f44f46936"
+#export HOMEBREW_GITHUB_API_TOKEN=""
 export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
-export PATH="/bin:/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:$PATH"
-export PATH="/usr/local/opt/coreutils/bin:/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+export PATH="/bin:/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/sbin:$PATH"
+export PATH="/usr/local/opt/coreutils/bin:$PATH"
 export MANPATH="/usr/local/man:/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
 # You may need to manually set your language environment
@@ -138,49 +138,6 @@ fi
 # Example aliases
 
 # alias for MacOS_Darwin
-    alias brua="brew outdated |gawk '{print $1}' |brew upgrade"
-    alias brin='brew install '
-    alias brci='brew cask install '
-    alias cp='cp -fu'
-    alias mv='mv -fu'
-    alias rmaf="rm -rf"
-    #alias lockrmf="protect "
-    #alias lockrmd="protect -R "
-    alias wcl="wc -l"
-    alias gls='gls -p --width=80 --color=auto'
-    alias ll='ls -rtlh'
-    #alias mmi="make -j2&&make install"
-    #alias duhl='du -ah --max-depth=1 '
-    alias trel='teer -L 1 '
-    alias zshreload='source ~/.zshrc'
-    alias zshconfig="vim ~/.zshrc"
-    alias vimconfig='vim ~/.vimrc'
-    alias tmuxconfig='vim ~/.tmux.conf'
-    alias tmuxreload='tmux source-file ~/.tmux.conf'
-    alias tmuath='tmux attach'
-    # alias dstat="dstat -cdlmnpsy"
-    alias gcl="git clone "
-    alias ips="/usr/bin/ipython"
-    alias dfh='df -Th'
-    alias piu="pip3 uninstall "
-    alias pii="pip3 install "
-    alias piua="for i in $(pip3 list --outdate |gawk 'NR>2{print $1}');do pip3 install --upgrade $i;done"
-    alias jpnb='cd;jupyter notebook >$HOME/.jupyter/jupyter_notebook_running.log 2>&1 &'
-    alias axcdl='aria2c -x6 -c '
-    alias ffw='proxychains4 '
-    alias ffww='proxychains4 wget '
-    alias ffwa='proxychains4 aria2c -x6 -c '
-    #alias -s gz='tar xf'
-    #alias -s xz='tar xf'
-    #alias -s bz2='tar xf'
-    #alias -s tgz='tar xf'
-    #alias -s zip='unzip'
-    #alias -s 7z='p7zip -d'
-    #alias -s rpm='rpm -ivh'
-    #alias -s html='vim'
-    #alias -s php='vim'
-    #alias -s py='python3'
-    #alias -s md='less'
 
 if [[ $(uname -s) == "Linux" ]]; then
     alias ls='ls -p --width=80 --color=auto'
