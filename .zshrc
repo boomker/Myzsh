@@ -46,7 +46,7 @@ HIST_STAMPS="mm/dd"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup. tmux thefuck history-substring-search osx pip python web-search
 
-plugins=(colored-man-pages extract git ssh-agent zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(colored-man-pages extract ssh-agent zsh-autosuggestions zsh-syntax-highlighting)
 
 # User configuration
 # eval $(thefuck --alias fuck)
@@ -74,6 +74,9 @@ export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 export PATH="/bin:/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/sbin:$PATH"
 export PATH="/usr/local/opt/coreutils/bin:$PATH"
 export MANPATH="/usr/local/man:/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+
+# catalog varpath conf:
+export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
 
 # You may need to manually set your language environment
  export LANG=en_US.UTF-8
@@ -143,9 +146,6 @@ if [[ $(uname -s) == "Linux" ]]; then
     alias ls='ls -p --width=80 --color=auto'
     alias sedi='sed -i '
     alias rmaf="rm -rf"
-    unalias rm
-    unalias lockrmf
-    unalias lockrmd
 fi
 
 function mvb { mv $1 $1.bak }
