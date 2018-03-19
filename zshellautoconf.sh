@@ -7,7 +7,7 @@
 source /etc/os-release
 case $ID in
     ubuntu)
-        apt install vim git tree tar unzip wget zsh
+        apt -y install vim git tree tar unzip wget zsh
         ;;
     centos)
         yum -y install vim git tree tar unzip wget zsh
@@ -30,12 +30,13 @@ git clone --depth 1 https://github.com/junegunn/fzf.git
 git clone https://github.com/boomker/Myzshrc.git
 cd Myzshrc
 source ./oh-my-zsh_install.sh
-mv $HOME/.zshr{,bak}
-cp .zshrc $HOME
+mv $HOME/.zshrc{,bak}
+cp $HOME/gitrepo/Myzshrc/.zshrc $HOME
 cp alias.zsh $HOME/.oh-my-zsh/custom
 cp bullet-train.zsh-theme $HOME/.oh-my-zsh/themes
 cp zsh-autosuggestions.plugin.zsh $HOME/.oh-my-zsh/plugins
 cp zsh-syntax-highlighting.zsh $HOME/.oh-my-zsh/plugins
 cd ../fzf
 bash install
+
 
