@@ -29,7 +29,7 @@ cd gitrepo
 git clone --depth 1 https://github.com/junegunn/fzf.git
 git clone https://github.com/boomker/Myzshrc.git
 cd Myzshrc
-source $HOME/oh-my-zsh_install.sh
+source ./oh-my-zsh_install.sh
 mv $HOME/.zshr{,bak}
 cp .zshrc $HOME
 cp alias.zsh $HOME/.oh-my-zsh/custom
@@ -38,3 +38,4 @@ cp zsh-autosuggestions.plugin.zsh $HOME/.oh-my-zsh/plugins
 cp zsh-syntax-highlighting.zsh $HOME/.oh-my-zsh/plugins
 cd ../fzf
 bash install
+
