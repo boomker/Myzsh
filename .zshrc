@@ -56,27 +56,34 @@ plugins=(colored-man-pages extract ssh-agent zsh-autosuggestions zsh-syntax-high
 # export LESSOPEN="| /usr/local/Cellar/source-highlight/3.1.8_7/bin/src-hilite-lesspip3e.sh %s"
 # export LESS=" -R"
 
-# pyenv &&pyenv-virtualenv configuration:
-export PYENV_ROOT="/usr/local/opt/pyenv"
-export VIRTUALENV_ROOT="/usr/local/opt/pyenv-virtualenv"
-export PATH="$PYENV_ROOT/bin:$VIRTUALENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+if [[ $(uname -s) == "Darwin" ]]; then
+    # pyenv &&pyenv-virtualenv configuration:
+
+    export PYENV_ROOT="/usr/local/opt/pyenv"
+    export VIRTUALENV_ROOT="/usr/local/opt/pyenv-virtualenv"
+    export PATH="$PYENV_ROOT/bin:$VIRTUALENV_ROOT/bin:$PATH"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+
+    # HomeBrew more fast conf:
+    # export HOMEBREW_BOTTLE_DOMAIN=http://7xkcej.dl1.z0.glb.clouddn.com
+    #export HOMEBREW_GITHUB_API_TOKEN=""
+    export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
+
+    # GNU cmd tools PATH for Mac:
+    export PATH="/usr/local/opt/coreutils/bin:$PATH"
+    export MANPATH="/usr/local/man:/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+
+    # catalog varpath conf:
+    export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
+fi
 
 # git more speed conf:
 # git config --global http.useragent https://github.com.proxy http://127.0.0.1:8090
 # git config --global http.proxy 'socks5://127.0.0.1:1086
 # git config --global https.proxy 'socks5://127.0.0.1:1086
 
-# export HOMEBREW_BOTTLE_DOMAIN=http://7xkcej.dl1.z0.glb.clouddn.com
-#export HOMEBREW_GITHUB_API_TOKEN=""
-export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 export PATH="/bin:/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/sbin:$PATH"
-export PATH="/usr/local/opt/coreutils/bin:$PATH"
-export MANPATH="/usr/local/man:/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-
-# catalog varpath conf:
-export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
 
 # You may need to manually set your language environment
  export LANG=en_US.UTF-8
@@ -140,14 +147,6 @@ fi
 #
 # Example aliases
 
-# alias for MacOS_Darwin
-
-if [[ $(uname -s) == "Linux" ]]; then
-    alias ls='ls -p --width=80 --color=auto'
-    alias sedi='sed -i '
-    alias rmaf="rm -rf"
-fi
-
 function mvb { mv $1 $1.bak }
 function cpb { cp $1 $1.bak }
 function cph { cp $1 $HOME }
@@ -155,8 +154,8 @@ function txh { tar xf $1 -C $HOME }
 function tca { tar -czvf $1.tar.gz $1 }
 function uzh { unzip -d $HOME $1 }
 function psa { ps -ef |ag "$1" |ag -vw "ag" }
-function hels { find $HOME/.tldrc/tldr-master/pages -name "$1*";tldr $1 }
-function fmusic { find /Volumes/document/视音频资料/CloudMusic -iname "*$1*.mp3" }
+# function hels { find $HOME/.tldrc/tldr-master/pages -name "$1*";tldr $1 }
+# function fmusic { find /Volumes/document/视音频资料/CloudMusic -iname "*$1*.mp3" }
 
 # ##############################################
 ## 关于历史纪录的配置
@@ -296,15 +295,4 @@ hash -d ci="/usr/local/"
 
 source $ZSH/oh-my-zsh.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-## tmux auto attach
-TPC=`ps -ef |ag -w "tmux" |ag -vw "ag"|wc -l`
-if [[ $TPC == 0 ]]; then
-    #tmux
-elif [[ $TPC == 1 ]]; then
-    tmux attach
-    # tmux attach -t 0
-# else
-    # tmux list-windows
-fi
 
