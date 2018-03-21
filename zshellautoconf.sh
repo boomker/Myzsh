@@ -39,4 +39,3 @@ cp zsh-syntax-highlighting.zsh $HOME/.oh-my-zsh/plugins
 cd ../fzf
 bash install
 
-

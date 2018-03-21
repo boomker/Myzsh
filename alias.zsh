@@ -1,6 +1,7 @@
 # alias config:
 if [[ $(uname -s) == "Darwin" ]]; then
     # alias for MacOS_Darwin
+    alias shasconf='vim $ZSH_CUSTOM/alias.zsh'
     alias brin='brew install '
     alias brci='brew cask install '
     alias gcp='gcp -f -u'
@@ -8,11 +9,12 @@ if [[ $(uname -s) == "Darwin" ]]; then
     alias rmaf="rm -rf"
     alias gls='gls -p --width=80 --color=auto'
     alias ll='ls -rtlh'
+    alias nl=gnl
     alias wcl="wc -l"
     alias sedi='sed -i '
     #alias mmi="make -j2&&make install"
     alias duhl='du -ah --max-depth=1 '
-    alias trel='teer -L 1 '
+    alias trel='tree -L 1 '
     alias zshreload='source ~/.zshrc'
     alias zshconfig="vim ~/.zshrc"
     alias vimconfig='vim ~/.vimrc'
@@ -24,7 +26,7 @@ if [[ $(uname -s) == "Darwin" ]]; then
     alias pii="pip3 install "
     #alias piua="for i in $(pip3 list --outdate |gawk 'NR>2{print $1}');do pip3 install --upgrade $i;done"
     #alias jpnb='cd;jupyter notebook >$HOME/.jupyter/jupyter_notebook_running.log 2>&1 &'
-    alias axcdl='aria2c -x6 -c '
+    alias adl='aria2c -x6 -c '
     alias ffw='proxychains4 '
     alias ffww='proxychains4 wget '
     alias ffwa='proxychains4 aria2c -x6 -c '
@@ -38,13 +40,16 @@ if [[ $(uname -s) == "Darwin" ]]; then
     alias -s py='python3'
     alias -s md='less'
 else
+    alias shasconf='vim $ZSH_CUSTOM/alias.zsh'
+    alias ss='ss -tnlp |column -t'
+    alias kill='kill -9 '
     alias ls='ls -p --width=80 --color=auto'
     alias ll='ls -rtlh'
     alias wcl="wc -l"
     alias sedi='sed -i '
     alias mmi="make -j2&&make install"
     alias duhl='du -ah --max-depth=1 '
-    alias trel='teer -L 1 '
+    alias trel='tree -L 1 '
     alias zshreload='source ~/.zshrc'
     alias zshconfig="vim ~/.zshrc"
     alias vimconfig='vim ~/.vimrc'
@@ -57,7 +62,7 @@ else
     alias pii="pip3 install "
     #alias piua="for i in $(pip3 list --outdate |gawk 'NR>2{print $1}');do pip3 install --upgrade $i;done"
     #alias jpnb='cd;jupyter notebook >$HOME/.jupyter/jupyter_notebook_running.log 2>&1 &'
-    alias axcdl='aria2c -x6 -c '
+    alias adl='aria2c -x6 -c '
     alias ffw='proxychains4 '
     alias ffww='proxychains4 wget '
     alias ffwa='proxychains4 aria2c -x6 -c '

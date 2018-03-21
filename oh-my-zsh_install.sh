@@ -107,10 +107,13 @@ main() {
   echo ''
   echo 'p.s. Follow us at https://twitter.com/ohmyzsh.'
   echo ''
-  echo 'p.p.s. Get stickers and t-shirts at http://shop.planetargon.com.'
+  echo 'p.p.s. Get stickers and t-shirts at https://shop.planetargon.com.'
   echo ''
   printf "${NORMAL}"
   env zsh
 }
 
 main
+echo -n "exit\n"
+exit
+
