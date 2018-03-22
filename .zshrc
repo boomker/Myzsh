@@ -58,7 +58,6 @@ plugins=(colored-man-pages extract ssh-agent zsh-autosuggestions zsh-syntax-high
 
 if [[ $(uname -s) == "Darwin" ]]; then
     # pyenv &&pyenv-virtualenv configuration:
-
     export PYENV_ROOT="/usr/local/opt/pyenv"
     export VIRTUALENV_ROOT="/usr/local/opt/pyenv-virtualenv"
     export PATH="$PYENV_ROOT/bin:$VIRTUALENV_ROOT/bin:$PATH"
@@ -66,7 +65,6 @@ if [[ $(uname -s) == "Darwin" ]]; then
     eval "$(pyenv virtualenv-init -)"
 
     # HomeBrew more fast conf:
-    # export HOMEBREW_BOTTLE_DOMAIN=http://7xkcej.dl1.z0.glb.clouddn.com
     #export HOMEBREW_GITHUB_API_TOKEN=""
     export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 
@@ -105,10 +103,12 @@ else
 fi
 if [[ $(uname -s) == "Linux" ]]; then
     export VIM="/usr/share/vim" # for Linux
+    export VIMFILES="$VIM/vimfiles"
     export VIMRUNTIME="/usr/share/vim/vim74" # for Linux
 else
     # export VIM="/usr/local/opt/neovim/share/nvim" # for MacOS_Darwin
     export VIM="/Applications/MacVim.app/Contents/Resources/vim"
+    export VIMFILES="$VIM/vimfiles"
     # export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime" # for MacOS_Darwin
     export VIMRUNTIME="/Applications/MacVim.app/Contents/Resources/vim/runtime"
 fi
@@ -154,8 +154,6 @@ function txh { tar xf $1 -C $HOME }
 function tca { tar -czvf $1.tar.gz $1 }
 function uzh { unzip -d $HOME $1 }
 function psa { ps -ef |ag "$1" |ag -vw "ag" }
-# function hels { find $HOME/.tldrc/tldr-master/pages -name "$1*";tldr $1 }
-# function fmusic { find /Volumes/document/视音频资料/CloudMusic -iname "*$1*.mp3" }
 
 # ##############################################
 ## 关于历史纪录的配置
@@ -228,16 +226,15 @@ setopt MENU_COMPLETE
 autoload -U compinit &&compinit
 
 ## 自动补全选项
-# zstyle ':completion:*' verbose yes
-# zstyle ':completion:*' menu select
-# zstyle ':completion:*:*:default' force-list always
-# zstyle ':completion:*' select-prompt '%SSelect:  lines: %L  matches: %M  [%p]'
-
-# zstyle ':completion:*:match:*' original only
-# zstyle ':completion::prefix-1:*' completer _complete
-# zstyle ':completion:predict:*' completer _complete
-# zstyle ':completion:incremental:*' completer _complete _correct
-# zstyle ':completion:*' completer _complete _prefix _correct _prefix _match _approximate
+     #zstyle ':completion:*' verbose yes
+     #zstyle ':completion:*' menu select
+     #zstyle ':completion:*:*:default' force-list always
+     #zstyle ':completion:*' select-prompt '%SSelect:  lines: %L  matches: %M  [%p]'
+     #zstyle ':completion:*:match:*' original only
+     #zstyle ':completion::prefix-1:*' completer _complete
+     #zstyle ':completion:predict:*' completer _complete
+     #zstyle ':completion:incremental:*' completer _complete _correct
+     #zstyle ':completion:*' completer _complete _prefix _correct _prefix _match _approximate
 
 ## 路径补全
 zstyle ':completion:*' expand 'yes'
