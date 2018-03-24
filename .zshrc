@@ -1,5 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
+source $ZSH/oh-my-zsh.sh
 
 ZSH_THEME="bullet-train"
 
@@ -38,24 +39,17 @@ DISABLE_AUTO_UPDATE="true"
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 HIST_STAMPS="mm/dd"
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup. tmux thefuck history-substring-search osx pip python web-search
-
 plugins=(colored-man-pages extract ssh-agent zsh-autosuggestions zsh-syntax-highlighting)
 
 # User configuration
 # eval $(thefuck --alias fuck)
 
-# less hightlight
-# export LESSOPEN="| /usr/local/Cellar/source-highlight/3.1.8_7/bin/source-highlight-esc.sh %s"
-# export LESSOPEN="| /usr/local/Cellar/source-highlight/3.1.8_7/bin/src-hilite-lesspip3e.sh %s"
-# export LESS=" -R"
+# You may need to manually set your language environment
+export LANG=en_US.UTF-8
 
+export PATH="/bin:/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:$PATH"
+
+## configure pyvenv, Homebrew, PATH(GNU CLI tools), catlog on MacOS
 if [[ $(uname -s) == "Darwin" ]]; then
     # pyenv &&pyenv-virtualenv configuration:
     export PYENV_ROOT="/usr/local/opt/pyenv"
@@ -69,22 +63,24 @@ if [[ $(uname -s) == "Darwin" ]]; then
     export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 
     # GNU cmd tools PATH for Mac:
-    export PATH="/usr/local/opt/coreutils/bin:$PATH"
-    export MANPATH="/usr/local/man:/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+    export PATH="/usr/local/opt/coreutils/bin:/opt/local/bin:/usr/local/opt/texinfo/bin:\
+        :/usr/local/opt/gcc/bin:/usr/local/opt/cmake/bin:/usr/local/opt/unixodbc/bin:$PATH"
+    # LDFLAGS:  -L/usr/local/opt/texinfo/lib
+    export MANPATH="/usr/local/man:/usr/local/opt/coreutils/share/man:$MANPATH"
 
     # catalog varpath conf:
     export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
 fi
 
-# git more speed conf:
-# git config --global http.useragent https://github.com.proxy http://127.0.0.1:8090
-# git config --global http.proxy 'socks5://127.0.0.1:1086
-# git config --global https.proxy 'socks5://127.0.0.1:1086
-
-export PATH="/bin:/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/sbin:$PATH"
-
-# You may need to manually set your language environment
- export LANG=en_US.UTF-8
+# git proxy conf:
+if [[ -n $(ps -ef |grep -i "shadowsocks" |grep -v grep) ]]
+then
+    [[ -z $(egrep "(proxy.*socks)" ${HOME}/.gitconfig) ]] && {
+    git config --global http.useragent https://github.com.proxy http://127.0.0.1:8090
+    git config --global http.proxy socks5://127.0.0.1:1086
+    git config --global https.proxy socks5://127.0.0.1:1086
+}
+fi
 
 ## ssh
  if [[ -d ~/.ssh ]]; then
@@ -94,23 +90,25 @@ else
     export SSH_KEY_PATH="~/.ssh/dsa_id"
 fi
 
-## default editor config Vim or neovim(nvim):
-if [[ -e /bin/vim ]]; then
-    export EDITOR="/bin/vim"
+## VIM relevance var conf:
+# default editor Vim or neovim(nvim):
+if [[ -n $(which vim) ]]; then
+    export EDITOR="$(which vim)"
 else
-    export EDITOR="/bin/nvim"
-    # alias vim="/bin/nvim"
+    export EDITOR="$(which nvim)"
 fi
+
+# several vim var conf:
 if [[ $(uname -s) == "Linux" ]]; then
-    export VIM="/usr/share/vim" # for Linux
-    export VIMFILES="$VIM/vimfiles"
-    export VIMRUNTIME="/usr/share/vim/vim74" # for Linux
+    export VIM="/usr/share/vim"
+    export VIMFILES="${VIM}/vimfiles"
+    export VIMRUNTIME="/usr/share/vim/vim74"
 else
-    # export VIM="/usr/local/opt/neovim/share/nvim" # for MacOS_Darwin
     export VIM="/Applications/MacVim.app/Contents/Resources/vim"
-    export VIMFILES="$VIM/vimfiles"
-    # export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime" # for MacOS_Darwin
+    export VIMFILES="${VIM}/vimfiles"
     export VIMRUNTIME="/Applications/MacVim.app/Contents/Resources/vim/runtime"
+    # export VIM="/usr/local/opt/neovim/share/nvim"                 # for neovim on MacOS_Darwin
+    # export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime"
 fi
 
 # Tomcat Path
@@ -120,16 +118,25 @@ fi
 # export CLASSPATH=.:${JAVA_HOME}/lib:${CATALINA_HOME}/lib
 # export PATH=${JAVA_HOME}/bin:$PATH
 
-# export CHEATCOLORS=true
-# export PAGER=most
-
-# autoload colors
-# colors
-
 ## other zsh plugins
-# iterm2_shell_integration.zsh
-# test -e "${HOME}/.iterm2_shell_integration.zsh" && mv "${HOME}/.iterm2_shell_integration.zsh" ${ZSH_CUSTOM}/plugins
-# test -e "${ZSH_CUSTOM}/plugins/.iterm2_shell_integration.zsh" && source "${ZSH_CUSTOM}/plugins/.iterm2_shell_integration.zsh"
+
+# powerful plugins like fish
+if [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-autosuggestions ]] || [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting ]]
+then
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
+fi
+
+# fzf.zsh
+if [[ -z $(which fzf) ]]
+then
+    [[ ! -d ${HOME}/gitrepo ]] && mkdir ${HOME}/gitrepo
+    git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/gitrepo/.fzf
+    #bash ${HOME}/gitrepo/.fzf/install
+else
+    [[ -e ${HOME}/.fzf.zsh ]] && mv ${HOME}/.fzf.zsh ${ZSH_CUSTOM}/.fzf.zsh
+    [[ -e ${ZSH_CUSTOM}/.fzf.zsh ]] && source ${ZSH_CUSTOM}/.fzf.zsh
+fi
 
 # incr func:实时自动tab
 # [ -d $HOME/.oh-my-zsh/plugins/incr ] || {
@@ -137,20 +144,14 @@ fi
     # wget http://mimosa-pudica.net/src/incr-0.2.zsh -O .oh-my-zsh/plugins/incr/incr.plugin.zsh
 # }
 
-# git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
-# git clone git://github.com/zsh-users/zsh-syntax-highlighting $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
+# less hightlight
+# export LESSOPEN="| /usr/local/Cellar/source-highlight/3.1.8_7/bin/source-highlight-esc.sh %s"
+# export LESSOPEN="| /usr/local/Cellar/source-highlight/3.1.8_7/bin/src-hilite-lesspip3e.sh %s"
+# export LESS=" -R"
 
 function mvb { mv $1 $1.bak }
 function cpb { cp $1 $1.bak }
 function cph { cp $1 $HOME }
-function txh { tar xf $1 -C $HOME }
 function tca { tar -czvf $1.tar.gz $1 }
 function uzh { unzip -d $HOME $1 }
 function psa { ps -ef |ag "$1" |ag -vw "ag" }
@@ -290,6 +291,5 @@ autoload run-help
 # 路径别名进入相应的路径时只要 cd ~xxx
 hash -d ci="/usr/local/"
 
+source ${HOME}/.fonts/*.sh
 source $ZSH/oh-my-zsh.sh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
