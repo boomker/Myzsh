@@ -39,17 +39,18 @@ DISABLE_AUTO_UPDATE="true"
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 HIST_STAMPS="mm/dd"
 
-plugins=(colored-man-pages extract ssh-agent zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(colored-man-pages pip extract ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
+autoload -U compinit &&compinit
 
 # User configuration
-# eval $(thefuck --alias fuck)
+eval $(thefuck --alias fff)
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
 export PATH="/bin:/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:$PATH"
 
-## configure pyvenv, Homebrew, PATH(GNU CLI tools), catlog on MacOS
+## configure pyvenv, Homebrew, PATH(GNU CLI tools), catalog on MacOS
 if [[ $(uname -s) == "Darwin" ]]; then
     # pyenv &&pyenv-virtualenv configuration:
     export PYENV_ROOT="/usr/local/opt/pyenv"
@@ -64,8 +65,14 @@ if [[ $(uname -s) == "Darwin" ]]; then
 
     # GNU cmd tools PATH for Mac:
     export PATH="/usr/local/opt/coreutils/bin:/opt/local/bin:/usr/local/opt/texinfo/bin:\
-        :/usr/local/opt/gcc/bin:/usr/local/opt/cmake/bin:/usr/local/opt/unixodbc/bin:$PATH"
-    # LDFLAGS:  -L/usr/local/opt/texinfo/lib
+        :/usr/local/opt/gcc/bin:/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:$PATH"
+
+    # For compilers to find this software you may need to set:
+    # LDFLAGS:  -L/usr/local/opt/openssl/lib
+    # CPPFLAGS: -I/usr/local/opt/openssl/include
+    # For pkg-config to find this software you may need to set:
+    # PKG_CONFIG_PATH: /usr/local/opt/openssl/lib/pkgconfig
+
     export MANPATH="/usr/local/man:/usr/local/opt/coreutils/share/man:$MANPATH"
 
     # catalog varpath conf:
@@ -131,18 +138,12 @@ fi
 if [[ -z $(which fzf) ]]
 then
     [[ ! -d ${HOME}/gitrepo ]] && mkdir ${HOME}/gitrepo
-    git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/gitrepo/.fzf
-    #bash ${HOME}/gitrepo/.fzf/install
+    git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/gitrepo/fzf
+    #bash ${HOME}/gitrepo/fzf/install
 else
     [[ -e ${HOME}/.fzf.zsh ]] && mv ${HOME}/.fzf.zsh ${ZSH_CUSTOM}/.fzf.zsh
     [[ -e ${ZSH_CUSTOM}/.fzf.zsh ]] && source ${ZSH_CUSTOM}/.fzf.zsh
 fi
-
-# incr func:实时自动tab
-# [ -d $HOME/.oh-my-zsh/plugins/incr ] || {
-    # mkdir $HOME/.oh-my-zsh/plugins/incr
-    # wget http://mimosa-pudica.net/src/incr-0.2.zsh -O .oh-my-zsh/plugins/incr/incr.plugin.zsh
-# }
 
 # less hightlight
 # export LESSOPEN="| /usr/local/Cellar/source-highlight/3.1.8_7/bin/source-highlight-esc.sh %s"
@@ -204,58 +205,22 @@ alias hist10='print -l ${(o)history%% *} |uniq -c |sort -nr |head -n 10'
 alias histail='history |tail'
 alias histls='history |tail -100 |ag '
 
-## 扩展路径
-# /v/c/p/p => /var/cache/pacman/pkg
-setopt complete_in_word
-
-##  禁用 core dumps
-limit coredumpsize 1
-
 ## Emacs风格 键绑定
 bindkey -e
 
 #以下字符视为单词的一部分
 WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
 
-## 自动补全功能 {{{
-setopt AUTO_LIST
-setopt AUTO_MENU
-# setopt AUTO_CD
-
 ## 开启此选项，补全时会直接选中菜单项
 setopt MENU_COMPLETE
-autoload -U compinit &&compinit
-
-## 自动补全选项
-     #zstyle ':completion:*' verbose yes
-     #zstyle ':completion:*' menu select
-     #zstyle ':completion:*:*:default' force-list always
-     #zstyle ':completion:*' select-prompt '%SSelect:  lines: %L  matches: %M  [%p]'
-     #zstyle ':completion:*:match:*' original only
-     #zstyle ':completion::prefix-1:*' completer _complete
-     #zstyle ':completion:predict:*' completer _complete
-     #zstyle ':completion:incremental:*' completer _complete _correct
-     #zstyle ':completion:*' completer _complete _prefix _correct _prefix _match _approximate
-
-## 路径补全
-zstyle ':completion:*' expand 'yes'
-zstyle ':completion:*' squeeze-shlashes 'yes'
-zstyle ':completion::complete:*' '\\'
-
-## 彩色补全菜单
-[[ $(uname -s) == "Linux" ]] && eval $(dircolors -b) || eval $(gdircolors -b)
-export ZLSCOLORS="${LS_COLORS}"
-zmodload zsh/complist
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 
 ## 修正大小写
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 
 ## 错误校正
-zstyle ':completion:*' completer _complete _match _approximate
-zstyle ':completion:*:match:*' original only
-zstyle ':completion:*:approximate:*' max-errors 1 numeric
+    zstyle ':completion:*' completer _complete _match _approximate
+    zstyle ':completion:*:match:*' original only
+    zstyle ':completion:*:approximate:*' max-errors 1 numeric
 
 ## 补全类型提示分组
     zstyle ':completion:*:matches' group 'yes'
@@ -267,29 +232,5 @@ zstyle ':completion:*:approximate:*' max-errors 1 numeric
     zstyle ':completion:*:warnings' format $'\e[01;31m -- No Matches Found --\e[0m'
     zstyle ':completion:*:corrections' format $'\e[01;32m -- %d (errors: %e) --\e[0m'
 
-## cd ~ 补全顺序
-zstyle ':completion:*:-tilde-:*' group-order 'named-directories' 'path-directories' 'users' 'expand'
-
-# Tab complete cd
-user-complete(){
-    if [[ -n $BUFFER ]];then
-        zle expand-or-complete
-    else
-        BUFFER="cd"
-        zle end-of-line
-        zle expand-or-complete
-    fi
-}
-
-zle -N user-complete
-bindkey "\t" user-complete
-
-# [Esc][h] man 当前命令时，显示简短说明
-alias run-help >&/dev/null && unalias run-help
-autoload run-help
-
-# 路径别名进入相应的路径时只要 cd ~xxx
-hash -d ci="/usr/local/"
-
-source ${HOME}/.fonts/*.sh
+#source ${HOME}/.fonts/*.sh
 source $ZSH/oh-my-zsh.sh
