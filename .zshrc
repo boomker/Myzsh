@@ -48,7 +48,7 @@ eval $(thefuck --alias fff)
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
-export PATH="/bin:/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:$PATH"
+# export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:$PATH"
 
 ## configure pyvenv, Homebrew, PATH(GNU CLI tools), catalog on MacOS
 if [[ $(uname -s) == "Darwin" ]]; then
@@ -64,8 +64,7 @@ if [[ $(uname -s) == "Darwin" ]]; then
     export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 
     # GNU cmd tools PATH for Mac:
-    export PATH="/usr/local/opt/coreutils/bin:/opt/local/bin:/usr/local/opt/texinfo/bin:\
-        :/usr/local/opt/gcc/bin:/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:$PATH"
+    export PATH="/usr/local/sbin:/usr/local/opt/coreutils/bin:/usr/local/opt/texinfo/bin:/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:$PATH"
 
     # For compilers to find this software you may need to set:
     # LDFLAGS:  -L/usr/local/opt/openssl/lib
