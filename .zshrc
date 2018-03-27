@@ -42,15 +42,23 @@ HIST_STAMPS="mm/dd"
 plugins=(colored-man-pages pip extract ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
 autoload -U compinit &&compinit
 
-# User configuration
-eval $(thefuck --alias fff)
+## --------------User configuration--------------
+
+# thefuck
+if [[ -z $(which thefuck 2>/dev/null) ]]
+then
+    pip3 install --upgrade pip
+    pip3 install thefuck
+else
+    eval $(thefuck --alias fff)
+fi
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
 # export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:$PATH"
 
-## configure pyvenv, Homebrew, PATH(GNU CLI tools), catalog on MacOS
+## configure pyvenv, Homebrew, PATH(GNU CLI tools), catalog ,git on MacOS
 if [[ $(uname -s) == "Darwin" ]]; then
     # pyenv &&pyenv-virtualenv configuration:
     export PYENV_ROOT="/usr/local/opt/pyenv"
@@ -64,7 +72,8 @@ if [[ $(uname -s) == "Darwin" ]]; then
     export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 
     # GNU cmd tools PATH for Mac:
-    export PATH="/usr/local/sbin:/usr/local/opt/coreutils/bin:/usr/local/opt/texinfo/bin:/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:$PATH"
+    export PATH="/usr/local/sbin:/usr/local/opt/coreutils/bin:/usr/local/opt/texinfo/bin:$PATH"
+    export PATH="/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:$PATH"
 
     # For compilers to find this software you may need to set:
     # LDFLAGS:  -L/usr/local/opt/openssl/lib
@@ -76,29 +85,29 @@ if [[ $(uname -s) == "Darwin" ]]; then
 
     # catalog varpath conf:
     export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
-fi
 
-# git proxy conf:
-if [[ -n $(ps -ef |grep -i "shadowsocks" |grep -v grep) ]]
-then
-    [[ -z $(egrep "(proxy.*socks)" ${HOME}/.gitconfig) ]] && {
-    git config --global http.useragent https://github.com.proxy http://127.0.0.1:8090
-    git config --global http.proxy socks5://127.0.0.1:1086
-    git config --global https.proxy socks5://127.0.0.1:1086
-}
+    # git proxy conf:
+    if [[ -n $(ps -ef |grep -i "shadowsocks" |grep -v grep) ]]
+    then
+        [[ -z $(egrep "(proxy.*socks)" ${HOME}/.gitconfig 2>/dev/null) ]] && {
+        git config --global http.useragent https://github.com.proxy http://127.0.0.1:8090
+        git config --global http.proxy socks5://127.0.0.1:1086
+        git config --global https.proxy socks5://127.0.0.1:1086
+        }
+    fi
 fi
 
 ## ssh
- if [[ -d ~/.ssh ]]; then
+ if [[ -d ~/.ssh ]] || [[ -d ~/.z ]]; then
     export SSH_KEY_PATH="~/.ssh/dsa_id"
 else
-    mkdir ~/.ssh
+    mkdir ~/{.ssh,.z}
     export SSH_KEY_PATH="~/.ssh/dsa_id"
 fi
 
 ## VIM relevance var conf:
 # default editor Vim or neovim(nvim):
-if [[ -n $(which vim) ]]; then
+if [[ -n $(which vim >/dev/null) ]]; then
     export EDITOR="$(which vim)"
 else
     export EDITOR="$(which nvim)"
@@ -106,9 +115,9 @@ fi
 
 # several vim var conf:
 if [[ $(uname -s) == "Linux" ]]; then
-    export VIM="/usr/share/vim"
+    export VIM="/usr/local/share/vim"
     export VIMFILES="${VIM}/vimfiles"
-    export VIMRUNTIME="/usr/share/vim/vim74"
+    export VIMRUNTIME="/usr/local/share/vim/vim80"
 else
     export VIM="/Applications/MacVim.app/Contents/Resources/vim"
     export VIMFILES="${VIM}/vimfiles"
@@ -129,25 +138,21 @@ fi
 # powerful plugins like fish
 if [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-autosuggestions ]] || [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting ]]
 then
-    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
+    git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
 fi
 
 # fzf.zsh
-if [[ -z $(which fzf) ]]
+if [[ -z $(which fzf 2>/dev/null) ]]
 then
     [[ ! -d ${HOME}/gitrepo ]] && mkdir ${HOME}/gitrepo
     git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/gitrepo/fzf
-    #bash ${HOME}/gitrepo/fzf/install
+    source ${HOME}/gitrepo/fzf/install
 else
     [[ -e ${HOME}/.fzf.zsh ]] && mv ${HOME}/.fzf.zsh ${ZSH_CUSTOM}/.fzf.zsh
     [[ -e ${ZSH_CUSTOM}/.fzf.zsh ]] && source ${ZSH_CUSTOM}/.fzf.zsh
 fi
 
-# less hightlight
-# export LESSOPEN="| /usr/local/Cellar/source-highlight/3.1.8_7/bin/source-highlight-esc.sh %s"
-# export LESSOPEN="| /usr/local/Cellar/source-highlight/3.1.8_7/bin/src-hilite-lesspip3e.sh %s"
-# export LESS=" -R"
 
 function mvb { mv $1 $1.bak }
 function cpb { cp $1 $1.bak }
@@ -231,5 +236,4 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
     zstyle ':completion:*:warnings' format $'\e[01;31m -- No Matches Found --\e[0m'
     zstyle ':completion:*:corrections' format $'\e[01;32m -- %d (errors: %e) --\e[0m'
 
-#source ${HOME}/.fonts/*.sh
 source $ZSH/oh-my-zsh.sh
