@@ -1,7 +1,13 @@
 # alias config:
 if [[ $(uname -s) == "Darwin" ]]; then
     # alias for MacOS_Darwin
-    alias aliconf='vim $ZSH_CUSTOM/alias.zsh'
+    alias aliconf='vim ${HOME}/gitrepo/Myzshrc/alias.zsh'
+    # alias zshreload='source ~/.zshrc'
+    # alias piua="for i in $(pip3 list --outdate |gawk 'NR>2{print $1}');do pip3 install --upgrade $i;done"
+    # alias piua="for i in $(pip3 list --outdate |gawk 'NR>2{print $1}');do pip3 install --upgrade $i;done"
+    alias zshconfig="vim ${HOME}/gitrepo/Myzshrc/.zshrc"
+    alias vimconfig='vim ${HOME}/gitrepo/Myvimrc/.vimrc'
+    alias tmuxconfig='vim ${HOME}/gitrepo/Mytmuxconf/.tmux.conf'
     alias brin='brew install '
     alias brci='brew cask install '
     alias cp='gcp -f -u'
@@ -18,21 +24,14 @@ if [[ $(uname -s) == "Darwin" ]]; then
     alias sed='gsed'
     alias awk='gawk'
     alias wcl="wc -l"
-    #alias mmi="make -j2&&make install"
     alias duhl='du -ah --max-depth=1 '
     alias trel='tree -L 1 '
-    alias zshreload='source ~/.zshrc'
-    alias zshconfig="vim ~/.zshrc"
-    alias vimconfig='vim ~/.vimrc'
-    alias tmuxconfig='vim ~/.tmux.conf'
     alias gcl="git clone "
     alias ips="ptipython"
     alias dfh='df -Th'
     alias piu="pip3 uninstall "
     alias pii="pip3 install "
     alias pus="pip3 install --upgrade pip"
-    #alias piua="for i in $(pip3 list --outdate |gawk 'NR>2{print $1}');do pip3 install --upgrade $i;done"
-    #alias jpnb='cd;jupyter notebook >$HOME/.jupyter/jupyter_notebook_running.log 2>&1 &'
     alias adl='aria2c -x6 -c '
     alias ffw='proxychains4 '
     alias ffww='proxychains4 wget '
@@ -66,8 +65,6 @@ else
     alias dfh='df -Th'
     alias piu="pip3 uninstall "
     alias pii="pip3 install "
-    #alias piua="for i in $(pip3 list --outdate |gawk 'NR>2{print $1}');do pip3 install --upgrade $i;done"
-    #alias jpnb='cd;jupyter notebook >$HOME/.jupyter/jupyter_notebook_running.log 2>&1 &'
     alias adl='aria2c -x6 -c '
     alias ffw='proxychains4 '
     alias ffww='proxychains4 wget '
@@ -82,4 +79,3 @@ else
     alias -s py='python3'
     alias -s md='less'
 fi
-
