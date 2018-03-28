@@ -56,7 +56,7 @@ fi
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
-# export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:$PATH"
+export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:$PATH"
 
 ## configure pyvenv, Homebrew, PATH(GNU CLI tools), catalog ,git on MacOS
 if [[ $(uname -s) == "Darwin" ]]; then
@@ -73,7 +73,7 @@ if [[ $(uname -s) == "Darwin" ]]; then
 
     # GNU cmd tools PATH for Mac:
     export PATH="/usr/local/sbin:/usr/local/opt/coreutils/bin:/usr/local/opt/texinfo/bin:$PATH"
-    export PATH="$HOME/macport/bin:/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:$PATH"
+    export PATH="/opt/local/bin:/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:$PATH"
 
     # For compilers to find this software you may need to set:
     # LDFLAGS:  -L/usr/local/opt/openssl/lib
@@ -107,7 +107,7 @@ fi
 
 ## VIM relevance var conf:
 # default editor Vim or neovim(nvim):
-if [[ -n $(which vim >/dev/null) ]]; then
+if [ -n $(which vim >/dev/null) ]; then
     export EDITOR="$(which vim)"
 else
     export EDITOR="$(which nvim)"
@@ -119,9 +119,9 @@ if [[ $(uname -s) == "Linux" ]]; then
     export VIMFILES="${VIM}/vimfiles"
     export VIMRUNTIME="/usr/local/share/vim/vim80"
 else
-    export VIM="/Applications/MacVim.app/Contents/Resources/vim"
+    export VIM="/usr/local/opt/vim/share/vim"
     export VIMFILES="${VIM}/vimfiles"
-    export VIMRUNTIME="/Applications/MacVim.app/Contents/Resources/vim/runtime"
+    export VIMRUNTIME="${VIM}/vim80"
     # export VIM="/usr/local/opt/neovim/share/nvim"                 # for neovim on MacOS_Darwin
     # export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime"
 fi
@@ -134,6 +134,11 @@ fi
 # export PATH=${JAVA_HOME}/bin:$PATH
 
 ## other zsh plugins
+if [[ ! -e ${ZSH_CUSTOM}/themes/bullet-train.zsh-theme ]]
+then
+    [[ ! -d ${ZSH_CUSTOM}/themes ]] && mkdir ${ZSH_CUSTOM}/themes
+    git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
+fi
 
 # powerful plugins like fish
 if [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-autosuggestions ]] || [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting ]]
@@ -146,6 +151,7 @@ fi
 if [[ -z $(which fzf 2>/dev/null) ]]
 then
     [[ ! -d ${HOME}/gitrepo ]] && mkdir ${HOME}/gitrepo
+    [[ -d ${HOME}/gitrepo/fzf ]] && rm -rf ${HOME}/fzf
     git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/gitrepo/fzf
     source ${HOME}/gitrepo/fzf/install
 else
