@@ -7,11 +7,11 @@
 source /etc/os-release
 case $ID in
     ubuntu)
-        apt -y install vim git tree tar unzip wget zsh silversearcher-ag
+        apt -y install vim git tree tar unzip wget zsh silversearcher-ag gcc
         ;;
     centos)
-        yum -y install vim git tree tar unzip wget zsh
-        yum install epel-release.noarch the_silver_searcher -y
+        yum -y install vim git tree tar unzip wget zsh gcc epel-release.noarch the_silver_searcher
+        yum update
         yum -y install yum-utils &&yum -y install https://centos7.iuscommunity.org/ius-release.rpm
         yum -y install python36u && yum -y install python36u-pip &&yum -y install python36u-devel
         ln -sv /usr/bin/pip3.6 /usr/bin/pip3 &&ln -sv /usr/bin/python3.6 /usr/bin/python3

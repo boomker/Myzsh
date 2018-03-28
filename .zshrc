@@ -43,16 +43,6 @@ plugins=(colored-man-pages pip extract ssh-agent z zsh-completions zsh-autosugge
 autoload -U compinit &&compinit
 
 ## --------------User configuration--------------
-
-# thefuck
-if [[ -z $(which thefuck 2>/dev/null) ]]
-then
-    pip3 install --upgrade pip
-    pip3 install thefuck
-else
-    eval $(thefuck --alias fff)
-fi
-
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
@@ -95,6 +85,23 @@ if [[ $(uname -s) == "Darwin" ]]; then
         git config --global https.proxy socks5://127.0.0.1:1086
         }
     fi
+fi
+
+# thefuck
+if [[ -z $(which thefuck 2>/dev/null) ]]
+then
+    [[ -z $(which gcc 2>/dev/null) ]] && break
+    pip3 install --upgrade pip
+    pip3 install thefuck
+else
+    eval $(thefuck --alias fff)
+fi
+
+# alias.zsh conf:
+if [[ -e ${HOME}/gitrepo/Myzshrc/alias.zsh ]]
+then
+    [[ ! -e ${ZSH_CUSTOM}/alias.zsh ]] && ln -sv ${HOME}/gitrepo/Myzshrc/alias.zsh  ${ZSH_CUSTOM}/alias.zsh
+    source ${ZSH_CUSTOM}/alias.zsh
 fi
 
 ## ssh
@@ -151,12 +158,13 @@ fi
 if [[ -z $(which fzf 2>/dev/null) ]]
 then
     [[ ! -d ${HOME}/gitrepo ]] && mkdir ${HOME}/gitrepo
-    [[ -d ${HOME}/gitrepo/fzf ]] && rm -rf ${HOME}/fzf
+    [[ -d ${HOME}/gitrepo/fzf ]] && break
     git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/gitrepo/fzf
     source ${HOME}/gitrepo/fzf/install
 else
     [[ -e ${HOME}/.fzf.zsh ]] && mv ${HOME}/.fzf.zsh ${ZSH_CUSTOM}/.fzf.zsh
     [[ -e ${ZSH_CUSTOM}/.fzf.zsh ]] && source ${ZSH_CUSTOM}/.fzf.zsh
+    [[ ! -e /usr/bin/fzf ]] && ln -sv ${HOME}/gitrepo/fzf/bin/fzf /usr/bin/fzf 2>/dev/null
 fi
 
 
