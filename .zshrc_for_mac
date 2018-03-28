@@ -44,14 +44,14 @@ plugins=(colored-man-pages pip extract ssh-agent z zsh-completions zsh-autosugge
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
-export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:${PATH}"
+export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:$PATH"
 
 ## configure pyvenv, Homebrew, PATH(GNU CLI tools), catalog ,git on MacOS
 if [[ $(uname -s) == "Darwin" ]]; then
     # pyenv &&pyenv-virtualenv configuration:
     export PYENV_ROOT="/usr/local/opt/pyenv"
     export VIRTUALENV_ROOT="/usr/local/opt/pyenv-virtualenv"
-    export PATH="${PYENV_ROOT}/bin:${VIRTUALENV_ROOT}/bin:${PATH}"
+    export PATH="${PYENV_ROOT}/bin:${VIRTUALENV_ROOT}/bin:$PATH"
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
 
@@ -60,8 +60,8 @@ if [[ $(uname -s) == "Darwin" ]]; then
     export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 
     # GNU cmd tools PATH for Mac:
-    export PATH="/usr/local/sbin:/usr/local/opt/coreutils/bin:/usr/local/opt/texinfo/bin:${PATH}"
-    export PATH="/opt/local/bin:/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:${PATH}"
+    export PATH="/usr/local/sbin:/usr/local/opt/coreutils/bin:/usr/local/opt/texinfo/bin:$PATH"
+    export PATH="/opt/local/bin:/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:$PATH"
 
     # For compilers to find this software you may need to set:
     # LDFLAGS:  -L/usr/local/opt/openssl/lib
@@ -69,102 +69,106 @@ if [[ $(uname -s) == "Darwin" ]]; then
     # For pkg-config to find this software you may need to set:
     # PKG_CONFIG_PATH: /usr/local/opt/openssl/lib/pkgconfig
 
-    export MANPATH="/usr/local/man:/usr/local/opt/coreutils/share/man:${MANPATH}"
+    export MANPATH="/usr/local/man:/usr/local/opt/coreutils/share/man:$MANPATH"
 
     # catalog varpath conf:
     export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
 
     # git proxy conf:
-    if [[ -n $(ps -ef |grep -i "shadowsocks" |grep -v grep) ]]
-    then
-        [[ -z $(egrep "(proxy.*socks)" ${HOME}/.gitconfig 2>/dev/null) ]] && {
-        git config --global http.useragent https://github.com.proxy http://127.0.0.1:8090
-        git config --global http.proxy socks5://127.0.0.1:1086
-        git config --global https.proxy socks5://127.0.0.1:1086
-        }
-    fi
+    # if [[ -n $(ps -ef |grep -i "shadowsocks" |grep -v grep) ]]
+    # then
+        # [[ -z $(egrep "(proxy.*socks)" ${HOME}/.gitconfig 2>/dev/null) ]] && {
+        # git config --global http.useragent https://github.com.proxy http://127.0.0.1:8090
+        # git config --global http.proxy socks5://127.0.0.1:1086
+        # git config --global https.proxy socks5://127.0.0.1:1086
+        # }
+    # fi
 fi
 
 # thefuck
-if [[ -z $(which thefuck 2>/dev/null) ]]
-then
-    [[ -z $(which gcc 2>/dev/null) ]] && break
-    pip3 install --upgrade pip
-    pip3 install thefuck
-else
-    eval $(thefuck --alias fff)
-fi
+eval $(thefuck --alias fff)
+# if [[ -z $(which thefuck 2>/dev/null) ]]
+# then
+    # [[ -z $(which gcc 2>/dev/null) ]] && break
+    # pip3 install --upgrade pip
+    # pip3 install thefuck
+# else
+    # eval $(thefuck --alias fff)
+# fi
 
 # alias.zsh conf:
-if [[ -e ${HOME}/gitrepo/Myzshrc/alias.zsh ]]
-then
-    [[ ! -e ${ZSH_CUSTOM}/alias.zsh ]] && ln -sv ${HOME}/gitrepo/Myzshrc/alias.zsh  ${ZSH_CUSTOM}/alias.zsh
-    source ${ZSH_CUSTOM}/alias.zsh
-fi
+# if [[ -e ${HOME}/gitrepo/Myzshrc/alias.zsh ]]
+# then
+    # [[ ! -e ${ZSH_CUSTOM}/alias.zsh ]] && ln -sv ${HOME}/gitrepo/Myzshrc/alias.zsh  ${ZSH_CUSTOM}/alias.zsh
+# fi
 
 ## ssh
- if [[ -d ~/.ssh ]] || [[ -d ~/.z ]]; then
-    export SSH_KEY_PATH="~/.ssh/dsa_id"
-else
-    mkdir ~/{.ssh,.z}
-    export SSH_KEY_PATH="~/.ssh/dsa_id"
-fi
+ # if [[ -d ~/.ssh ]] || [[ -d ~/.z ]]; then
+    # export SSH_KEY_PATH="~/.ssh/dsa_id"
+# else
+    # mkdir ~/{.ssh,.z}
+    # export SSH_KEY_PATH="~/.ssh/dsa_id"
+# fi
 
 ## VIM relevance var conf:
 # default editor Vim or neovim(nvim):
-if [ -n $(which vim >/dev/null) ]; then
-    export EDITOR="$(which vim)"
-else
-    export EDITOR="$(which nvim)"
-fi
+export EDITOR="$(which vim)"
+# if [ -n $(which vim >/dev/null) ]; then
+    # export EDITOR="$(which vim)"
+# else
+    # export EDITOR="$(which nvim)"
+# fi
 
 # several vim var conf:
-if [[ $(uname -s) == "Linux" ]]; then
-    export VIM="/usr/local/share/vim"
-    export VIMFILES="${VIM}/vimfiles"
-    export VIMRUNTIME="/usr/local/share/vim/vim80"
-else
-    export VIM="/usr/local/opt/vim/share/vim"
-    export VIMFILES="${VIM}/vimfiles"
-    export VIMRUNTIME="${VIM}/vim80"
-    # export VIM="/usr/local/opt/neovim/share/nvim"                 # for neovim on MacOS_Darwin
-    # export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime"
-fi
+export VIM="/usr/local/opt/vim/share/vim"
+export VIMFILES="${VIM}/vimfiles"
+export VIMRUNTIME="${VIM}/vim80"
+# if [[ $(uname -s) == "Linux" ]]; then
+    # export VIM="/usr/local/share/vim"
+    # export VIMFILES="${VIM}/vimfiles"
+    # export VIMRUNTIME="/usr/local/share/vim/vim80"
+# else
+    # export VIM="/usr/local/opt/vim/share/vim"
+    # export VIMFILES="${VIM}/vimfiles"
+    # export VIMRUNTIME="${VIM}/vim80"
+    # # export VIM="/usr/local/opt/neovim/share/nvim"                 # for neovim on MacOS_Darwin
+    # # export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime"
+# fi
 
 # Tomcat Path
 # export JAVA_HOME=/usr/lib/jvm/jdk
 # export TOMCAT_HOME=/opt/tomcat8
-# export CATALINA_HOME=${TOMCAT_HOME}
+# export CATALINA_HOME=$TOMCAT_HOME
 # export CLASSPATH=.:${JAVA_HOME}/lib:${CATALINA_HOME}/lib
-# export PATH=${JAVA_HOME}/bin:${PATH}
+# export PATH=${JAVA_HOME}/bin:$PATH
 
 ## other zsh plugins
-if [[ ! -e ${ZSH_CUSTOM}/themes/bullet-train.zsh-theme ]]
-then
-    [[ ! -d ${ZSH_CUSTOM}/themes ]] && mkdir ${ZSH_CUSTOM}/themes
-    git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
-fi
+# if [[ ! -e ${ZSH_CUSTOM}/themes/bullet-train.zsh-theme ]]
+# then
+    # [[ ! -d ${ZSH_CUSTOM}/themes ]] && mkdir ${ZSH_CUSTOM}/themes
+    # git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
+# fi
 
 # powerful plugins like fish
-if [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-autosuggestions ]] || [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting ]]
-then
-    git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
-fi
+# if [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-autosuggestions ]] || [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting ]]
+# then
+    # git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
+    # git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
+# fi
 
 # fzf.zsh
-if [[ -z $(which fzf 2>/dev/null) ]]
-then
-    [[ ! -d ${HOME}/gitrepo ]] && mkdir ${HOME}/gitrepo
-    [[ -d ${HOME}/gitrepo/fzf ]] && break
-    git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/gitrepo/fzf
-    source ${HOME}/gitrepo/fzf/install
-else
-    [[ -e ${HOME}/.fzf.zsh ]] && mv ${HOME}/.fzf.zsh ${ZSH_CUSTOM}/.fzf.zsh
-    [[ -e ${ZSH_CUSTOM}/.fzf.zsh ]] && source ${ZSH_CUSTOM}/.fzf.zsh
-    [[ ! -e /usr/bin/fzf ]] && ln -sv ${HOME}/gitrepo/fzf/bin/fzf /usr/bin/fzf 2>/dev/null
-fi
-
+[[ -e ${ZSH_CUSTOM}/.fzf.zsh ]] && source ${ZSH_CUSTOM}/.fzf.zsh
+# if [[ -z $(which fzf 2>/dev/null) ]]
+# then
+    # [[ ! -d ${HOME}/gitrepo ]] && mkdir ${HOME}/gitrepo
+    # [[ -d ${HOME}/gitrepo/fzf ]] && break
+    # git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/gitrepo/fzf
+    # source ${HOME}/gitrepo/fzf/install
+# else
+    # [[ -e ${HOME}/.fzf.zsh ]] && mv ${HOME}/.fzf.zsh ${ZSH_CUSTOM}/.fzf.zsh
+    # [[ -e ${ZSH_CUSTOM}/.fzf.zsh ]] && source ${ZSH_CUSTOM}/.fzf.zsh
+    # [[ ! -e /usr/bin/fzf ]] && ln -sv ${HOME}/gitrepo/fzf/bin/fzf /usr/bin/fzf 2>/dev/null
+# fi
 
 function mvb { mv $1 $1.bak }
 function cpb { cp $1 $1.bak }

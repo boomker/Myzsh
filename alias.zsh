@@ -1,13 +1,13 @@
 # alias config:
 if [[ $(uname -s) == "Darwin" ]]; then
     # alias for MacOS_Darwin
-    alias aliconf='vim ${HOME}/gitrepo/Myzshrc/alias.zsh'
+    alias aliconf="vim ${HOME}/gitrepo/Myzshrc/alias.zsh"
     # alias zshreload='source ~/.zshrc'
     # alias piua="for i in $(pip3 list --outdate |gawk 'NR>2{print $1}');do pip3 install --upgrade $i;done"
     # alias piua="for i in $(pip3 list --outdate |gawk 'NR>2{print $1}');do pip3 install --upgrade $i;done"
     alias zshconfig="vim ${HOME}/gitrepo/Myzshrc/.zshrc"
-    alias vimconfig='vim ${HOME}/gitrepo/Myvimrc/.vimrc'
-    alias tmuxconfig='vim ${HOME}/gitrepo/Mytmuxconf/.tmux.conf'
+    alias vimconfig="vim ${HOME}/gitrepo/Myvimrc/.vimrc"
+    alias tmuxconfig="vim ${HOME}/gitrepo/Mytmuxconf/.tmux.conf"
     alias brin='brew install '
     alias brci='brew cask install '
     alias cp='gcp -f -u'
@@ -46,7 +46,7 @@ if [[ $(uname -s) == "Darwin" ]]; then
     alias -s py='python3'
     alias -s md='less'
 else
-    alias shasconf='vim $ZSH_CUSTOM/alias.zsh'
+    alias shasconf='vim ${ZSH_CUSTOM}/alias.zsh'
     alias ss='ss -tnlp |column -t'
     alias kill='kill -9 '
     alias ls='ls -p --width=80 --color=auto'
