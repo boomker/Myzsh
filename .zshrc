@@ -99,7 +99,7 @@ fi
 if [[ -e ${HOME}/gitrepo/Myzshrc/alias.zsh ]]
 then
     [[ ! -e ${ZSH_CUSTOM}/alias.zsh ]] && ln -sv ${HOME}/gitrepo/Myzshrc/alias.zsh  ${ZSH_CUSTOM}/alias.zsh
-    source ${ZSH_CUSTOM}/alias.zsh
+    # source ${ZSH_CUSTOM}/alias.zsh
 fi
 
 ## ssh
@@ -155,8 +155,8 @@ fi
 # fzf.zsh
 if [[ -z $(which fzf 2>/dev/null) ]]
 then
-    [[ ! -d ${HOME}/gitrepo ]] && mkdir ${HOME}/gitrepo
-    [[ -d ${HOME}/gitrepo/fzf ]] && break
+    # [[ ! -d ${HOME}/gitrepo ]] && mkdir ${HOME}/gitrepo
+    # [[ -d ${HOME}/gitrepo/fzf ]] && break
     git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/gitrepo/fzf
     source ${HOME}/gitrepo/fzf/install
 else
