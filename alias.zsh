@@ -7,6 +7,8 @@ if [[ $(uname -s) == "Darwin" ]]; then
     # alias piua="for i in $(pip3 list --outdate |gawk 'NR>2{print $1}');do pip3 install --upgrade $i;done"
     alias zshconfig="vim ${HOME}/gitrepo/Myzshrc/.zshrc"
     alias vimconfig="vim ${HOME}/gitrepo/Myvimrc/.vimrc"
+    alias mzshconfig="vim ${HOME}/gitrepo/Myzshrc/.zshrc_mac"
+    alias mvimconfig="vim ${HOME}/gitrepo/Myvimrc/.vimrc_mac"
     alias tmuxconfig="vim ${HOME}/gitrepo/Mytmuxconf/.tmux.conf"
     alias brin='brew install '
     alias brci='brew cask install '

@@ -157,7 +157,6 @@ export VIMRUNTIME="${VIM}/vim80"
 # fi
 
 # fzf.zsh
-[[ -e ${ZSH_CUSTOM}/.fzf.zsh ]] && source ${ZSH_CUSTOM}/.fzf.zsh
 # if [[ -z $(which fzf 2>/dev/null) ]]
 # then
     # [[ ! -d ${HOME}/gitrepo ]] && mkdir ${HOME}/gitrepo
@@ -253,3 +252,4 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
     zstyle ':completion:*:corrections' format $'\e[01;32m -- %d (errors: %e) --\e[0m'
 
 source ${ZSH}/oh-my-zsh.sh
+source ~/.oh-my-zsh/custom/.fzf.zsh

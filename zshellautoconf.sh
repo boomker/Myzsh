@@ -18,11 +18,11 @@ case $ID in
         apt -y install git tree tar unzip wget zsh silversearcher-ag gcc cmake
         ;;
     centos)
-        yum -y update
-        yum -y install git tree tar unzip wget zsh gcc camke epel-release.noarch the_silver_searcher
+        yum -y install yum-utils &&yum -y install https://centos7.iuscommunity.org/ius-release.rpm
+        yum -y install centos-release-scl epel-release.noarch && yum -y update
+        yum -y install git tree tar unzip wget zsh gcc camke the_silver_searcher
 
         # Python3
-        yum -y install yum-utils &&yum -y install https://centos7.iuscommunity.org/ius-release.rpm
         LatestPy="$(yum search python3|awk -F'[.,-]+' '/^python3[6u,7,7u]/{print $1}' |sort -u |tail -1)"
         LPyV="$(echo "${LatestPy}" |sed 's/[a-zA-Z]//g'|awk 'BEGIN{FS="";OFS="."}{NF++;print $1,$2}')"
         yum -y install ${LatestPy} ||yum -y install python36u
@@ -36,11 +36,10 @@ case $ID in
         # Vim8.0
         yum -y remove vim-filesystem vim-minimal vim-common vim-enhanced
         yum install -y ruby ruby-devel lua lua-devel luajit \
-        luajit-devel ctags git python python-devel \
-        python3 python3-devel tcl-devel \
+        luajit-devel ctags python27 python27-scldevel tcl-devel \
         perl perl-devel perl-ExtUtils-ParseXS \
         perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
-        perl-ExtUtils-Embed centos-release-scl devtoolset-3-toolchain gcc-c++ ncurses-devel \
+        perl-ExtUtils-Embed devtoolset-3-toolchain gcc-c++ ncurses-devel \
         scl enable devtoolset-3 bash
         cd ~/gitrepo
         git clone https://github.com/vim/vim.git
