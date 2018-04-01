@@ -38,7 +38,7 @@ DISABLE_AUTO_UPDATE="true"
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 HIST_STAMPS="mm/dd"
 
-plugins=(colored-man-pages pip extract ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(colored-man-pages docker docker-compose extract pip ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
 
 ## --------------User configuration--------------
 # You may need to manually set your language environment
@@ -46,7 +46,7 @@ export LANG=en_US.UTF-8
 
 export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:${PATH}"
 
-## configure pyvenv, Homebrew, PATH(GNU CLI tools), catalog ,git on MacOS
+## configure pyvenv, Homebrew, PATH(GNU CLI tools), catalog ,git on MacOS or *unix platform:
 if [[ $(uname -s) == "Darwin" ]]; then
     # pyenv &&pyenv-virtualenv configuration:
     export PYENV_ROOT="/usr/local/opt/pyenv"
@@ -63,13 +63,13 @@ if [[ $(uname -s) == "Darwin" ]]; then
     export PATH="/usr/local/sbin:/usr/local/opt/coreutils/bin:/usr/local/opt/texinfo/bin:${PATH}"
     export PATH="/opt/local/bin:/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:${PATH}"
 
+    export MANPATH="/usr/local/man:/usr/local/opt/coreutils/share/man:${MANPATH}"
+
     # For compilers to find this software you may need to set:
     # LDFLAGS:  -L/usr/local/opt/openssl/lib
     # CPPFLAGS: -I/usr/local/opt/openssl/include
     # For pkg-config to find this software you may need to set:
     # PKG_CONFIG_PATH: /usr/local/opt/openssl/lib/pkgconfig
-
-    export MANPATH="/usr/local/man:/usr/local/opt/coreutils/share/man:${MANPATH}"
 
     # catalog varpath conf:
     export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
@@ -83,9 +83,15 @@ if [[ $(uname -s) == "Darwin" ]]; then
         git config --global https.proxy socks5://127.0.0.1:1086
         }
     fi
+else
+    ## for *unix platform:
+    # pyenv conf:
+    export PATH="~/.pyenv/bin:$PATH"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
 fi
 
-# thefuck
+# thefuck conf:
 if [[ -z $(which thefuck 2>/dev/null) ]]
 then
     [[ -z $(which gcc 2>/dev/null) ]] && break
@@ -103,7 +109,7 @@ then
 fi
 
 ## ssh
- if [[ -d ~/.ssh ]] || [[ -d ~/.z ]]; then
+ if [ -d ~/.ssh -o -d ~/.z ]; then
     export SSH_KEY_PATH="~/.ssh/dsa_id"
 else
     mkdir ~/{.ssh,.z}
@@ -156,22 +162,14 @@ fi
 if [[ -z $(which fzf 2>/dev/null) ]]
 then
     # [[ ! -d ${HOME}/gitrepo ]] && mkdir ${HOME}/gitrepo
-    # [[ -d ${HOME}/gitrepo/fzf ]] && break
+    [[ -d ${HOME}/gitrepo/fzf ]] && ln -sv ~/gitrepo/fzf/bin/fzf /usr/bin/fzf || \
     git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/gitrepo/fzf
-    source ${HOME}/gitrepo/fzf/install
 else
     [[ -e ${HOME}/.fzf.zsh ]] && mv ${HOME}/.fzf.zsh ${ZSH_CUSTOM}/.fzf.zsh
-    [[ -e ${ZSH_CUSTOM}/.fzf.zsh ]] && source ${ZSH_CUSTOM}/.fzf.zsh
-    [[ ! -e /usr/bin/fzf ]] && ln -sv ${HOME}/gitrepo/fzf/bin/fzf /usr/bin/fzf 2>/dev/null
+    export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
+    # [[ ! -e /usr/bin/fzf ]] && ln -sv ${HOME}/gitrepo/fzf/bin/fzf /usr/bin/fzf 2>/dev/null
 fi
 
-
-function mvb { mv $1 $1.bak }
-function cpb { cp $1 $1.bak }
-function cph { cp $1 ${HOME} }
-function tca { tar -czvf $1.tar.gz $1 }
-function uzh { unzip -d ${HOME} $1 }
-function psa { ps -ef |ag "$1" |ag -vw "ag" }
 
 # ##############################################
 ## 关于历史纪录的配置
@@ -249,3 +247,4 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
     zstyle ':completion:*:corrections' format $'\e[01;32m -- %d (errors: %e) --\e[0m'
 
 source ${ZSH}/oh-my-zsh.sh
+[[ -e ${ZSH_CUSTOM}/.fzf.zsh ]] && source ${ZSH_CUSTOM}/.fzf.zsh

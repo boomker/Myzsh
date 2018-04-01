@@ -1,36 +1,48 @@
-# alias config:
-if [[ $(uname -s) == "Darwin" ]]; then
-    # alias for MacOS_Darwin
-    alias aliconf="vim ${HOME}/gitrepo/Myzshrc/alias.zsh"
-    # alias zshreload='source ~/.zshrc'
-    # alias piua="for i in $(pip3 list --outdate |gawk 'NR>2{print $1}');do pip3 install --upgrade $i;done"
-    # alias piua="for i in $(pip3 list --outdate |gawk 'NR>2{print $1}');do pip3 install --upgrade $i;done"
-    alias zshconfig="vim ${HOME}/gitrepo/Myzshrc/.zshrc"
-    alias vimconfig="vim ${HOME}/gitrepo/Myvimrc/.vimrc"
-    alias mzshconfig="vim ${HOME}/gitrepo/Myzshrc/.zshrc_mac"
-    alias mvimconfig="vim ${HOME}/gitrepo/Myvimrc/.vimrc_mac"
-    alias tmuxconfig="vim ${HOME}/gitrepo/Mytmuxconf/.tmux.conf"
-    alias brin='brew install '
-    alias brci='brew cask install '
-    alias cp='gcp -f -u'
-    alias mv='gmv -f -u'
-    alias rmaf="rm -rf"
-    alias ls='gls -p --width=80 --color=auto'
+## alias config:
+#
+# common func
+function mvb { mv $1 $1.bak  }
+function cpb { cp $1 $1.bak  }
+function nlo { nl $1 |lolcat  }
+function tca { tar -czvf $1.tar.gz $1  }
+function psa { ps -ef |ag "$1" |ag -vw "ag"  }
+
+
+# common alias:
+    # alias piua="for i in $(pip3 list --outdate |awk 'NR>2{print $1}');do pip3 install --upgrade $i;done" # make lanch zsh too slow
+    # jpnb='cd;jupyter notebook >$HOME/.jupyter/jupyter_notebook_running.log 2>&1 & # the reason is same prevalias
+    alias -g L=' |less'
+    alias -g N=' |nl'
+    alias -g J=' |jq'
+    alias -g G=' |egrep -i'
+    alias -g X=' |xargs'
+    alias -g U=' |uniq'
+    alias -g S=' |sort'
+    alias -g T=' |tee'
+    alias -g W=' |wc -l'
+    alias -g CT=' |column -t'
+    alias ips="ptipython"
+    alias idf="icdiff -r -N"
+    # 可以递归对比两目录的差异，包括文件内容的差异
+    alias auq="awk '!U[\$0]++' "
+    # awk 去重+合并文件内容(相当于两文件的并集，两文件去重后再合并)，而且能保证文件内容顺序
+    alias lc='lolcat'
+    alias ls='ls -p --width=80 --color=auto'
     alias ll='ls -rtlh'
-    alias nl="gnl"
-    alias find="gfind"
-    alias xargs="gxargs"
-    alias locate="glocate"
-    alias updatedb="gupdatedb"
-    alias grep='ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
-    alias sed='gsed'
-    alias awk='gawk'
-    alias wcl="wc -l"
+    alias wl="wc -l"
+    alias sei='sed -i '
+    alias sen='sed -n '
+    # alias rmaf="rm -rf"
+    alias cp="cp -f -u"
+    alias mv='mv -f -u'
+    alias gcl="git clone "
+    alias gcm="git commit -m "
+    alias gpo="git push origin"
+    alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
+    alias egrep='egrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
+    alias dfh='df -Th'
     alias duhl='du -ah --max-depth=1 '
     alias trel='tree -L 1 '
-    alias gcl="git clone "
-    alias ips="ptipython"
-    alias dfh='df -Th'
     alias piu="pip3 uninstall "
     alias pii="pip3 install "
     alias pus="pip3 install --upgrade pip"
@@ -38,46 +50,40 @@ if [[ $(uname -s) == "Darwin" ]]; then
     alias ffw='proxychains4 '
     alias ffww='proxychains4 wget '
     alias ffwa='proxychains4 aria2c -x6 -c '
-    alias -s gz='tar xf'
-    alias -s xz='tar xf'
-    alias -s bz2='tar xf'
-    alias -s tgz='tar xf'
-    alias -s zip='unzip'
-    alias -s 7z='p7zip -d'
-    alias -s rpm='rpm -ivh'
-    alias -s py='python3'
-    alias -s md='less'
+    alias aliconf="vim ${HOME}/gitrepo/Myzshrc/alias.zsh"
+    # alias zshreload='source ~/.zshrc' # with tmux is conflict
+    alias zshconfig="vim ${HOME}/gitrepo/Myzshrc/.zshrc"
+    alias vimconfig="vim ${HOME}/gitrepo/Myvimrc/.vimrc"
+    alias tmuxconfig="vim ${HOME}/gitrepo/Mytmuxconf/.tmux.conf"
+
+
+# for different OS of alias conf:
+#     # alias for MacOS_Darwin
+if [[ $(uname -s) == "Darwin" ]]; then
+    alias tq="tianqi"
+    alias mzshconfig="vim ${HOME}/gitrepo/Myzshrc/.zshrc_mac"
+    alias mvimconfig="vim ${HOME}/gitrepo/Myvimrc/.vimrc_mac"
+    alias brin='brew install '
+    alias brci='brew cask install '
+    alias cp='gcp -f -u'
+    alias mv='gmv -f -u'
+    alias ls='gls -p --width=80 --color=auto'
+    alias nl="gnl"
+    alias find="gfind"
+    alias xargs="gxargs"
+    alias locate="glocate"
+    # alias updatedb="gupdatedb"
+    alias grep='ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
+    alias sed='gsed'
+    alias sort='gsort'
+    alias uniq='guniq'
+    alias awk='gawk'
 else
-    alias shasconf='vim ${ZSH_CUSTOM}/alias.zsh'
+    # alias for *unix
+    alias open=xdg-open
+    alias pbcopy='xsel --clipboard --input'
+    alias pbpaste='xsel --clipboard --output'
     alias ss='ss -tnlp |column -t'
-    alias kill='kill -9 '
-    alias ls='ls -p --width=80 --color=auto'
-    alias ll='ls -rtlh'
-    alias wcl="wc -l"
-    alias sedi='sed -i '
     alias mmi="make -j2&&make install"
-    alias duhl='du -ah --max-depth=1 '
-    alias trel='tree -L 1 '
-    alias zshreload='source ~/.zshrc'
-    alias zshconfig="vim ~/.zshrc"
-    alias vimconfig='vim ~/.vimrc'
-    alias tmuxconfig='vim ~/.tmux.conf'
     alias dstat="dstat -cdlmnpsy"
-    alias gcl="git clone "
-    alias dfh='df -Th'
-    alias piu="pip3 uninstall "
-    alias pii="pip3 install "
-    alias adl='aria2c -x6 -c '
-    alias ffw='proxychains4 '
-    alias ffww='proxychains4 wget '
-    alias ffwa='proxychains4 aria2c -x6 -c '
-    alias -s gz='tar xf'
-    alias -s xz='tar xf'
-    alias -s bz2='tar xf'
-    alias -s tgz='tar xf'
-    alias -s zip='unzip'
-    alias -s 7z='p7zip -d'
-    alias -s rpm='rpm -ivh'
-    alias -s py='python3'
-    alias -s md='less'
 fi

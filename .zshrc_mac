@@ -169,13 +169,6 @@ export VIMRUNTIME="${VIM}/vim80"
     # [[ ! -e /usr/bin/fzf ]] && ln -sv ${HOME}/gitrepo/fzf/bin/fzf /usr/bin/fzf 2>/dev/null
 # fi
 
-function mvb { mv $1 $1.bak }
-function cpb { cp $1 $1.bak }
-function cph { cp $1 ${HOME} }
-function tca { tar -czvf $1.tar.gz $1 }
-function uzh { unzip -d ${HOME} $1 }
-function psa { ps -ef |ag "$1" |ag -vw "ag" }
-
 # ##############################################
 ## 关于历史纪录的配置
 ## 历史纪录条目数量
@@ -253,3 +246,4 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 
 source ${ZSH}/oh-my-zsh.sh
 source ~/.oh-my-zsh/custom/.fzf.zsh
+export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"

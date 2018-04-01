@@ -11,6 +11,8 @@
 
 
 # os type judge
+cd ~
+mkdir ~/gitrepo
 source /etc/os-release
 case $ID in
     ubuntu)
@@ -20,7 +22,8 @@ case $ID in
     centos)
         yum -y install yum-utils &&yum -y install https://centos7.iuscommunity.org/ius-release.rpm
         yum -y install centos-release-scl epel-release.noarch && yum -y update
-        yum -y install git tree tar unzip wget zsh gcc camke the_silver_searcher
+        yum -y install git tree tar unzip wget zsh gcc camke the_silver_searcher dstat ncdu htop \
+            socat jq multitail mtr shellcheck pv
 
         # Python3
         LatestPy="$(yum search python3|awk -F'[.,-]+' '/^python3[6u,7,7u]/{print $1}' |sort -u |tail -1)"
@@ -32,6 +35,9 @@ case $ID in
         ln -sv "/usr/bin/python${LPyV}" /usr/bin/python3 ||ln -sv /usr/bin/python3.6 /usr/bin/python3
         ln -sv "/usr/bin/python${LPyV}-config" /usr/bin/python3-config ||ln -sv /usr/bin/python3.6-config /usr/bin/python3-config
         ln -sv "/usr/lib64/python${LPyV}/config-${LPyV}m-x86_64-linux-gnu" "/usr/lib64/python${LPyV}/config"
+        pip3 install ptipython pip-tools jedi autopep8 glances flake8 PrettyPrinter psutil hsize \
+            httpstat httpie ngxtop icdiff lolcat
+        cd && curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 
         # Vim8.0
         yum -y remove vim-filesystem vim-minimal vim-common vim-enhanced
@@ -57,13 +63,13 @@ case $ID in
                     --enable-cscope \
                     --prefix=/usr/local
         make VIMRUNTIMEDIR=/usr/local/share/vim/vim80
-        sudo make install
+        make install
         update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
         update-alternatives --set editor /usr/local/bin/vim
         export VIMRUNTIME=/usr/local/share/vim/vim80
-        cd ../ && git clone https://github.com/boomker/Myvimrc.git
+        cd ~/gitrepo && git clone https://github.com/boomker/Myvimrc.git
+        cd ./Myvimrc && cp solarized8_flat.vim "${VIMRUNTIME}/colors"
         curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-        cd ./Myvimrc && cp solarized8_flat.vim "${VIMRUNTIMEDIR}/colors/"
         cp .vimrc ~/
         ;;
     *)
@@ -73,16 +79,8 @@ esac
 
 
 # git Myself zshell conf repo:
-cd "$HOME"
-mkdir gitrepo
 cd gitrepo
-# git clone --depth 1 https://github.com/junegunn/fzf.git
 git clone https://github.com/boomker/Myzshrc.git
 cd Myzshrc
 mv "${HOME}"/.zshrc{,.bak}
 source ./oh-my-zsh_install.sh
-# cp alias.zsh "${HOME}"/.oh-my-zsh/custom
-# cp bullet-train.zsh-theme "${HOME}"/.oh-my-zsh/themes
-cp -f "${HOME}"/gitrepo/Myzshrc/.zshrc "${HOME}"
-# cd ../fzf && ./install
-cd "${HOME}" && source ./.zshrc

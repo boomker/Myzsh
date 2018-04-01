@@ -68,17 +68,17 @@ main() {
 
 
   printf "${BLUE}Looking for an existing zsh config...${NORMAL}\n"
-  if [ -f ~/.zshrc ] || [ -h ~/.zshrc ]; then
-    printf "${YELLOW}Found ~/.zshrc.${NORMAL} ${GREEN}Backing up to ~/.zshrc.pre-oh-my-zsh${NORMAL}\n";
-    mv ~/.zshrc ~/.zshrc.pre-oh-my-zsh;
+  if [ ! -f ~/.zshrc ] || [ -h ~/.zshrc ]; then
+    printf "${YELLOW} Not Found ~/.zshrc.${NORMAL} ${GREEN}copy .zshrc from ~/gitrepo/Myzshrc ${NORMAL}\n";
+    mv ~/gitrepo/Myzshrc ~/.zshrc;
   fi
 
-  printf "${BLUE}Using the Oh My Zsh template file and adding it to ~/.zshrc${NORMAL}\n"
-  cp $ZSH/templates/zshrc.zsh-template ~/.zshrc
-  sed "/^export ZSH=/ c\\
-  export ZSH=$ZSH
-  " ~/.zshrc > ~/.zshrc-omztemp
-  mv -f ~/.zshrc-omztemp ~/.zshrc
+  # printf "${BLUE}Using the Oh My Zsh template file and adding it to ~/.zshrc${NORMAL}\n"
+  # cp $ZSH/templates/zshrc.zsh-template ~/.zshrc
+  # sed "/^export ZSH=/ c\\
+  # export ZSH=$ZSH
+  # " ~/.zshrc > ~/.zshrc-omztemp
+  # mv -f ~/.zshrc-omztemp ~/.zshrc
 
   # If this user's login shell is not already "zsh", attempt to switch.
   TEST_CURRENT_SHELL=$(expr "$SHELL" : '.*/\(.*\)')
@@ -114,6 +114,3 @@ main() {
 }
 
 main
-echo -n "exit\n"
-exit
-
