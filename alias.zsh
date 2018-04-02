@@ -12,7 +12,8 @@ function psa { ps -ef |ag "$1" |ag -vw "ag"  }
     # alias piua="for i in $(pip3 list --outdate |awk 'NR>2{print $1}');do pip3 install --upgrade $i;done" # make lanch zsh too slow
     # jpnb='cd;jupyter notebook >$HOME/.jupyter/jupyter_notebook_running.log 2>&1 & # the reason is same prevalias
     alias -g L=' |less'
-    alias -g N=' |nl'
+    alias -g NL=' |nl |lolcat'
+    alias -g CT=' |column -t'
     alias -g J=' |jq'
     alias -g G=' |egrep -i'
     alias -g X=' |xargs'
@@ -20,7 +21,6 @@ function psa { ps -ef |ag "$1" |ag -vw "ag"  }
     alias -g S=' |sort'
     alias -g T=' |tee'
     alias -g W=' |wc -l'
-    alias -g CT=' |column -t'
     alias ips="ptipython"
     alias idf="icdiff -r -N"
     # 可以递归对比两目录的差异，包括文件内容的差异
@@ -36,8 +36,11 @@ function psa { ps -ef |ag "$1" |ag -vw "ag"  }
     alias cp="cp -f -u"
     alias mv='mv -f -u'
     alias gcl="git clone "
+    alias gaa="git add ."
     alias gcm="git commit -m "
     alias gpo="git push origin"
+    alias gfu="git fetch upstream"
+    alias gmu="git merge upstream/master"
     alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
     alias egrep='egrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
     alias dfh='df -Th'
@@ -51,7 +54,7 @@ function psa { ps -ef |ag "$1" |ag -vw "ag"  }
     alias ffww='proxychains4 wget '
     alias ffwa='proxychains4 aria2c -x6 -c '
     alias aliconf="vim ${HOME}/gitrepo/Myzshrc/alias.zsh"
-    # alias zshreload='source ~/.zshrc' # with tmux is conflict
+    # alias zshreload='source ~/.zshrc' # conflict with tmux
     alias zshconfig="vim ${HOME}/gitrepo/Myzshrc/.zshrc"
     alias vimconfig="vim ${HOME}/gitrepo/Myvimrc/.vimrc"
     alias tmuxconfig="vim ${HOME}/gitrepo/Mytmuxconf/.tmux.conf"

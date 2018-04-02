@@ -23,7 +23,7 @@ case $ID in
         yum -y install yum-utils &&yum -y install https://centos7.iuscommunity.org/ius-release.rpm
         yum -y install centos-release-scl epel-release.noarch && yum -y update
         yum -y install git tree tar unzip wget zsh gcc camke the_silver_searcher dstat ncdu htop \
-            socat jq multitail mtr shellcheck pv
+            socat jq multitail mtr shellcheck pv lsof bind-utils
 
         # Python3
         LatestPy="$(yum search python3|awk -F'[.,-]+' '/^python3[6u,7,7u]/{print $1}' |sort -u |tail -1)"

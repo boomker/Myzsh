@@ -55,9 +55,20 @@ if [[ $(uname -s) == "Darwin" ]]; then
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
 
-    # HomeBrew more fast conf:
+    ##HomeBrew mirror proxy conf:
+    # /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    # 替换brew.git:
+    cd "$(brew --repo)"
+    git remote set-url origin https://mirrors.aliyun.com/homebrew/brew.git
+    # 替换homebrew-core.git:
+    cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core"
+    git remote set-url origin https://mirrors.aliyun.com/homebrew/homebrew-core.git
+    # 应用生效
+    brew update
+    # 替换homebrew-bottles:
+    export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.aliyun.com/homebrew/homebrew-bottles
+    # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
     #export HOMEBREW_GITHUB_API_TOKEN=""
-    export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 
     # GNU cmd tools PATH for Mac:
     export PATH="/usr/local/sbin:/usr/local/opt/coreutils/bin:/usr/local/opt/texinfo/bin:${PATH}"
@@ -74,15 +85,6 @@ if [[ $(uname -s) == "Darwin" ]]; then
     # catalog varpath conf:
     export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
 
-    # git proxy conf:
-    if [[ -n $(ps -ef |grep -i "shadowsocks" |grep -v grep) ]]
-    then
-        [[ -z $(egrep "(proxy.*socks)" ${HOME}/.gitconfig 2>/dev/null) ]] && {
-        git config --global http.useragent https://github.com.proxy http://127.0.0.1:8090
-        git config --global http.proxy socks5://127.0.0.1:1086
-        git config --global https.proxy socks5://127.0.0.1:1086
-        }
-    fi
 else
     ## for *unix platform:
     # pyenv conf:
@@ -91,15 +93,45 @@ else
     eval "$(pyenv virtualenv-init -)"
 fi
 
-# thefuck conf:
-if [[ -z $(which thefuck 2>/dev/null) ]]
+## git pip curl npm mirror repo proxy conf:
+if [ -n $(ps -ef |grep -i "shadowsocks" |grep -v grep) -a -n $(curl -q -s ip.cn |egrep "(省|市)") ]
 then
-    [[ -z $(which gcc 2>/dev/null) ]] && break
-    pip3 install --upgrade pip
-    pip3 install thefuck
-else
-    eval $(thefuck --alias fff)
+    [[ -z $(egrep -i "(proxy.*socks5)" ${HOME}/.gitconfig 2>/dev/null) ]] && {
+    git config --global http.useragent https://github.com.proxy http://127.0.0.1:8090
+    git config --global http.proxy socks5://127.0.0.1:1086
+    git config --global https.proxy socks5://127.0.0.1:1086
+    }
+
+    # curl proxy conf:
+    [[ -z $(grep -i "socks5" ~/.curlc 2>/dev/null) ]] && echo "socks5 = "127.0.0.1:1086"" >>~/.curlrc
+
+    # pypi proxy conf:
+    [ ! -d ~/.pip ] && {
+        mkdir ~/.pip
+        cat >>~/.pip/pip.conf <<EOF
+        [global]
+        trusted-host =  mirrors.aliyun.com
+        index-url = http://mirrors.aliyun.com/pypi/simple
+
+        [list]
+        format=columns
+        EOF
+    }
+
+    # npm mirror repo conf:
+    [[ -n $(which npm 2>/dev/null) ]] && npm config set registry https://registry.npm.taobao.org
+    # npm install -g cnpm --registry=https://registry.npm.taobao.org # use cnpm instead of npm
 fi
+
+# thefuck conf:
+# if [[ -z $(which thefuck 2>/dev/null) ]]
+# then
+    # [[ -z $(which gcc 2>/dev/null) ]] && break
+    # pip3 install --upgrade pip
+    # pip3 install thefuck
+# else
+    # eval $(thefuck --alias fff)
+# fi
 
 # alias.zsh conf:
 if [[ -e ${HOME}/gitrepo/Myzshrc/alias.zsh ]]
