@@ -15,7 +15,10 @@ function psa { ps -ef |ag "$1" |ag -vw "ag"  }
     alias -g NL=' |nl |lolcat'
     alias -g CT=' |column -t'
     alias -g J=' |jq'
+    alias -g A=' |ag'
     alias -g G=' |egrep -i'
+    alias -g H=' |head'
+    alias -g E=' |tail'
     alias -g X=' |xargs'
     alias -g U=' |uniq'
     alias -g S=' |sort'
@@ -27,6 +30,7 @@ function psa { ps -ef |ag "$1" |ag -vw "ag"  }
     alias auq="awk '!U[\$0]++' "
     # awk 去重+合并文件内容(相当于两文件的并集，两文件去重后再合并)，而且能保证文件内容顺序
     alias lc='lolcat'
+    alias l="exa -abghl --git --color=automatic"
     alias ls='ls -p --width=80 --color=auto'
     alias ll='ls -rtlh'
     alias wl="wc -l"
@@ -46,8 +50,9 @@ function psa { ps -ef |ag "$1" |ag -vw "ag"  }
     alias dfh='df -Th'
     alias duhl='du -ah --max-depth=1 '
     alias trel='tree -L 1 '
-    alias piu="pip3 uninstall "
-    alias pii="pip3 install "
+    alias pip3='python3 -m pip'
+    alias piu="python3 -m pip uninstall "
+    alias pii="python3 -m pip install "
     alias pus="pip3 install --upgrade pip"
     alias adl='aria2c -x6 -c '
     alias ffw='proxychains4 '
@@ -84,6 +89,7 @@ if [[ $(uname -s) == "Darwin" ]]; then
 else
     # alias for *unix
     alias open=xdg-open
+    alias free='free -mht'
     alias pbcopy='xsel --clipboard --input'
     alias pbpaste='xsel --clipboard --output'
     alias ss='ss -tnlp |column -t'
