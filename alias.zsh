@@ -70,7 +70,6 @@ function psa { ps -ef |ag "$1" |ag -vw "ag"  }
 if [[ $(uname -s) == "Darwin" ]]; then
     alias tq="tianqi"
     alias mzshconfig="vim ${HOME}/gitrepo/Myzshrc/.zshrc_mac"
-    alias mvimconfig="vim ${HOME}/gitrepo/Myvimrc/.vimrc_mac"
     alias brin='brew install '
     alias brci='brew cask install '
     alias cp='gcp -f -u'

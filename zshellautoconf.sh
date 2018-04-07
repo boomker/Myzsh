@@ -68,7 +68,7 @@ case $ID in
         update-alternatives --set editor /usr/local/bin/vim
         export VIMRUNTIME=/usr/local/share/vim/vim80
         cd ~/gitrepo && git clone https://github.com/boomker/Myvimrc.git
-        cd ./Myvimrc && cp solarized8_flat.vim "${VIMRUNTIME}/colors"
+        cd ./Myvimrc && cp onedark.vim gruvbox.vim "${VIMRUNTIME}/colors"
         curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
         cp .vimrc ~/
         ;;
