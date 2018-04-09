@@ -36,6 +36,7 @@ function psa { ps -ef |ag "$1" |ag -vw "ag"  }
     alias wl="wc -l"
     alias sei='sed -i '
     alias sen='sed -n '
+    alias tssh='TERM=xterm-256color ssh'
     # alias rmaf="rm -rf"
     alias cp="cp -f -u"
     alias mv='mv -f -u'
