@@ -40,7 +40,8 @@ HIST_STAMPS="mm/dd"
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # }}}
 
-plugins=(colored-man-pages pip extract ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(vi-mode colored-man-pages pip extract ssh-agent z zsh-completions zsh-syntax-highlighting)
+autoload -U compinit && compinit
 
 ## --------------User configuration--------------
 # You may need to manually set your language environment
@@ -90,7 +91,7 @@ if [[ $(uname -s) == "Darwin" ]]; then
 fi
 ## }}}
 
-eval $(thefuck --alias fff)
+# eval $(thefuck --alias fff)
 # thefuck install and alias config {{{ #
 # if [[ -z $(which thefuck 2>/dev/null) ]]
 # then
@@ -168,6 +169,7 @@ export VIMRUNTIME=/usr/local/share/vim/vim80
 # then
     # git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
     # git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
+    # export ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(end-of-line vi-forward-char vi-end-of-line vi-add-eol)
 # fi
 # }}}
 
@@ -193,9 +195,6 @@ export HISTSIZE=10000
 # 注销后保存的历史纪录条目数量
 export SAVEHIST=10000
 
-# 历史纪录文件
-export HISTFILE=~/.zhistory
-
 # 以附加的方式写入历史纪录
 setopt INC_APPEND_HISTORY
 
@@ -211,29 +210,8 @@ setopt AUTO_PUSHD
 #相同的历史路径只保留一个
 setopt PUSHD_IGNORE_DUPS
 
-# 每个目录使用独立的历史纪录 {{{
-cd() {
-    builtin cd "$@"                         # do actual cd
-    fc -W                                   # write current history  file
-    local HISTDIR="${HOME}/zsh_history${PWD}"   # use nested folders for history
-    if  [ ! -d "${HISTDIR}" ] ; then          # create folder if needed
-    mkdir -p "${HISTDIR}"
-    fi
-    export HISTFILE="${HISTDIR}/zhistory"     # set new history file
-    touch ${HISTFILE}
-    local ohistsize=${HISTSIZE}
-    HISTSIZE=0                              # Discard previous dir's history
-    HISTSIZE=${ohistsize}                     # Prepare for new dir's history
-    fc -R                                   # read from current histfile
-}
-# }}}
-
-export HISTFILE="${HOME}/zsh_history${PWD}/zhistory"
-# 历史命令 history top10 {{{
-    alias hist10='print -l ${(o)history%% *} |uniq -c |sort -nr |head -n 10'
-    alias histail='history |tail'
-    alias histls='history |tail -100 |ag '
-# }}}
+# 历史纪录文件
+export HISTFILE=~/.zsh_history  # ensure history file visibility
 
 # Emacs风格 键绑定
 bindkey -e
@@ -264,9 +242,9 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
     zstyle ':completion:*:corrections' format $'\e[01;32m -- %d (errors: %e) --\e[0m'
     # }}}
 
+export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
+
+# add this configuration to ~/.zshrc
+export HH_CONFIG=hicolor        # get more colors
 source ${ZSH}/oh-my-zsh.sh
 source ~/.oh-my-zsh/custom/.fzf.zsh
-export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
-export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-export ZSH_AUTOSUGGEST_USE_ASYNC=zsh_async
-export ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(end-of-line vi-forward-char vi-end-of-line vi-add-eol)

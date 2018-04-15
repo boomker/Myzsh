@@ -38,16 +38,19 @@ function psa { ps -ef |ag "$1" |ag -vw "ag"  }
     alias sen='sed -n '
     alias tssh='TERM=xterm-256color ssh'
     # alias rmaf="rm -rf"
-    alias cp="cp -f -u"
-    alias mv='mv -f -u'
+    alias cp="cp -f "
+    alias mv='mv -f '
     alias gcl="git clone "
     alias gaa="git add ."
     alias gcm="git commit -m "
-    alias gpo="git push origin"
+    alias gpo="git push origin ||git push -u origin"
+    alias gidf="git-icdiff"
+    alias gco="git checkout "
+    alias gcom="git checkout master"
     alias gfu="git fetch upstream"
     alias gmu="git merge upstream/master"
-    alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
-    alias egrep='egrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
+    alias grep='grep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
+    alias egrep='egrep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
     alias dfh='df -Th'
     alias duhl='du -ah --max-depth=1 '
     alias trel='tree -L 1 '
@@ -73,19 +76,21 @@ if [[ $(uname -s) == "Darwin" ]]; then
     alias mzshconfig="vim ${HOME}/gitrepo/Myzshrc/.zshrc_mac"
     alias brin='brew install '
     alias brci='brew cask install '
-    alias cp='gcp -f -u'
-    alias mv='gmv -f -u'
+    alias cp='gcp -f '
+    alias mv='gmv -f '
     alias ls='gls -p --width=80 --color=auto'
     alias nl="gnl"
     alias find="gfind"
     alias xargs="gxargs"
     alias locate="glocate"
     # alias updatedb="gupdatedb"
-    alias grep='ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
+    alias grep='ggrep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
     alias sed='gsed'
     alias sort='gsort'
     alias uniq='guniq'
     alias awk='gawk'
+    alias df='gdf'
+    alias mdsum='gmd5sum'
 else
     # alias for *unix
     alias open=xdg-open
