@@ -20,6 +20,7 @@ function psa { ps -ef |ag "$1" |ag -vw "ag"  }
     alias -g H=' |head'
     alias -g E=' |tail'
     alias -g X=' |xargs'
+    alias -g P=' |parallel'
     alias -g U=' |uniq'
     alias -g S=' |sort'
     alias -g T=' |tee'

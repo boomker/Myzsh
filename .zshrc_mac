@@ -38,9 +38,10 @@ HIST_STAMPS="mm/dd"
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# vi-mode
 # }}}
 
-plugins=(vi-mode colored-man-pages pip extract ssh-agent z zsh-completions zsh-syntax-highlighting)
+plugins=(colored-man-pages pip extract ssh-agent z zsh-completions zsh-syntax-highlighting)
 autoload -U compinit && compinit
 
 ## --------------User configuration--------------

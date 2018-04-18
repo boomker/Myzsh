@@ -17,7 +17,13 @@ source /etc/os-release
 case $ID in
     ubuntu)
         apt-get update
-        apt -y install git tree tar unzip wget zsh silversearcher-ag gcc cmake
+        apt -y install git tree tar unzip wget zsh silversearcher-ag gcc cmake dstat htop jq multitail shellcheck python3-pip
+        apt install software-properties-common && add-apt-repository ppa:jonathonf/vim && apt update &&  apt install vim
+        pip3 install ptipython pip-tools jedi autopep8 glances flake8 PrettyPrinter psutil hsize httpie ngxtop icdiff
+        cd ~/gitrepo && git clone https://github.com/boomker/Myvimrc.git
+        cd ./Myvimrc && cp onedark.vim gruvbox.vim "${VIMRUNTIME}/colors"
+        curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        cp .vimrc ~/
         ;;
     centos)
         yum -y install yum-utils &&yum -y install https://centos7.iuscommunity.org/ius-release.rpm
