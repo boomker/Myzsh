@@ -18,16 +18,21 @@ case $ID in
     ubuntu)
         apt-get update
         apt -y install git tree tar unzip wget zsh silversearcher-ag gcc cmake dstat htop jq multitail shellcheck python3-pip
-        apt install software-properties-common && add-apt-repository ppa:jonathonf/vim && apt update &&  apt install vim
-        pip3 install ptipython pip-tools jedi autopep8 glances flake8 PrettyPrinter psutil hsize httpie ngxtop icdiff
+        apt -y install software-properties-common && add-apt-repository ppa:jonathonf/vim && apt update &&  apt -y install vim
+        pip3 install --upgrade pip3 || pip install --upgrade pip
+        python3 -m pip3 install ptipython pip-tools jedi autopep8 glances flake8 \
+            PrettyPrinter psutil hsize httpie ngxtop icdiff future frozendict
+        export VIMRUNTIME=/usr/share/vim/vim80
         cd ~/gitrepo && git clone https://github.com/boomker/Myvimrc.git
-        cd ./Myvimrc && cp onedark.vim gruvbox.vim "${VIMRUNTIME}/colors"
+        cd ./Myvimrc && cp onedark.vim gruvbox.vim solarized8_dark_flat.vim "${VIMRUNTIME}/colors"
         curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
         cp .vimrc ~/
+        cd && curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
         ;;
     centos)
         yum -y install yum-utils &&yum -y install https://centos7.iuscommunity.org/ius-release.rpm
-        yum -y install centos-release-scl epel-release.noarch && yum -y update
+        yum -y install centos-release-scl epel-release.noarch
+        sed -i ':a;N;$!ba;s/enabled=0/enabled=1/' /etc/yum.repos.d/epel.repo && yum -y update
         yum -y install git tree tar unzip wget zsh gcc camke the_silver_searcher dstat ncdu htop \
             socat jq multitail mtr shellcheck pv lsof bind-utils
 
@@ -41,6 +46,7 @@ case $ID in
         ln -sv "/usr/bin/python${LPyV}" /usr/bin/python3 ||ln -sv /usr/bin/python3.6 /usr/bin/python3
         ln -sv "/usr/bin/python${LPyV}-config" /usr/bin/python3-config ||ln -sv /usr/bin/python3.6-config /usr/bin/python3-config
         ln -sv "/usr/lib64/python${LPyV}/config-${LPyV}m-x86_64-linux-gnu" "/usr/lib64/python${LPyV}/config"
+        pip install --upgrade pip ||pip3 install --upgrade pip3
         pip3 install ptipython pip-tools jedi autopep8 glances flake8 PrettyPrinter psutil hsize \
             httpstat httpie ngxtop icdiff lolcat
         cd && curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
@@ -68,11 +74,11 @@ case $ID in
                     --enable-gui=gtk2 \
                     --enable-cscope \
                     --prefix=/usr/local
-        make VIMRUNTIMEDIR=/usr/local/share/vim/vim80
+        make VIMRUNTIMEDIR=/usr/share/vim/vim80
         make install
         update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
         update-alternatives --set editor /usr/local/bin/vim
-        export VIMRUNTIME=/usr/local/share/vim/vim80
+        export VIMRUNTIME=/usr/share/vim/vim80
         cd ~/gitrepo && git clone https://github.com/boomker/Myvimrc.git
         cd ./Myvimrc && cp onedark.vim gruvbox.vim "${VIMRUNTIME}/colors"
         curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -85,8 +91,9 @@ esac
 
 
 # git Myself zshell conf repo:
-cd gitrepo
+cd ~/gitrepo
 git clone https://github.com/boomker/Myzshrc.git
-cd Myzshrc
+cd ~/gitrepo/Myzshrc
 mv "${HOME}"/.zshrc{,.bak}
+mv .zshrc ~/
 source ./oh-my-zsh_install.sh

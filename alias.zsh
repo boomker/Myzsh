@@ -6,7 +6,37 @@ function cpb { cp $1 $1.bak  }
 function nlo { nl $1 |lolcat  }
 function tca { tar -czvf $1.tar.gz $1  }
 function psa { ps -ef |ag "$1" |ag -vw "ag"  }
+function hles { highlight -O truecolor "$1" |less -R }
 
+vg() {
+  local file
+
+  file="$(ag --nobreak --noheading $@ | fzf -0 -1 | awk -F: '{print $1}')"
+
+  if [[ -n $file ]]
+  then
+     vim $file
+  fi
+}
+
+ftpane() {
+  local panes current_window current_pane target target_window target_pane
+  panes=$(tmux list-panes -s -F '#I:#P - #{pane_current_path} #{pane_current_command}')
+  current_pane=$(tmux display-message -p '#I:#P')
+  current_window=$(tmux display-message -p '#I')
+
+  target=$(echo "$panes" | grep -v "$current_pane" | fzf +m --reverse) || return
+
+  target_window=$(echo $target | awk 'BEGIN{FS=":|-"} {print$1}')
+  target_pane=$(echo $target | awk 'BEGIN{FS=":|-"} {print$2}' | cut -c 1)
+
+  if [[ $current_window -eq $target_window ]]; then
+    tmux select-pane -t ${target_window}.${target_pane}
+  else
+    tmux select-pane -t ${target_window}.${target_pane} &&
+    tmux select-window -t $target_window
+  fi
+}
 
 # common alias:
     # alias piua="for i in $(pip3 list --outdate |awk 'NR>2{print $1}');do pip3 install --upgrade $i;done" # make lanch zsh too slow
@@ -25,6 +55,7 @@ function psa { ps -ef |ag "$1" |ag -vw "ag"  }
     alias -g S=' |sort'
     alias -g T=' |tee'
     alias -g W=' |wc -l'
+    alias afk='ag --nobreak --nonumbers --noheading . | fzf'
     alias ips="ptipython"
     alias idf="icdiff -r -N"
     # 可以递归对比两目录的差异，包括文件内容的差异
