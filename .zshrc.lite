@@ -5,7 +5,7 @@ export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:${PATH
 export VIM="/usr/local/share/vim"
 export VIMFILES="${VIM}/vimfiles"
 export VIMRUNTIME="${VIM}/vim80"
-export PATH="/root/.pyenv/bin:$PATH"
+export PATH="${HOME}/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 export HISTSIZE=10000
@@ -18,6 +18,11 @@ setopt HIST_IGNORE_DUPS
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
 plugins=(z colored-man-pages docker docker-compose extract pip zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
-export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
-source ${ZSH_CUSTOM}/.fzf.zsh
 source ${ZSH}/oh-my-zsh.sh
+source ${ZSH_CUSTOM}/.fzf.zsh
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+export FZF_CTRL_T_OPTS="--preview '(highlight -O truecolor -n -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -100'"
+export FZF_DEFAULT_OPTS='
+    --color dark,hl:33,hl+:37,fg+:235,bg+:136,fg+:254
+    --color info:254,prompt:37,spinner:108,pointer:235,marker:235
+    --height 70% --reverse --border'

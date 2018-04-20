@@ -6,7 +6,21 @@ function cpb { cp $1 $1.bak  }
 function nlo { nl $1 |lolcat  }
 function tca { tar -czvf $1.tar.gz $1  }
 function psa { ps -ef |ag "$1" |ag -vw "ag"  }
-function hles { highlight -O truecolor "$1" |less -R }
+function hles { highlight -O truecolor "$1" |less -R -N}
+# export LESS=" -R"
+# export LESSOPEN="|highlight -O truecolor %s"
+# export LESS_TERMCAP_mb=$'\E[01;31m'
+# export LESS_TERMCAP_md=$'\E[01;31m'
+# export LESS_TERMCAP_me=$'\E[0m'
+# export LESS_TERMCAP_se=$'\E[0m'
+# export LESS_TERMCAP_so=$'\E[01;44;33m'
+# export LESS_TERMCAP_ue=$'\E[0m'
+# export LESS_TERMCAP_us=$'\E[01;32m'
+z_replacement()
+{
+    [ $# -gt 0 ] && _z "$*" && return
+    cd "$(_z -l 2>&1 | fzf-tmux +s --tac --query "$*" | sed 's/^[0-9,.]* *//')"
+}
 
 vg() {
   local file
@@ -19,7 +33,17 @@ vg() {
   fi
 }
 
-ftpane() {
+fo() {
+  local out file key
+  IFS=$'\n' out=($(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e))
+  key=$(head -1 <<< "$out")
+  file=$(head -2 <<< "$out" | tail -1)
+  if [ -n "$file" ]; then
+    [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-vim} "$file"
+  fi
+}
+
+fjpane() {
   local panes current_window current_pane target target_window target_pane
   panes=$(tmux list-panes -s -F '#I:#P - #{pane_current_path} #{pane_current_command}')
   current_pane=$(tmux display-message -p '#I:#P')
@@ -56,13 +80,13 @@ ftpane() {
     alias -g T=' |tee'
     alias -g W=' |wc -l'
     alias afk='ag --nobreak --nonumbers --noheading . | fzf'
+    alias z='z_replacement'
     alias ips="ptipython"
     alias idf="icdiff -r -N"
     # 可以递归对比两目录的差异，包括文件内容的差异
     alias auq="awk '!U[\$0]++' "
     # awk 去重+合并文件内容(相当于两文件的并集，两文件去重后再合并)，而且能保证文件内容顺序
     alias lc='lolcat'
-    alias l="exa -abghl --git --color=automatic"
     alias ls='ls -p --width=80 --color=auto'
     alias ll='ls -rtlh'
     alias wl="wc -l"
@@ -110,6 +134,7 @@ if [[ $(uname -s) == "Darwin" ]]; then
     alias brci='brew cask install '
     alias cp='gcp -f '
     alias mv='gmv -f '
+    alias l="exa -abghl --git --color=automatic"
     alias ls='gls -p --width=80 --color=auto'
     alias nl="gnl"
     alias find="gfind"

@@ -1,6 +1,7 @@
 # Path to your oh-my-zsh installation.
 export ZSH=${HOME}/.oh-my-zsh
 export ZSH_CUSTOM=${ZSH}/custom
+mkdir -p "${ZSH_CUSTOM}" 2>/dev/null
 ZSH_THEME="bullet-train"
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -28,10 +29,12 @@ DISABLE_AUTO_UPDATE="true"
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 HIST_STAMPS="mm/dd"
 plugins=(colored-man-pages docker docker-compose extract pip ssh-agent z zsh-completions zsh-syntax-highlighting)
+
 ## --------------User configuration--------------
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:${PATH}"
+
 ## configure pyvenv, Homebrew, PATH(GNU CLI tools), catalog ,git on MacOS or *unix platform:
 if [[ $(uname -s) == "Darwin" ]]; then
     # pyenv &&pyenv-virtualenv configuration:
@@ -70,36 +73,35 @@ else
     # pyenv conf:
     if [ -n $(which pyenv) ]
     then
-        export PATH="~/.pyenv/bin:$PATH"
+        export PATH="{HOME}/.pyenv/bin:$PATH"
         eval "$(pyenv init -)"
         eval "$(pyenv virtualenv-init -)"
     fi
 fi
-## git pip curl npm mirror repo proxy conf:
-if [ -n $(ps -ef |grep -i "shadowsocks" |grep -v grep) -a -n $(curl -q -s ip.cn |egrep "(省|市)") ]
-then
+
+## git curl pip npm mirror repo proxy conf:
+[[ -n $(ps -ef |grep -i "shadowsocks") ]] && [[ -n $(curl -q -s ip.cn |grep -E "(省|市)") ]] && {
     [[ -z $(egrep -i "(proxy.*socks5)" ${HOME}/.gitconfig 2>/dev/null) ]] && {
     git config --global http.useragent https://github.com.proxy http://127.0.0.1:8090
     git config --global http.proxy socks5://127.0.0.1:1086
     git config --global https.proxy socks5://127.0.0.1:1086
     }
+
     # curl proxy conf:
     [[ -z $(grep -i "socks5" ~/.curlc 2>/dev/null) ]] && echo "socks5 = "127.0.0.1:1086"" >>~/.curlrc
-    # pypi proxy conf:
-    [ ! -d ~/.pip ] && {
-        mkdir ~/.pip
-        cat >>~/.pip/pip.conf <<EOF
-        [global]
-        trusted-host =  mirrors.aliyun.com
-        index-url = http://mirrors.aliyun.com/pypi/simple
-        [list]
-        format=columns
-        EOF
-    }
+}
+
+[[ -n $(curl -q -s ip.cn |grep -E "(市|省)") ]] && {
+
     # npm mirror repo conf:
     # npm install -g cnpm --registry=https://registry.npm.taobao.org # use cnpm instead of npm
     [[ -n $(which npm 2>/dev/null) ]] && npm config set registry https://registry.npm.taobao.org
-fi
+
+    # pypi mirror repo conf:
+    [ ! -d ~/.pip ] && mkdir ~/.pip
+    cp "${HOME}/gitrepo/Myzshrc/pip.conf" "${HOME}/"
+}
+
 # thefuck conf:
 # if [[ -z $(which thefuck 2>/dev/null) ]]
 # then
@@ -109,19 +111,22 @@ fi
 # else
     # eval $(thefuck --alias fff)
 # fi
+
 # alias.zsh conf:
 if [[ -e ${HOME}/gitrepo/Myzshrc/alias.zsh ]]
 then
     [[ ! -e ${ZSH_CUSTOM}/alias.zsh ]] && ln -sv ${HOME}/gitrepo/Myzshrc/alias.zsh  ${ZSH_CUSTOM}/alias.zsh
     # source ${ZSH_CUSTOM}/alias.zsh
 fi
+
 ## ssh
- if [ -d ~/.ssh -o -d ~/.z ]; then
-    export SSH_KEY_PATH="~/.ssh/dsa_id"
+ if [ -d ~/.ssh ]; then
+    export SSH_KEY_PATH="~/.ssh/id_rsa"
 else
     mkdir ~/{.ssh,.z}
-    export SSH_KEY_PATH="~/.ssh/dsa_id"
+    export SSH_KEY_PATH="~/.ssh/id_rsa"
 fi
+
 ## VIM relevance var conf:
 # default editor Vim or neovim(nvim):
 if [ -n $(which vim >/dev/null) ]; then
@@ -129,6 +134,7 @@ if [ -n $(which vim >/dev/null) ]; then
 else
     export EDITOR="$(which nvim)"
 fi
+
 # several vim var conf:
 if [[ $(uname -s) == "Linux" ]]; then
     export VIM="/usr/share/vim"
@@ -141,24 +147,29 @@ else
     # export VIM="/usr/local/opt/neovim/share/nvim"                 # for neovim on MacOS_Darwin
     # export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime"
 fi
+
 # Tomcat Path
 # export JAVA_HOME=/usr/lib/jvm/jdk
 # export TOMCAT_HOME=/opt/tomcat8
 # export CATALINA_HOME=${TOMCAT_HOME}
 # export CLASSPATH=.:${JAVA_HOME}/lib:${CATALINA_HOME}/lib
 # export PATH=${JAVA_HOME}/bin:${PATH}
+
 ## other zsh plugins
+export ZSH_CUSTOM=${ZSH}/custom
 if [[ ! -e ${ZSH_CUSTOM}/themes/bullet-train.zsh-theme ]]
 then
-    [[ ! -d ${ZSH_CUSTOM}/themes ]] && mkdir ${ZSH_CUSTOM}/themes
+    [[ ! -d ${ZSH_CUSTOM}/themes ]] && mkdir -p ${ZSH_CUSTOM}/themes
     git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
 fi
+
 # powerful plugins like fish
 if [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-autosuggestions ]] || [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting ]]
 then
     git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
 fi
+
 # fzf.zsh
 if [[ -z $(which fzf 2>/dev/null) ]]
 then
@@ -170,6 +181,7 @@ else
     export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
     # [[ ! -e /usr/bin/fzf ]] && ln -sv ${HOME}/gitrepo/fzf/bin/fzf /usr/bin/fzf 2>/dev/null
 fi
+
 # ##############################################
 ## 关于历史纪录的配置
 ## 历史纪录条目数量
@@ -203,12 +215,14 @@ HISTSIZE=0                              # Discard previous dir's history
 HISTSIZE=${ohistsize}                     # Prepare for new dir's history
 fc -R                                   # read from current histfile
 }
+
 mkdir -p ${HOME}/zsh_history${PWD}
 export HISTFILE="${HOME}/zsh_history${PWD}/zshistory"
 ## 历史命令 history top10
 alias hist10='print -l ${(o)history%% *} |uniq -c |sort -nr |head -n 10'
 alias histail='history |tail'
 alias histls='history |tail -100 |ag '
+
 ## Emacs风格 键绑定
 bindkey -e
 #以下字符视为单词的一部分
@@ -230,9 +244,13 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
     zstyle ':completion:*:messages' format $'\e[01;35m -- %d --\e[0m'
     zstyle ':completion:*:warnings' format $'\e[01;31m -- No Matches Found --\e[0m'
     zstyle ':completion:*:corrections' format $'\e[01;32m -- %d (errors: %e) --\e[0m'
+
 source ${ZSH}/oh-my-zsh.sh
 [[ -e ${ZSH_CUSTOM}/.fzf.zsh ]] && source ${ZSH_CUSTOM}/.fzf.zsh
-# export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+export FZF_CTRL_T_OPTS="--preview '(highlight -O truecolor -n -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -100'"
+export FZF_DEFAULT_OPTS='
+    --color dark,hl:33,hl+:37,fg+:235,bg+:136,fg+:254
+    --color info:254,prompt:37,spinner:108,pointer:235,marker:235
+    --height 70% --reverse --border'
 export HH_CONFIG=hicolor        # get more colors
-source ${ZSH}/oh-my-zsh.sh
-source ~/.oh-my-zsh/custom/.fzf.zsh

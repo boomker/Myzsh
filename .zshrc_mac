@@ -16,7 +16,7 @@ HIST_STAMPS="mm/dd"
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=9
+export UPDATE_ZSH_DAYS=9
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -48,7 +48,7 @@ autoload -U compinit && compinit
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
-export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:$PATH"
+# export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:$PATH"
 
 ## configure pyvenv, Homebrew, PATH(GNU CLI tools), catalog ,git on MacOS {{{
 if [[ $(uname -s) == "Darwin" ]]; then
@@ -64,9 +64,9 @@ if [[ $(uname -s) == "Darwin" ]]; then
     export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 
     # GNU cmd tools PATH for Mac:
-    export PATH="/usr/local/sbin:/usr/local/opt/coreutils/bin:/usr/local/opt/texinfo/bin:$PATH"
-    export PATH="/opt/local/bin:/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:$PATH"
-    export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+    # export PATH="/opt/local/bin:/usr/local/sbin:/usr/local/opt/coreutils/bin:$PATH"
+    export PATH="/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:/usr/local/opt/texinfo/bin:$PATH"
+    export PATH="/usr/local/opt/coreutils/bin:/usr/local/opt/openssl@1.1/bin:$PATH"
 
     # For compilers to find this software you may need to set: {{{
     # LDFLAGS:  -L/usr/local/opt/openssl/lib
@@ -112,11 +112,11 @@ fi
 # }}}
 
 ## ssh keygen location {{{
- # if [[ -d ~/.ssh ]] || [[ -d ~/.z ]]; then
-    # export SSH_KEY_PATH="~/.ssh/dsa_id"
+ # if [[ -d ~/.ssh ]]; then
+    export SSH_KEY_PATH="~/.ssh/id_rsa"
 # else
     # mkdir ~/{.ssh,.z}
-    # export SSH_KEY_PATH="~/.ssh/dsa_id"
+    # export SSH_KEY_PATH="~/.ssh/id_rsa"
 # fi
 # }}}
 
@@ -254,12 +254,3 @@ export FZF_DEFAULT_OPTS='
     --color info:254,prompt:37,spinner:108,pointer:235,marker:235
     --height 70% --reverse --border'
 
-fo() {
-  local out file key
-  IFS=$'\n' out=($(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e))
-  key=$(head -1 <<< "$out")
-  file=$(head -2 <<< "$out" | tail -1)
-  if [ -n "$file" ]; then
-    [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-vim} "$file"
-  fi
-}
