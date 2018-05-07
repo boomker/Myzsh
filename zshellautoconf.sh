@@ -20,7 +20,7 @@ case $ID in
         apt -y install git tree tar unzip wget zsh silversearcher-ag gcc cmake dstat htop jq multitail shellcheck python3-pip
         apt -y install software-properties-common && add-apt-repository ppa:jonathonf/vim && apt update &&  apt -y install vim
         pip3 install --upgrade pip3 || pip install --upgrade pip
-        python3 -m pip3 install ptipython pip-tools jedi autopep8 glances flake8 \
+        python3 -m pip install ptipython pip-tools jedi autopep8 glances flake8 \
             PrettyPrinter psutil hsize httpie ngxtop icdiff future frozendict
         export VIMRUNTIME=/usr/share/vim/vim80
         cd ~/gitrepo && git clone https://github.com/boomker/Myvimrc.git
@@ -32,7 +32,7 @@ case $ID in
     centos)
         yum -y install yum-utils &&yum -y install https://centos7.iuscommunity.org/ius-release.rpm
         yum -y install centos-release-scl epel-release.noarch
-        sed -i ':a;N;$!ba;s/enabled=0/enabled=1/' /etc/yum.repos.d/epel.repo && yum -y update
+        sed -i -re '/\[epel\]/,/^enabled/{s/(enabled)=[0,1]$/\1=1/g}' /etc/yum.repos.d/epel.repo && yum -y update
         yum -y install git tree tar unzip wget zsh gcc camke the_silver_searcher dstat ncdu htop \
             socat jq multitail mtr shellcheck pv lsof bind-utils
 
@@ -80,7 +80,8 @@ case $ID in
         update-alternatives --set editor /usr/local/bin/vim
         export VIMRUNTIME=/usr/share/vim/vim80
         cd ~/gitrepo && git clone https://github.com/boomker/Myvimrc.git
-        cd ./Myvimrc && cp onedark.vim gruvbox.vim "${VIMRUNTIME}/colors"
+        cd ./Myvimrc && cp solarized8_dark_flat.vim onedark.vim gruvbox.vim "${VIMRUNTIME}/colors"
+        tic xterm-256color-italic.terminfo
         curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
         cp .vimrc ~/
         ;;

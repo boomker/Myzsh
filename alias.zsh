@@ -1,12 +1,15 @@
 ## alias config:
 #
 # common func
-function mvb { mv $1 $1.bak  }
-function cpb { cp $1 $1.bak  }
-function nlo { nl $1 |lolcat  }
-function tca { tar -czvf $1.tar.gz $1  }
-function psa { ps -ef |ag "$1" |ag -vw "ag"  }
-function hles { highlight -O truecolor "$1" |less -R -N}
+function mvb { mv "$1" "$1.bak" }
+function mdac { mkdir "$1" && cd "$1" }
+function rmcd { cdn="$(basename $PWD)";cd "$(dirname $PWD)";rm -rf "$cdn" }
+function cpb { cp "$1" "$1.bak" }
+function nlo { nl "$1" |lolcat }
+function tca { tar -czvf "$1.tar.gz" "$1" }
+function psa { ps -ef |ag "$1" |ag -vw "ag" }
+function hles { highlight -O truecolor "$1" |less -R -N }
+
 # export LESS=" -R"
 # export LESSOPEN="|highlight -O truecolor %s"
 # export LESS_TERMCAP_mb=$'\E[01;31m'
@@ -23,43 +26,43 @@ z_replacement()
 }
 
 vg() {
-  local file
+    local file
 
-  file="$(ag --nobreak --noheading $@ | fzf -0 -1 | awk -F: '{print $1}')"
+    file="$(ag --nobreak --noheading $@ | fzf -0 -1 | awk -F: '{print $1}')"
 
-  if [[ -n $file ]]
-  then
-     vim $file
-  fi
+    if [[ -n $file ]]
+    then
+        vim $file
+    fi
 }
 
 fo() {
-  local out file key
-  IFS=$'\n' out=($(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e))
-  key=$(head -1 <<< "$out")
-  file=$(head -2 <<< "$out" | tail -1)
-  if [ -n "$file" ]; then
-    [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-vim} "$file"
-  fi
+    local out file key
+    IFS=$'\n' out=($(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e))
+    key=$(head -1 <<< "$out")
+    file=$(head -2 <<< "$out" | tail -1)
+    if [ -n "$file" ]; then
+        [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-vim} "$file"
+    fi
 }
 
 fjpane() {
-  local panes current_window current_pane target target_window target_pane
-  panes=$(tmux list-panes -s -F '#I:#P - #{pane_current_path} #{pane_current_command}')
-  current_pane=$(tmux display-message -p '#I:#P')
-  current_window=$(tmux display-message -p '#I')
+    local panes current_window current_pane target target_window target_pane
+    panes=$(tmux list-panes -s -F '#I:#P - #{pane_current_path} #{pane_current_command}')
+    current_pane=$(tmux display-message -p '#I:#P')
+    current_window=$(tmux display-message -p '#I')
 
-  target=$(echo "$panes" | grep -v "$current_pane" | fzf +m --reverse) || return
+    target=$(echo "$panes" | grep -v "$current_pane" | fzf +m --reverse) || return
 
-  target_window=$(echo $target | awk 'BEGIN{FS=":|-"} {print$1}')
-  target_pane=$(echo $target | awk 'BEGIN{FS=":|-"} {print$2}' | cut -c 1)
+    target_window=$(echo $target | awk 'BEGIN{FS=":|-"} {print$1}')
+    target_pane=$(echo $target | awk 'BEGIN{FS=":|-"} {print$2}' | cut -c 1)
 
-  if [[ $current_window -eq $target_window ]]; then
-    tmux select-pane -t ${target_window}.${target_pane}
-  else
-    tmux select-pane -t ${target_window}.${target_pane} &&
-    tmux select-window -t $target_window
-  fi
+    if [[ $current_window -eq $target_window ]]; then
+        tmux select-pane -t ${target_window}.${target_pane}
+    else
+        tmux select-pane -t ${target_window}.${target_pane} &&
+        tmux select-window -t $target_window
+    fi
 }
 
 # common alias:
@@ -82,6 +85,7 @@ fjpane() {
     alias afk='ag --nobreak --nonumbers --noheading . | fzf'
     alias z='z_replacement'
     alias ips="ptipython"
+    alias tm="tmux"
     alias idf="icdiff -r -N"
     # 可以递归对比两目录的差异，包括文件内容的差异
     alias auq="awk '!U[\$0]++' "
@@ -96,6 +100,7 @@ fjpane() {
     # alias rmaf="rm -rf"
     alias cp="cp -f "
     alias mv='mv -f '
+    alias gtp="/usr/local/bin/time -p"
     alias gcl="git clone "
     alias gaa="git add ."
     alias gcm="git commit -m "
@@ -114,6 +119,7 @@ fjpane() {
     alias piu="python3 -m pip uninstall "
     alias pii="python3 -m pip install "
     alias pus="pip3 install --upgrade pip"
+    alias pypi="/usr/local/opt/pypy3/bin/pip"
     alias adl='aria2c -x6 -c '
     alias ffw='proxychains4 '
     alias ffww='proxychains4 wget '
@@ -148,6 +154,7 @@ if [[ $(uname -s) == "Darwin" ]]; then
     alias awk='gawk'
     alias df='gdf'
     alias mdsum='gmd5sum'
+    alias nstnt='netstat -nptcp'
 else
     # alias for *unix
     alias open=xdg-open

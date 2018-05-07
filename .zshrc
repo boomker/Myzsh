@@ -82,9 +82,9 @@ fi
 ## git curl pip npm mirror repo proxy conf:
 [[ -n $(ps -ef |grep -i "shadowsocks") ]] && [[ -n $(curl -q -s ip.cn |grep -E "(省|市)") ]] && {
     [[ -z $(egrep -i "(proxy.*socks5)" ${HOME}/.gitconfig 2>/dev/null) ]] && {
-    git config --global http.useragent https://github.com.proxy http://127.0.0.1:8090
-    git config --global http.proxy socks5://127.0.0.1:1086
-    git config --global https.proxy socks5://127.0.0.1:1086
+        git config --global http.useragent https://github.com.proxy http://127.0.0.1:8090
+        git config --global http.proxy socks5://127.0.0.1:1086
+        git config --global https.proxy socks5://127.0.0.1:1086
     }
 
     # curl proxy conf:
