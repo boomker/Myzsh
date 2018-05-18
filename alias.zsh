@@ -143,6 +143,8 @@ if [[ $(uname -s) == "Darwin" ]]; then
     alias l="exa -abghl --git --color=automatic"
     alias ls='gls -p --width=80 --color=auto'
     alias nl="gnl"
+    alias du="gdu"
+    alias duts="du -ch |tail -1"
     alias find="gfind"
     alias xargs="gxargs"
     alias locate="glocate"
