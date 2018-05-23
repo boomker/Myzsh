@@ -204,7 +204,7 @@ setopt PUSHD_IGNORE_DUPS
 cd() {
 builtin cd "$@"                         # do actual cd
 fc -W                                   # write current history  file
-local HISTDIR="${HOME}/zsh_history${PWD}"   # use nested folders for history
+local HISTDIR="${HOME}/zsh_history"   # use nested folders for history
 if  [ ! -d "${HISTDIR}" ] ; then          # create folder if needed
 mkdir -p "${HISTDIR}"
 fi
@@ -216,8 +216,8 @@ HISTSIZE=${ohistsize}                     # Prepare for new dir's history
 fc -R                                   # read from current histfile
 }
 
-mkdir -p ${HOME}/zsh_history${PWD}
-export HISTFILE="${HOME}/zsh_history${PWD}/zshistory"
+mkdir -p ${HOME}/zsh_history
+export HISTFILE="${HOME}/zsh_history/zshistory"
 ## 历史命令 history top10
 alias hist10='print -l ${(o)history%% *} |uniq -c |sort -nr |head -n 10'
 alias histail='history |tail'
