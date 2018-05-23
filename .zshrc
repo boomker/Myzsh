@@ -71,16 +71,16 @@ if [[ $(uname -s) == "Darwin" ]]; then
 else
     ## for *unix platform:
     # pyenv conf:
-    if [ -n $(which pyenv) ]
-    then
-        export PATH="{HOME}/.pyenv/bin:$PATH"
-        eval "$(pyenv init -)"
-        eval "$(pyenv virtualenv-init -)"
-    fi
+    # if [ -n $(which pyenv) ]
+    # then
+    #     export PATH="{HOME}/.pyenv/bin:$PATH"
+    #     eval "$(pyenv init -)"
+    #     eval "$(pyenv virtualenv-init -)"
+    # fi
 fi
 
 ## git curl pip npm mirror repo proxy conf:
-[[ -n $(ps -ef |grep -i "shadowsocks") ]] && [[ -n $(curl -q -s ip.cn |grep -E "(省|市)") ]] && {
+[[ -n $(pgrep "shadowsocks|Shadowsocks") ]] && [[ -n $(curl -q -s ip.cn |grep -E "(省|市)") ]] && {
     [[ -z $(egrep -i "(proxy.*socks5)" ${HOME}/.gitconfig 2>/dev/null) ]] && {
         git config --global http.useragent https://github.com.proxy http://127.0.0.1:8090
         git config --global http.proxy socks5://127.0.0.1:1086
@@ -123,7 +123,7 @@ fi
  if [ -d ~/.ssh ]; then
     export SSH_KEY_PATH="~/.ssh/id_rsa"
 else
-    mkdir ~/{.ssh,.z}
+    mkdir ~/.ssh
     export SSH_KEY_PATH="~/.ssh/id_rsa"
 fi
 
@@ -137,13 +137,16 @@ fi
 
 # several vim var conf:
 if [[ $(uname -s) == "Linux" ]]; then
-    export VIM="/usr/share/vim"
+    [[ -n $(egrep -i "centos|redhat" /etc/os-release) ]] && \
+        VIMRD=$(find /usr/local -type d -name "vim[0-9]*") || VIMRD=$(find /usr/share -type d -name "vim[0-9]*") 
+    export VIM="$(dirname ${VIMRD})"
     export VIMFILES="${VIM}/vimfiles"
-    export VIMRUNTIME="/usr/share/vim/vim80"
+    export VIMRUNTIME=${VIMRD}
 else
-    export VIM="/usr/local/opt/vim/share/vim"
+    VIMRD=$(find /usr/local -type d -name "vim[0-9]*") 
+    export VIM="$(dirname ${VIMRD})"
     export VIMFILES="${VIM}/vimfiles"
-    export VIMRUNTIME="${VIM}/vim80"
+    export VIMRUNTIME="${VIMRD}"
     # export VIM="/usr/local/opt/neovim/share/nvim"                 # for neovim on MacOS_Darwin
     # export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime"
 fi
@@ -160,7 +163,7 @@ export ZSH_CUSTOM=${ZSH}/custom
 if [[ ! -e ${ZSH_CUSTOM}/themes/bullet-train.zsh-theme ]]
 then
     [[ ! -d ${ZSH_CUSTOM}/themes ]] && mkdir -p ${ZSH_CUSTOM}/themes
-    git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
+    # git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
 fi
 
 # powerful plugins like fish
@@ -175,7 +178,7 @@ if [[ -z $(which fzf 2>/dev/null) ]]
 then
     # [[ ! -d ${HOME}/gitrepo ]] && mkdir ${HOME}/gitrepo
     [[ -d ${HOME}/gitrepo/fzf ]] && ln -sv ~/gitrepo/fzf/bin/fzf /usr/bin/fzf || \
-    git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/gitrepo/fzf
+    git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/gitrepo/
 else
     [[ -e ${HOME}/.fzf.zsh ]] && mv ${HOME}/.fzf.zsh ${ZSH_CUSTOM}/.fzf.zsh
     export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"

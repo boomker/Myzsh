@@ -18,11 +18,12 @@ case $ID in
     ubuntu)
         apt-get update
         apt -y install git tree tar unzip wget zsh silversearcher-ag gcc cmake dstat htop jq multitail shellcheck python3-pip
-        apt -y install software-properties-common && add-apt-repository ppa:jonathonf/vim && apt update &&  apt -y install vim
-        pip3 install --upgrade pip3 || pip install --upgrade pip
+        apt -y install software-properties-common && add-apt-repository ppa:jonathonf/vim && apt update && apt -y install vim
+        pip3 install --upgrade pip || pip install --upgrade pip
         python3 -m pip install ptipython pip-tools jedi autopep8 glances flake8 \
             PrettyPrinter psutil hsize httpie ngxtop icdiff future frozendict
-        export VIMRUNTIME=/usr/share/vim/vim80
+        VIMRUNTIME=$(find /usr/share -type d -name "vim[0-9]*" 2>/dev/nul)
+        export VIMRUNTIME
         cd ~/gitrepo && git clone https://github.com/boomker/Myvimrc.git
         cd ./Myvimrc && cp onedark.vim gruvbox.vim solarized8_dark_flat.vim "${VIMRUNTIME}/colors"
         curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -46,19 +47,19 @@ case $ID in
         ln -sv "/usr/bin/python${LPyV}" /usr/bin/python3 ||ln -sv /usr/bin/python3.6 /usr/bin/python3
         ln -sv "/usr/bin/python${LPyV}-config" /usr/bin/python3-config ||ln -sv /usr/bin/python3.6-config /usr/bin/python3-config
         ln -sv "/usr/lib64/python${LPyV}/config-${LPyV}m-x86_64-linux-gnu" "/usr/lib64/python${LPyV}/config"
-        pip install --upgrade pip ||pip3 install --upgrade pip3
+        pip install --upgrade pip ||pip3 install --upgrade pip
         pip3 install ptipython pip-tools jedi autopep8 glances flake8 PrettyPrinter psutil hsize \
             httpstat httpie ngxtop icdiff lolcat
         cd && curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 
-        # Vim8.0
+        # Vim8.x
         yum -y remove vim-filesystem vim-minimal vim-common vim-enhanced
         yum install -y ruby ruby-devel lua lua-devel luajit \
         luajit-devel ctags python27 python27-scldevel tcl-devel \
         perl perl-devel perl-ExtUtils-ParseXS \
         perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
-        perl-ExtUtils-Embed devtoolset-3-toolchain gcc-c++ ncurses-devel \
-        scl enable devtoolset-3 bash
+        perl-ExtUtils-Embed gcc-c++ ncurses-devel \
+        scl enable bash
         cd ~/gitrepo
         git clone https://github.com/vim/vim.git
         cd ./vim
@@ -74,15 +75,19 @@ case $ID in
                     --enable-gui=gtk2 \
                     --enable-cscope \
                     --prefix=/usr/local
-        make VIMRUNTIMEDIR=/usr/share/vim/vim80
+        VIMRUNTIME=$(find /usr/local -type d -name "vim[0-9]*" 2>/dev/nul)
+        make VIMRUNTIMEDIR=${VIMRUNTIME}
         make install
         update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
         update-alternatives --set editor /usr/local/bin/vim
-        export VIMRUNTIME=/usr/share/vim/vim80
+        export VIMRUNTIME
         cd ~/gitrepo && git clone https://github.com/boomker/Myvimrc.git
-        cd ./Myvimrc && cp solarized8_dark_flat.vim onedark.vim gruvbox.vim "${VIMRUNTIME}/colors"
-        tic xterm-256color-italic.terminfo
+        git clone https://github.com/lifepillar/vim-solarized8.git
+        cp vim-solarized8/colors/* $VIMRUNTIME/colors/
         curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        cd ./Myvimrc
+        tic xterm-256color-italic.terminfo
+        mv ~/.vimrc{,.bak} 2>/dev/null
         cp .vimrc ~/
         ;;
     *)
@@ -96,5 +101,5 @@ cd ~/gitrepo
 git clone https://github.com/boomker/Myzshrc.git
 cd ~/gitrepo/Myzshrc
 mv "${HOME}"/.zshrc{,.bak}
-mv .zshrc ~/
+cp .zshrc ~/
 source ./oh-my-zsh_install.sh
