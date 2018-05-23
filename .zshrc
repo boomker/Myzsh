@@ -176,9 +176,10 @@ fi
 # fzf.zsh
 if [[ -z $(which fzf 2>/dev/null) ]]
 then
-    # [[ ! -d ${HOME}/gitrepo ]] && mkdir ${HOME}/gitrepo
-    [[ -d ${HOME}/gitrepo/fzf ]] && ln -sv ~/gitrepo/fzf/bin/fzf /usr/bin/fzf || \
-    git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/gitrepo/
+    [[ -d ${HOME}/gitrepo/fzf ]] && {
+        bash ~/gitrepo/fzf/install
+        ln -sv ~/gitrepo/fzf/bin/fzf /usr/bin/fzf
+    } ||git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/gitrepo/fzf
 else
     [[ -e ${HOME}/.fzf.zsh ]] && mv ${HOME}/.fzf.zsh ${ZSH_CUSTOM}/.fzf.zsh
     export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"

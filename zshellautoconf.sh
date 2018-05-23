@@ -47,8 +47,8 @@ case $ID in
         ln -sv "/usr/bin/python${LPyV}" /usr/bin/python3 ||ln -sv /usr/bin/python3.6 /usr/bin/python3
         ln -sv "/usr/bin/python${LPyV}-config" /usr/bin/python3-config ||ln -sv /usr/bin/python3.6-config /usr/bin/python3-config
         ln -sv "/usr/lib64/python${LPyV}/config-${LPyV}m-x86_64-linux-gnu" "/usr/lib64/python${LPyV}/config"
-        pip install --upgrade pip ||pip3 install --upgrade pip
-        pip3 install ptipython pip-tools jedi autopep8 glances flake8 PrettyPrinter psutil hsize \
+        pip3 install --upgrade pip||pip install --upgrade pip
+        pip3 install ptipython pip-tools jedi autopep8 glances flake8 PrettyPrinter psutil mhsize \
             httpstat httpie ngxtop icdiff lolcat
         cd && curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 
@@ -83,7 +83,7 @@ case $ID in
         export VIMRUNTIME
         cd ~/gitrepo && git clone https://github.com/boomker/Myvimrc.git
         git clone https://github.com/lifepillar/vim-solarized8.git
-        cp vim-solarized8/colors/* $VIMRUNTIME/colors/
+        cp ~/gitrepo/vim-solarized8/colors/* ${VIMRUNTIME}/colors/
         curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
         cd ./Myvimrc
         tic xterm-256color-italic.terminfo
