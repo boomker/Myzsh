@@ -75,12 +75,12 @@ case $ID in
                     --enable-gui=gtk2 \
                     --enable-cscope \
                     --prefix=/usr/local
-        VIMRUNTIME=$(find /usr/local -type d -name "vim[0-9]*" 2>/dev/nul)
-        make VIMRUNTIMEDIR=${VIMRUNTIME}
+        VIMRD=$(find /usr/local -type d -name "vim[0-9]*" 2>/dev/nul)
+        make VIMRUNTIMEDIR=${VIMRD}
         make install
         update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
         update-alternatives --set editor /usr/local/bin/vim
-        export VIMRUNTIME
+        export VIMRUNTIME="${VIMRD}"
         cd ~/gitrepo && git clone https://github.com/boomker/Myvimrc.git
         git clone https://github.com/lifepillar/vim-solarized8.git
         cp ~/gitrepo/vim-solarized8/colors/* ${VIMRUNTIME}/colors/

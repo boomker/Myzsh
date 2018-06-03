@@ -152,6 +152,7 @@ if [[ $(uname -s) == "Darwin" ]]; then
     alias grep='ggrep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
     alias sed='gsed'
     alias sort='gsort'
+    alias stat='gstat'
     alias uniq='guniq'
     alias awk='gawk'
     alias df='gdf'

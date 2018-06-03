@@ -137,8 +137,10 @@ fi
 
 # several vim var conf:
 if [[ $(uname -s) == "Linux" ]]; then
-    [[ -n $(egrep -i "centos|redhat" /etc/os-release) ]] && \
-        VIMRD=$(find /usr/local -type d -name "vim[0-9]*") || VIMRD=$(find /usr/share -type d -name "vim[0-9]*") 
+    [[ -n $(egrep -i "centos|redhat" /etc/os-release) ]] && {
+        [[ -n $(find /usr/local -type d -name "vim[0-9]*") ]] && VIMRD=$(find /usr/local -type d -name "vim[0-9]*") || VIMRD=$(find /usr/share -type d -name "vim[0-9]*")
+    }
+
     export VIM="$(dirname ${VIMRD})"
     export VIMFILES="${VIM}/vimfiles"
     export VIMRUNTIME=${VIMRD}
@@ -163,7 +165,7 @@ export ZSH_CUSTOM=${ZSH}/custom
 if [[ ! -e ${ZSH_CUSTOM}/themes/bullet-train.zsh-theme ]]
 then
     [[ ! -d ${ZSH_CUSTOM}/themes ]] && mkdir -p ${ZSH_CUSTOM}/themes
-    # git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
+    rm -rf ${ZSH_CUSTOM}/themes/* && git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
 fi
 
 # powerful plugins like fish
