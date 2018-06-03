@@ -28,7 +28,7 @@ DISABLE_AUTO_UPDATE="true"
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 HIST_STAMPS="mm/dd"
-plugins=(colored-man-pages docker docker-compose extract pip ssh-agent z zsh-completions zsh-syntax-highlighting)
+plugins=(colored-man-pages docker docker-compose extract pip ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
 
 ## --------------User configuration--------------
 # You may need to manually set your language environment
@@ -99,7 +99,7 @@ fi
 
     # pypi mirror repo conf:
     [ ! -d ~/.pip ] && mkdir ~/.pip
-    cp "${HOME}/gitrepo/Myzshrc/pip.conf" "${HOME}/"
+    cp "${HOME}/gitrepo/Myzshrc/pip.conf" "${HOME}/.pip/"
 }
 
 # thefuck conf:
@@ -144,6 +144,8 @@ if [[ $(uname -s) == "Linux" ]]; then
     export VIM="$(dirname ${VIMRD})"
     export VIMFILES="${VIM}/vimfiles"
     export VIMRUNTIME=${VIMRD}
+    [[ ! -e ${VIMRUNTIME}/autload/plug.vim ]] && curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    [[ ! -e ${VIMRUNTIME}/colors/solar*.vim ]] && cp -ar ${HOME}/gitrepo/vim-solarized8/colors/* ${VIMRUNTIME}/colors/
 else
     VIMRD=$(find /usr/local -type d -name "vim[0-9]*") 
     export VIM="$(dirname ${VIMRD})"
