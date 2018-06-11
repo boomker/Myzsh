@@ -33,7 +33,7 @@ case $ID in
     centos)
         mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
         yum -y install yum-utils &&yum -y install https://centos7.iuscommunity.org/ius-release.rpm
-        yum -y install epel-release.noarch
+        yum -y install epel-release.noarch libicu libicu-devel
         # yum -y install centos-release-scl epel-release.noarch
         curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
         sed -i -re '/\[epel\]/,/^enabled/{s/(enabled)=[0,1]$/\1=1/g}' /etc/yum.repos.d/epel.repo && yum -y update
