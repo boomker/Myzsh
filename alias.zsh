@@ -8,7 +8,7 @@ function cpb { cp "$1" "$1.bak" }
 function nlo { nl "$1" |lolcat }
 function tca { tar -czvf "$1.tar.gz" "$1" }
 function psa { ps -ef |ag "$1" |ag -vw "ag" }
-function hles { highlight -O truecolor "$1" |less -R -N }
+function hles { highlight -O xterm256 "$1" |less -R -N }
 
 # export LESS=" -R"
 # export LESSOPEN="|highlight -O truecolor %s"
@@ -84,7 +84,8 @@ fjpane() {
     alias -g W=' |wc -l'
     alias afk='ag --nobreak --nonumbers --noheading . | fzf'
     alias z='z_replacement'
-    alias ips="ptipython"
+    alias pps="/usr/local/opt/python3/Frameworks/Python.framework/Versions/3.6/bin/ptipython3"
+    alias ips="/usr/local/opt/python3/Frameworks/Python.framework/Versions/3.6/bin/ipython3"
     alias tm="tmux"
     alias idf="icdiff -r -N"
     # 可以递归对比两目录的差异，包括文件内容的差异
@@ -125,7 +126,7 @@ fjpane() {
     alias ffww='proxychains4 wget '
     alias ffwa='proxychains4 aria2c -x6 -c '
     alias aliconf="vim ${HOME}/gitrepo/Myzshrc/alias.zsh"
-    # alias zshreload='source ~/.zshrc' # conflict with tmux
+    alias zshreload='source ~/.zshrc' # conflict with tmux
     alias zshconfig="vim ${HOME}/gitrepo/Myzshrc/.zshrc"
     alias vimconfig="vim ${HOME}/gitrepo/Myvimrc/.vimrc"
     alias tmuxconfig="vim ${HOME}/gitrepo/Mytmuxconf/.tmux.conf"

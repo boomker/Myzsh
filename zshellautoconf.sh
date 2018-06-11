@@ -31,8 +31,11 @@ case $ID in
         cd && curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
         ;;
     centos)
+        mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
         yum -y install yum-utils &&yum -y install https://centos7.iuscommunity.org/ius-release.rpm
-        yum -y install centos-release-scl epel-release.noarch
+        yum -y install epel-release.noarch
+        # yum -y install centos-release-scl epel-release.noarch
+        curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
         sed -i -re '/\[epel\]/,/^enabled/{s/(enabled)=[0,1]$/\1=1/g}' /etc/yum.repos.d/epel.repo && yum -y update
         yum -y install git tree tar unzip wget zsh gcc camke the_silver_searcher dstat ncdu htop \
             socat jq multitail mtr shellcheck pv lsof bind-utils
@@ -52,14 +55,17 @@ case $ID in
             httpstat httpie ngxtop icdiff lolcat
         cd && curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 
+        curl -L get.rvm.io | bash -s stable
+        rvm install 2.4.0
+
         # Vim8.x
         yum -y remove vim-filesystem vim-minimal vim-common vim-enhanced
-        yum install -y ruby ruby-devel lua lua-devel luajit \
+        yum install -y lua lua-devel luajit \
         luajit-devel ctags python27 python27-scldevel tcl-devel \
         perl perl-devel perl-ExtUtils-ParseXS \
         perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
         perl-ExtUtils-Embed gcc-c++ ncurses-devel \
-        scl enable bash
+        # scl enable bash
         cd ~/gitrepo
         git clone https://github.com/vim/vim.git
         cd ./vim
