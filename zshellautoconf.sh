@@ -32,13 +32,12 @@ case $ID in
         ;;
     centos)
         mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
-        yum -y install yum-utils &&yum -y install https://centos7.iuscommunity.org/ius-release.rpm
-        yum -y install epel-release.noarch libicu libicu-devel
-        # yum -y install centos-release-scl epel-release.noarch
+        yum -y install yum-utils &&yum -y install epel-release.noarch
+        # yum -y install centos-release-scl epel-release.noarch https://centos7.iuscommunity.org/ius-release.rpm
         curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
         sed -i -re '/\[epel\]/,/^enabled/{s/(enabled)=[0,1]$/\1=1/g}' /etc/yum.repos.d/epel.repo && yum -y update
         yum -y install git tree tar unzip wget zsh gcc camke the_silver_searcher dstat ncdu htop \
-            socat jq multitail mtr shellcheck pv lsof bind-utils
+            lsof strace socat jq multitail mtr shellcheck pv bind-utils libicu libicu-devel
 
         # Python3
         LatestPy="$(yum search python3|awk -F'[.,-]+' '/^python3[6u,7,7u]/{print $1}' |sort -u |tail -1)"
