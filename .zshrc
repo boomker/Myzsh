@@ -71,12 +71,12 @@ if [[ $(uname -s) == "Darwin" ]]; then
 else
     ## for *unix platform:
     # pyenv conf:
-    # if [ -n $(which pyenv) ]
-    # then
-    #     export PATH="{HOME}/.pyenv/bin:$PATH"
-    #     eval "$(pyenv init -)"
-    #     eval "$(pyenv virtualenv-init -)"
-    # fi
+    if [ -n $(which pyenv 2>/dev/null) ]
+    then
+        export PATH="${HOME}/.pyenv/bin:$PATH"
+        eval "$(pyenv init -)"
+        eval "$(pyenv virtualenv-init -)"
+    fi
 fi
 
 ## git curl pip npm mirror repo proxy conf:
