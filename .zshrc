@@ -28,7 +28,7 @@ DISABLE_AUTO_UPDATE="true"
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 HIST_STAMPS="mm/dd"
-plugins=(colored-man-pages docker docker-compose extract pip ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(colored-man-pages docker docker-compose extract pip yum ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
 
 ## --------------User configuration--------------
 # You may need to manually set your language environment
@@ -99,7 +99,28 @@ fi
 
     # pypi mirror repo conf:
     [ ! -d ~/.pip ] && mkdir ~/.pip
-    cp "${HOME}/gitrepo/Myzshrc/pip.conf" "${HOME}/.pip/"
+    # cp "${HOME}/gitrepo/Myzshrc/pip.conf" "${HOME}/.pip/"
+    tee ~/.pip/pip.conf <<-'EOF'
+    [global]
+    trusted-host =  mirrors.aliyun.com
+    index-url = http://mirrors.aliyun.com/pypi/simple
+
+    [list]
+    format=columns
+    EOF
+
+    # docker mirror repo conf:
+    # curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+    [[ -d /etc/docker ]] || mkdir -p /etc/docker
+    tee /etc/docker/daemon.json <<-'EOF'
+    {
+        "registry-mirrors": ["https://arrn62bl.mirror.aliyuncs.com"]
+    }
+    EOF
+    [[ -n $(which docker 2>/dev/null) ]] && {
+        systemctl daemon-reload
+        systemctl restart docker
+    }
 }
 
 # thefuck conf:
