@@ -117,11 +117,13 @@ fjpane() {
     alias dfh='df -Th'
     alias duhl='du -ah --max-depth=1 '
     alias trel='tree -L 1 '
-    alias pip3='python3 -m pip'
-    alias piu="python3 -m pip uninstall "
-    alias pii="python3 -m pip install "
+    # alias pip3='python3 -m pip'
+    # alias piu="python3 -m pip uninstall "
+    alias piu="pip uninstall "
+    alias pii="pip install "
+    # alias pii="python3 -m pip install "
     alias pus="pip3 install --upgrade pip"
-    alias pypi="/usr/local/opt/pypy3/bin/pip"
+    # alias pypi="/usr/local/opt/pypy3/bin/pip"
     alias adl='aria2c -x6 -c '
     alias ffw='proxychains4 '
     alias ffww='proxychains4 wget '
