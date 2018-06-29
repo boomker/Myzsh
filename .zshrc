@@ -33,7 +33,7 @@ plugins=(colored-man-pages docker docker-compose extract pip ssh-agent z zsh-com
 ## --------------User configuration--------------
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
-export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:${PATH}"
+export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:/Users/shingo/Library/Python/3.6/bin:${PATH}"
 
 ## configure pyvenv, Homebrew, PATH(GNU CLI tools), catalog ,git on MacOS or *unix platform:
 if [[ $(uname -s) == "Darwin" ]]; then

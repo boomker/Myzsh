@@ -41,7 +41,7 @@ export UPDATE_ZSH_DAYS=9
 # vi-mode
 # }}}
 
-plugins=(colored-man-pages pip extract ssh-agent z zsh-completions zsh-syntax-highlighting)
+plugins=(docker colored-man-pages pip extract ssh-agent z zsh-completions zsh-syntax-highlighting)
 autoload -U compinit && compinit
 
 ## --------------User configuration--------------

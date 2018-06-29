@@ -30,7 +30,7 @@ case $ID in
         cp .vimrc ~/
         cd && curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
         ;;
-    centos)
+    centos|rhel)
         mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
         yum -y install yum-utils &&yum -y install epel-release.noarch
         # yum -y install centos-release-scl epel-release.noarch https://centos7.iuscommunity.org/ius-release.rpm

@@ -98,6 +98,7 @@ fjpane() {
     alias sei='sed -i '
     alias sen='sed -n '
     alias tssh='TERM=xterm-256color ssh'
+    alias sshconf='vim ${HOME}/.ssh/config'
     # alias rmaf="rm -rf"
     alias cp="cp -f "
     alias mv='mv -f '
@@ -151,6 +152,7 @@ if [[ $(uname -s) == "Darwin" ]]; then
     alias locate="glocate"
     # alias updatedb="gupdatedb"
     alias grep='ggrep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
+    alias cut='gcut'
     alias sed='gsed'
     alias sort='gsort'
     alias stat='gstat'
