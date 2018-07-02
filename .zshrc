@@ -28,12 +28,12 @@ DISABLE_AUTO_UPDATE="true"
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 HIST_STAMPS="mm/dd"
-plugins=(colored-man-pages docker docker-compose extract pip yum ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(colored-man-pages docker docker-compose extract pip ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
 
 ## --------------User configuration--------------
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
-export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:/Users/shingo/Library/Python/3.6/bin:${PATH}"
+export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:${PATH}"
 
 ## configure pyvenv, Homebrew, PATH(GNU CLI tools), catalog ,git on MacOS or *unix platform:
 if [[ $(uname -s) == "Darwin" ]]; then
@@ -71,12 +71,13 @@ if [[ $(uname -s) == "Darwin" ]]; then
 else
     ## for *unix platform:
     # pyenv conf:
-    if [ -n $(which pyenv 2>/dev/null) ]
-    then
-        export PATH="${HOME}/.pyenv/bin:$PATH"
-        eval "$(pyenv init -)"
-        eval "$(pyenv virtualenv-init -)"
-    fi
+     if [ -n $(which pyenv 2>/dev/null) ]
+     then
+         export PATH="${HOME}/.pyenv/bin:$PATH"
+         eval "$(pyenv init -)"
+         eval "$(pyenv virtualenv-init -)"
+     fi
+    export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 fi
 
 ## git curl pip npm mirror repo proxy conf:
@@ -99,28 +100,7 @@ fi
 
     # pypi mirror repo conf:
     [ ! -d ~/.pip ] && mkdir ~/.pip
-    # cp "${HOME}/gitrepo/Myzshrc/pip.conf" "${HOME}/.pip/"
-    tee ~/.pip/pip.conf <<-'EOF'
-    [global]
-    trusted-host =  mirrors.aliyun.com
-    index-url = http://mirrors.aliyun.com/pypi/simple
-
-    [list]
-    format=columns
-    EOF
-
-    # docker mirror repo conf:
-    # curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
-    [[ -d /etc/docker ]] || mkdir -p /etc/docker
-    tee /etc/docker/daemon.json <<-'EOF'
-    {
-        "registry-mirrors": ["https://arrn62bl.mirror.aliyuncs.com"]
-    }
-    EOF
-    [[ -n $(which docker 2>/dev/null) ]] && {
-        systemctl daemon-reload
-        systemctl restart docker
-    }
+    cp "${HOME}/gitrepo/Myzshrc/pip.conf" "${HOME}/"
 }
 
 # thefuck conf:
@@ -158,15 +138,11 @@ fi
 
 # several vim var conf:
 if [[ $(uname -s) == "Linux" ]]; then
-    [[ -n $(egrep -i "centos|redhat" /etc/os-release) ]] && {
-        [[ -n $(find /usr/local -type d -name "vim[0-9]*") ]] && VIMRD=$(find /usr/local -type d -name "vim[0-9]*") || VIMRD=$(find /usr/share -type d -name "vim[0-9]*")
-    }
-
+    [[ -n $(egrep -i "centos|redhat" /etc/os-release) ]] && \
+        VIMRD=$(find /usr/local -type d -name "vim[0-9]*") || VIMRD=$(find /usr/share -type d -name "vim[0-9]*") 
     export VIM="$(dirname ${VIMRD})"
     export VIMFILES="${VIM}/vimfiles"
     export VIMRUNTIME=${VIMRD}
-    [[ ! -e ${VIMRUNTIME}/autload/plug.vim ]] && curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    [[ ! -e ${VIMRUNTIME}/colors/solar*.vim ]] && cp -ar ${HOME}/gitrepo/vim-solarized8/colors/* ${VIMRUNTIME}/colors/
 else
     VIMRD=$(find /usr/local -type d -name "vim[0-9]*") 
     export VIM="$(dirname ${VIMRD})"
@@ -188,7 +164,7 @@ export ZSH_CUSTOM=${ZSH}/custom
 if [[ ! -e ${ZSH_CUSTOM}/themes/bullet-train.zsh-theme ]]
 then
     [[ ! -d ${ZSH_CUSTOM}/themes ]] && mkdir -p ${ZSH_CUSTOM}/themes
-    rm -rf ${ZSH_CUSTOM}/themes/* && git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
+    # git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
 fi
 
 # powerful plugins like fish
@@ -283,3 +259,5 @@ export FZF_DEFAULT_OPTS='
     --color info:254,prompt:37,spinner:108,pointer:235,marker:235
     --height 70% --reverse --border'
 export HH_CONFIG=hicolor        # get more colors
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
