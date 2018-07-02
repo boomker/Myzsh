@@ -143,6 +143,10 @@ if [[ $(uname -s) == "Linux" ]]; then
     export VIM="$(dirname ${VIMRD})"
     export VIMFILES="${VIM}/vimfiles"
     export VIMRUNTIME=${VIMRD}
+    [[ ! -e ${VIMRUNTIME}/colors/solarized8_dark_flat.vim ]] && cp ~/gitrepo/vim-solarized8/colors/* ${VIMRUNTIME}/colors/
+    [[ ! -e ${VIMRUNTIME}/autoload/plug.vim ]] && {
+        curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    }
 else
     VIMRD=$(find /usr/local -type d -name "vim[0-9]*") 
     export VIM="$(dirname ${VIMRD})"
@@ -150,10 +154,6 @@ else
     export VIMRUNTIME="${VIMRD}"
     # export VIM="/usr/local/opt/neovim/share/nvim"                 # for neovim on MacOS_Darwin
     # export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime"
-    [[ ! -e ${VIMRUNTIME}/colors/solarized8_dark_flat.vim ]] && cp ~/gitrepo/vim-solarized8/colors/* ${VIMRUNTIME}/colors/
-    [[ ! -e ${VIMRUNTIME}/autoload/plug.vim ]] && {
-        curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    }
 
 fi
 
@@ -169,7 +169,7 @@ export ZSH_CUSTOM=${ZSH}/custom
 if [[ ! -e ${ZSH_CUSTOM}/themes/bullet-train.zsh-theme ]]
 then
     [[ ! -d ${ZSH_CUSTOM}/themes ]] && mkdir -p ${ZSH_CUSTOM}/themes
-    # git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
+    rm -rf ${ZSH_CUSTOM}/themes/* && git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
 fi
 
 # powerful plugins like fish

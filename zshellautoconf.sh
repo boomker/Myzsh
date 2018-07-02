@@ -60,7 +60,7 @@ case $ID in
         rvm install 2.4.0
 
         # Vim8.x
-        yum -y remove vim-filesystem vim-minimal vim-common vim-enhanced
+        yum -y remove vim-filesystem vim-common vim-enhanced
         yum install -y lua lua-devel luajit \
         luajit-devel ctags python27 python27-scldevel tcl-devel \
         perl perl-devel perl-ExtUtils-ParseXS \
