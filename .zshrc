@@ -150,6 +150,11 @@ else
     export VIMRUNTIME="${VIMRD}"
     # export VIM="/usr/local/opt/neovim/share/nvim"                 # for neovim on MacOS_Darwin
     # export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime"
+    [[ ! -e ${VIMRUNTIME}/colors/solarized8_dark_flat.vim ]] && cp ~/gitrepo/vim-solarized8/colors/* ${VIMRUNTIME}/colors/
+    [[ ! -e ${VIMRUNTIME}/autoload/plug.vim ]] && {
+        curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    }
+
 fi
 
 # Tomcat Path

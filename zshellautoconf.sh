@@ -31,10 +31,12 @@ case $ID in
         cd && curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
         ;;
     centos|rhel)
-        mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
         yum -y install yum-utils &&yum -y install epel-release.noarch
         # yum -y install centos-release-scl epel-release.noarch https://centos7.iuscommunity.org/ius-release.rpm
-        curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+        ping mirrors.aliyuns.com -c 3 >/dev/null && {
+            mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
+            curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+        }
         sed -i -re '/\[epel\]/,/^enabled/{s/(enabled)=[0,1]$/\1=1/g}' /etc/yum.repos.d/epel.repo && yum -y update
         yum -y install git tree tar unzip wget zsh gcc camke the_silver_searcher dstat ncdu htop \
             lsof strace socat jq multitail mtr shellcheck pv bind-utils libicu libicu-devel
@@ -85,11 +87,11 @@ case $ID in
         make install
         update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
         update-alternatives --set editor /usr/local/bin/vim
-        export VIMRUNTIME="${VIMRD}"
+        # export VIMRUNTIME="${VIMRD}"
         cd ~/gitrepo && git clone https://github.com/boomker/Myvimrc.git
         git clone https://github.com/lifepillar/vim-solarized8.git
-        cp ~/gitrepo/vim-solarized8/colors/* ${VIMRUNTIME}/colors/
-        curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        # cp ~/gitrepo/vim-solarized8/colors/* ${VIMRUNTIME}/colors/
+        # curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
         cd ./Myvimrc
         tic xterm-256color-italic.terminfo
         mv ~/.vimrc{,.bak} 2>/dev/null
