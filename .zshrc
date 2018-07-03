@@ -73,7 +73,7 @@ else
     # pyenv conf:
      if [ -n $(which pyenv 2>/dev/null) ]
      then
-         export PATH="${HOME}/.pyenv/bin:$PATH"
+         export PATH="{HOME}/.pyenv/bin:$PATH"
          eval "$(pyenv init -)"
          eval "$(pyenv virtualenv-init -)"
      fi
@@ -98,6 +98,9 @@ fi
     # npm install -g cnpm --registry=https://registry.npm.taobao.org # use cnpm instead of npm
     [[ -n $(which npm 2>/dev/null) ]] && npm config set registry https://registry.npm.taobao.org
 
+    # pypi mirror repo conf:
+    [ ! -d ~/.pip ] && mkdir ~/.pip
+    cp "${HOME}/gitrepo/Myzshrc/pip.conf" "${HOME}/"
 
     # pypi mirror repo conf:
     [ ! -d ~/.pip ] && mkdir ~/.pip
@@ -109,8 +112,7 @@ fi
 
     [list]
     format=columns
-    EOF
-
+EOF
 
     # pypi mirror repo conf:
     # [ ! -d ~/.pip ] && mkdir ~/.pip
@@ -121,12 +123,11 @@ fi
     {
         "registry-mirrors": ["https://arrn62bl.mirror.aliyuncs.com"]
     }
-    EOF
+EOF
     [[ -n $(which docker 2>/dev/null) ]] && {
         systemctl daemon-reload
         systemctl restart docker
     }
-
 }
 
 # thefuck conf:
@@ -166,13 +167,9 @@ fi
 if [[ $(uname -s) == "Linux" ]]; then
     [[ -n $(egrep -i "centos|redhat" /etc/os-release) ]] && \
         VIMRD=$(find /usr/local -type d -name "vim[0-9]*") || VIMRD=$(find /usr/share -type d -name "vim[0-9]*") 
-    export VIM="$(dirname ${VIMRD})"
+    # export VIM="$(dirname ${VIMRD})"
     export VIMFILES="${VIM}/vimfiles"
     export VIMRUNTIME=${VIMRD}
-    [[ ! -e ${VIMRUNTIME}/colors/solarized8_dark_flat.vim ]] && cp ~/gitrepo/vim-solarized8/colors/* ${VIMRUNTIME}/colors/
-    [[ ! -e ${VIMRUNTIME}/autoload/plug.vim ]] && {
-        curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    }
 else
     VIMRD=$(find /usr/local -type d -name "vim[0-9]*") 
     export VIM="$(dirname ${VIMRD})"
@@ -180,7 +177,6 @@ else
     export VIMRUNTIME="${VIMRD}"
     # export VIM="/usr/local/opt/neovim/share/nvim"                 # for neovim on MacOS_Darwin
     # export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime"
-
 fi
 
 # Tomcat Path
@@ -195,7 +191,7 @@ export ZSH_CUSTOM=${ZSH}/custom
 if [[ ! -e ${ZSH_CUSTOM}/themes/bullet-train.zsh-theme ]]
 then
     [[ ! -d ${ZSH_CUSTOM}/themes ]] && mkdir -p ${ZSH_CUSTOM}/themes
-    rm -rf ${ZSH_CUSTOM}/themes/* && git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
+    # git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
 fi
 
 # powerful plugins like fish
@@ -290,5 +286,3 @@ export FZF_DEFAULT_OPTS='
     --color info:254,prompt:37,spinner:108,pointer:235,marker:235
     --height 70% --reverse --border'
 export HH_CONFIG=hicolor        # get more colors
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
