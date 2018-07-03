@@ -170,6 +170,10 @@ if [[ $(uname -s) == "Linux" ]]; then
     # export VIM="$(dirname ${VIMRD})"
     export VIMFILES="${VIM}/vimfiles"
     export VIMRUNTIME=${VIMRD}
+        [[ ! -e ${VIMRUNTIME}/colors/solarized8_dark_flat.vim ]] && cp ~/gitrepo/vim-solarized8/colors/* ${VIMRUNTIME}/colors/
+    [[ ! -e ${VIMRUNTIME}/autoload/plug.vim ]] && {
+        curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    }
 else
     VIMRD=$(find /usr/local -type d -name "vim[0-9]*") 
     export VIM="$(dirname ${VIMRD})"
