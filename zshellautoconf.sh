@@ -39,7 +39,7 @@ name=Extra Packages for Enterprise Linux 7 - $basearch
 metalink=https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch
 failovermethod=priority
 enabled=1
-gpgcheck=1
+gpgcheck=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
 EOF
         }
@@ -50,15 +50,15 @@ EOF
         }
         # sed -i -re '/\[epel\]/,/^enabled/{s/(enabled)=[0,1]$/\1=1/g}' /etc/yum.repos.d/epel.repo && yum -y update
         yum makecache && yum -y update
-        yum -y install git tree tar unzip wget zsh gcc camke the_silver_searcher dstat ncdu htop \
+        yum -y install --nogpgcheck git tree tar unzip wget zsh gcc camke the_silver_searcher dstat ncdu htop \
             lsof strace socat jq multitail mtr shellcheck pv bind-utils libicu libicu-devel
 
         # Python3
         LatestPy="$(yum search python3|awk -F'[.,-]+' '/^python3[6u,7,7u]/{print $1}' |sort -u |tail -1)"
         LPyV="$(echo "${LatestPy}" |sed 's/[a-zA-Z]//g'|awk 'BEGIN{FS="";OFS="."}{NF++;print $1,$2}')"
-        yum -y install ${LatestPy} ||yum -y install python36u
-        yum -y install ${LatestPy}-pip ||yum -y install python36u-pip
-        yum -y install ${LatestPy}-devel ||yum -y install python36u-devel
+        yum -y install --nogpgcheck ${LatestPy} ||yum -y install --nogpgcheck python36u
+        yum -y install --nogpgcheck ${LatestPy}-pip ||yum -y install --nogpgcheck python36u-pip
+        yum -y install --nogpgcheck ${LatestPy}-devel ||yum -y install --nogpgcheck python36u-devel
         ln -sv "/usr/bin/pip${LPyV}" /usr/bin/pip3 ||ln -sv /usr/bin/pip3.6 /usr/bin/pip3
         ln -sv "/usr/bin/python${LPyV}" /usr/bin/python3 ||ln -sv /usr/bin/python3.6 /usr/bin/python3
         ln -sv "/usr/bin/python${LPyV}-config" /usr/bin/python3-config ||ln -sv /usr/bin/python3.6-config /usr/bin/python3-config
@@ -73,7 +73,7 @@ EOF
 
         # Vim8.x
         yum -y remove vim-filesystem vim-common vim-enhanced
-        yum install -y lua lua-devel luajit \
+        yum install -y --nogpgcheck lua lua-devel luajit \
         luajit-devel ctags python27 python27-scldevel tcl-devel \
         perl perl-devel perl-ExtUtils-ParseXS \
         perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
