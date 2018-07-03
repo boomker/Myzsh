@@ -98,9 +98,35 @@ fi
     # npm install -g cnpm --registry=https://registry.npm.taobao.org # use cnpm instead of npm
     [[ -n $(which npm 2>/dev/null) ]] && npm config set registry https://registry.npm.taobao.org
 
+
     # pypi mirror repo conf:
     [ ! -d ~/.pip ] && mkdir ~/.pip
-    cp "${HOME}/gitrepo/Myzshrc/pip.conf" "${HOME}/"
+    # cp "${HOME}/gitrepo/Myzshrc/pip.conf" "${HOME}/.pip/"
+    tee ~/.pip/pip.conf <<-'EOF'
+    [global]
+    trusted-host =  mirrors.aliyun.com
+    index-url = http://mirrors.aliyun.com/pypi/simple
+
+    [list]
+    format=columns
+    EOF
+
+
+    # pypi mirror repo conf:
+    # [ ! -d ~/.pip ] && mkdir ~/.pip
+    # cp "${HOME}/gitrepo/Myzshrc/pip.conf" "${HOME}/"
+    # curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+    [[ -d /etc/docker ]] || mkdir -p /etc/docker
+    tee /etc/docker/daemon.json <<-'EOF'
+    {
+        "registry-mirrors": ["https://arrn62bl.mirror.aliyuncs.com"]
+    }
+    EOF
+    [[ -n $(which docker 2>/dev/null) ]] && {
+        systemctl daemon-reload
+        systemctl restart docker
+    }
+
 }
 
 # thefuck conf:

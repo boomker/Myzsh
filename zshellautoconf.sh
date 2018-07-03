@@ -31,13 +31,25 @@ case $ID in
         cd && curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
         ;;
     centos|rhel)
-        yum -y install yum-utils &&yum -y install epel-release.noarch
+        yum -y install yum-utils &&yum -y install epel-release.noarch ||{
+        tee /etc/yum.repos.d/epel.repo <<-'EOF'
+[epel]
+name=Extra Packages for Enterprise Linux 7 - $basearch
+#baseurl=http://download.fedoraproject.org/pub/epel/7/$basearch
+metalink=https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch
+failovermethod=priority
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+EOF
+        }
         # yum -y install centos-release-scl epel-release.noarch https://centos7.iuscommunity.org/ius-release.rpm
         ping mirrors.aliyuns.com -c 3 >/dev/null && {
             mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
             curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
         }
-        sed -i -re '/\[epel\]/,/^enabled/{s/(enabled)=[0,1]$/\1=1/g}' /etc/yum.repos.d/epel.repo && yum -y update
+        # sed -i -re '/\[epel\]/,/^enabled/{s/(enabled)=[0,1]$/\1=1/g}' /etc/yum.repos.d/epel.repo && yum -y update
+        yum makecache && yum -y update
         yum -y install git tree tar unzip wget zsh gcc camke the_silver_searcher dstat ncdu htop \
             lsof strace socat jq multitail mtr shellcheck pv bind-utils libicu libicu-devel
 
