@@ -28,7 +28,7 @@ DISABLE_AUTO_UPDATE="true"
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 HIST_STAMPS="mm/dd"
-plugins=(colored-man-pages docker docker-compose extract pip ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(aws colored-man-pages docker docker-compose extract pip ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
 
 ## --------------User configuration--------------
 # You may need to manually set your language environment
