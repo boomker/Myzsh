@@ -2,6 +2,7 @@
 export ZSH=${HOME}/.oh-my-zsh
 export ZSH_CUSTOM=${ZSH}/custom
 mkdir -p "${ZSH_CUSTOM}" 2>/dev/null
+[[ $(echo $SHELL 2>/dev/null) == "/bin/bash" ]] && chsh -s /bin/zsh 2>/dev/null
 ZSH_THEME="bullet-train"
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -195,7 +196,8 @@ export ZSH_CUSTOM=${ZSH}/custom
 if [[ ! -e ${ZSH_CUSTOM}/themes/bullet-train.zsh-theme ]]
 then
     [[ ! -d ${ZSH_CUSTOM}/themes ]] && mkdir -p ${ZSH_CUSTOM}/themes
-    # git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
+    rm -rf ${ZSH_CUSTOM}/themes/*
+    git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
 fi
 
 # powerful plugins like fish
