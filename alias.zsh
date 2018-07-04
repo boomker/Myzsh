@@ -2,11 +2,11 @@
 #
 # common func
     function aama { ansible all -b -m "$1" -a "$2" }
-    function mvb { mv "$1" "$1.bak-$(date %+F_%H_%M_%S)" }
+    function mvb { mv "$1" "$1.bak-$(date +%F_%H_%M_%S)" }
     function mdac { mkdir "$1" && cd "$1" }
     function rmcd { _CDN="$(basename $PWD)";cd "$(dirname $PWD)";rm -rf "$_CDN" }
     function mkdf { _Fn="$(basename $1)";_Dn="$(dirname $1)";mkdir -p "$_Dn" && touch "${_Dn}"/"${_Fn}" }
-    function cpb { cp "$1" "$1.bak-$(date %+F_%H_%M_%S)" }
+    function cpb { cp "$1" "$1.bak-$(date +%F_%H_%M_%S)" }
     function nlc { nl "$1" |lolcat }
     function tca { tar -czvf "$1.tar.gz" "$1" }
     function psa { ps -ef |ag "$1" |ag -vw "ag" }
