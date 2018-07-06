@@ -168,7 +168,7 @@ fi
 if [[ $(uname -s) == "Linux" ]]; then
     [[ -n $(egrep -i "centos|redhat" /etc/os-release) ]] && \
         VIMRD=$(find /usr/local -type d -name "vim[0-9]*") || VIMRD=$(find /usr/share -type d -name "vim[0-9]*") 
-    # export VIM="$(dirname ${VIMRD})"
+    export VIM="$(dirname ${VIMRD})"
     export VIMFILES="${VIM}/vimfiles"
     export VIMRUNTIME=${VIMRD}
         [[ ! -e ${VIMRUNTIME}/colors/solarized8_dark_flat.vim ]] && cp ~/gitrepo/vim-solarized8/colors/* ${VIMRUNTIME}/colors/

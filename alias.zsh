@@ -86,6 +86,7 @@ fjpane() {
     alias -g W=' |wc -l'
     alias afk='ag --nobreak --nonumbers --noheading . | fzf'
     alias z='z_replacement'
+    alias zipc='zip -r '
     alias pps="/usr/local/opt/python3/Frameworks/Python.framework/Versions/3.6/bin/ptipython3"
     alias ips="/usr/local/opt/python3/Frameworks/Python.framework/Versions/3.6/bin/ipython3"
     alias tm="tmux"
