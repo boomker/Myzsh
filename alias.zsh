@@ -21,6 +21,7 @@
 # export LESS_TERMCAP_so=$'\E[01;44;33m'
 # export LESS_TERMCAP_ue=$'\E[0m'
 # export LESS_TERMCAP_us=$'\E[01;32m'
+
 z_replacement()
 {
     [ $# -gt 0 ] && _z "$*" && return
@@ -70,25 +71,25 @@ fjpane() {
 # common alias:
     # alias piua="for i in $(pip3 list --outdate |awk 'NR>2{print $1}');do pip3 install --upgrade $i;done" # make lanch zsh too slow
     # jpnb='cd;jupyter notebook >$HOME/.jupyter/jupyter_notebook_running.log 2>&1 & # the reason is same prevalias
-    alias -g L=' |less'
     alias -g NL=' |nl |lolcat'
     alias -g CT=' |column -t'
-    alias -g J=' |jq'
     alias -g A=' |ag'
     alias -g G=' |egrep -i'
     alias -g H=' |head'
-    alias -g E=' |tail'
+    alias -g T=' |tail'
+    alias -g L=' |less'
+    alias -g J=' |jq'
     alias -g X=' |xargs'
     alias -g P=' |parallel'
     alias -g U=' |uniq'
     alias -g S=' |sort'
-    alias -g T=' |tee'
+    alias -g Y=' |tee'
     alias -g W=' |wc -l'
     alias afk='ag --nobreak --nonumbers --noheading . | fzf'
     alias z='z_replacement'
-    alias zipc='zip -r '
-    alias pps="/usr/local/opt/python3/Frameworks/Python.framework/Versions/3.6/bin/ptipython3"
-    alias ips="/usr/local/opt/python3/Frameworks/Python.framework/Versions/3.6/bin/ipython3"
+    alias zip='zip -r '
+    alias pps="ptipython3"
+    alias ips="ipython3"
     alias tm="tmux"
     alias idf="icdiff -r -N"
     # 可以递归对比两目录的差异，包括文件内容的差异
@@ -101,11 +102,11 @@ fjpane() {
     alias sei='sed -i '
     alias sen='sed -n '
     alias tssh='TERM=xterm-256color ssh'
-    alias sshconf='vim ${HOME}/.ssh/config'
     # alias rmaf="rm -rf"
-    alias cp="cp -f "
+    alias cpf="cp -f "
+    alias cpr="cp -ar "
     alias mv='mv -f '
-    alias gtp="/usr/local/bin/time -p"
+    alias timep="/usr/local/bin/time -p"
     alias gcl="git clone "
     alias gaa="git add ."
     alias gcm="git commit -m "
@@ -131,6 +132,7 @@ fjpane() {
     alias ffw='proxychains4 '
     alias ffww='proxychains4 wget '
     alias ffwa='proxychains4 aria2c -x6 -c '
+    alias sshconf="vim ${HOME}/.ssh/config"
     alias aliconf="vim ${HOME}/gitrepo/Myzshrc/alias.zsh"
     alias zshreload='source ~/.zshrc' # conflict with tmux
     alias zshconfig="vim ${HOME}/gitrepo/Myzshrc/.zshrc"
@@ -141,11 +143,13 @@ fjpane() {
 # for different OS of alias conf:
 #     # alias for MacOS_Darwin
 if [[ $(uname -s) == "Darwin" ]]; then
+    alias -g C=' |pbcopy'
     alias tq="tianqi"
     alias mzshconfig="vim ${HOME}/gitrepo/Myzshrc/.zshrc_mac"
     alias brin='brew install '
     alias brci='brew cask install '
-    alias cp='gcp -f '
+    alias cpf='gcp -f '
+    alias cpr='gcp -ar '
     alias mv='gmv -f '
     alias l="exa -abghl --git --color=automatic"
     alias ls='gls -p --width=80 --color=auto'
@@ -164,14 +168,17 @@ if [[ $(uname -s) == "Darwin" ]]; then
     alias uniq='guniq'
     alias awk='gawk'
     alias df='gdf'
+    alias tr='gtr'
     alias mdsum='gmd5sum'
-    alias nstnt='netstat -nptcp'
+    alias netstat='netstat -nptcp'
+    alias pps="/usr/local/opt/python3/Frameworks/Python.framework/Versions/3.6/bin/ptipython3"
+    alias ips="/usr/local/opt/python3/Frameworks/Python.framework/Versions/3.6/bin/ipython3"
 else
     # alias for *unix
     alias open=xdg-open
-    alias free='free -mht'
-    alias pbcopy='xsel --clipboard --input'
-    alias pbpaste='xsel --clipboard --output'
+    alias free='free -mh'
+    alias pc='xsel --clipboard --input'
+    alias pp='xsel --clipboard --output'
     alias ss='ss -tnlp |column -t'
     alias mmi="make -j2&&make install"
     alias dstat="dstat -cdlmnpsy"
