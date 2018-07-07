@@ -31,19 +31,9 @@ case $ID in
         cd && curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
         ;;
     centos|rhel)
-        yum -y install yum-utils &&yum -y install epel-release.noarch ||{
-        tee /etc/yum.repos.d/epel.repo <<-'EOF'
-[epel]
-name=Extra Packages for Enterprise Linux 7 - $basearch
-#baseurl=http://download.fedoraproject.org/pub/epel/7/$basearch
-metalink=https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch
-failovermethod=priority
-enabled=1
-gpgcheck=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
-EOF
-        }
-        # yum -y install centos-release-scl epel-release.noarch https://centos7.iuscommunity.org/ius-release.rpm
+        yum -y install yum-utils &&yum -y install epel-release.noarch || \
+            rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+        # yum -y install centos-release-scl https://centos7.iuscommunity.org/ius-release.rpm
         ping mirrors.aliyuns.com -c 3 >/dev/null && {
             mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
             curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
@@ -54,11 +44,13 @@ EOF
             lsof strace socat jq multitail mtr shellcheck pv bind-utils libicu libicu-devel
 
         # Python3
-        LatestPy="$(yum search python3|awk -F'[.,-]+' '/^python3[6u,7,7u]/{print $1}' |sort -u |tail -1)"
+        LatestPy="$(yum search python3|awk -F'[.,-]+' '/^python3[6,6u,7,7u]/{print $1}' |sort -u |tail -1)"
         LPyV="$(echo "${LatestPy}" |sed 's/[a-zA-Z]//g'|awk 'BEGIN{FS="";OFS="."}{NF++;print $1,$2}')"
         yum -y install --nogpgcheck ${LatestPy} ||yum -y install --nogpgcheck python36u
-        yum -y install --nogpgcheck ${LatestPy}-pip ||yum -y install --nogpgcheck python36u-pip
         yum -y install --nogpgcheck ${LatestPy}-devel ||yum -y install --nogpgcheck python36u-devel
+        yum -y install --nogpgcheck ${LatestPy}-pip ||{
+            yum -y install --nogpgcheck python36u-pip ||curl -fsSL https://bootstrap.pypa.io/get-pip.py |python3 -
+        }
         ln -sv "/usr/bin/pip${LPyV}" /usr/bin/pip3 ||ln -sv /usr/bin/pip3.6 /usr/bin/pip3
         ln -sv "/usr/bin/python${LPyV}" /usr/bin/python3 ||ln -sv /usr/bin/python3.6 /usr/bin/python3
         ln -sv "/usr/bin/python${LPyV}-config" /usr/bin/python3-config ||ln -sv /usr/bin/python3.6-config /usr/bin/python3-config
@@ -66,10 +58,10 @@ EOF
         pip3 install --upgrade pip||pip install --upgrade pip
         pip3 install ptipython pip-tools jedi autopep8 glances flake8 PrettyPrinter psutil mhsize \
             httpstat httpie ngxtop icdiff lolcat
-        cd && curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+        cd && curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer |bash
 
-        curl -L get.rvm.io | bash -s stable
-        rvm install 2.4.0
+        # curl -L get.rvm.io | bash -s stable
+        # rvm install 2.4.0
 
         # Vim8.x
         yum -y remove vim-filesystem vim-common vim-enhanced
