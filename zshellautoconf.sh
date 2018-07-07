@@ -49,7 +49,7 @@ case $ID in
         yum -y install --nogpgcheck ${LatestPy} ||yum -y install --nogpgcheck python36u
         yum -y install --nogpgcheck ${LatestPy}-devel ||yum -y install --nogpgcheck python36u-devel
         yum -y install --nogpgcheck ${LatestPy}-pip ||{
-            yum -y install --nogpgcheck python36u-pip ||curl -fsSL https://bootstrap.pypa.io/get-pip.py |python3 -
+            yum -y install --nogpgcheck python36u-pip ||curl -fsSL https://bootstrap.pypa.io/get-pip.py |${LatestPy} -
         }
         ln -sv "/usr/bin/pip${LPyV}" /usr/bin/pip3 ||ln -sv /usr/bin/pip3.6 /usr/bin/pip3
         ln -sv "/usr/bin/python${LPyV}" /usr/bin/python3 ||ln -sv /usr/bin/python3.6 /usr/bin/python3
@@ -60,6 +60,7 @@ case $ID in
             httpstat httpie ngxtop icdiff lolcat
         cd && curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer |bash
 
+        exit
         # curl -L get.rvm.io | bash -s stable
         # rvm install 2.4.0
 
