@@ -121,10 +121,10 @@ fjpane() {
     alias dfh='df -Th'
     alias duhl='du -ah --max-depth=1 '
     alias trel='tree -L 1 '
-    # alias pip3='python3 -m pip'
+    alias pip3='python3 -m pip'
     # alias piu="python3 -m pip uninstall "
-    alias piu="pip uninstall "
-    alias pii="pip install "
+    alias piu="pip3 uninstall "
+    alias pii="pip3 install "
     # alias pii="python3 -m pip install "
     alias pus="pip3 install --upgrade pip"
     # alias pypi="/usr/local/opt/pypy3/bin/pip"
@@ -152,7 +152,7 @@ if [[ $(uname -s) == "Darwin" ]]; then
     alias cpr='gcp -ar '
     alias mv='gmv -f '
     alias l="exa -abghl --git --color=automatic"
-    alias ls='gls -p --width=80 --color=auto'
+    alias ls='gls -p -w 80 --color=auto'
     alias nl="gnl"
     alias du="gdu"
     alias duts="du -ch |tail -1"

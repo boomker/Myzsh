@@ -64,10 +64,11 @@ if [[ $(uname -s) == "Darwin" ]]; then
     export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 
     # GNU cmd tools PATH for Mac:
-    export PATH="/opt/local/bin:/usr/local/sbin:/usr/local/opt/coreutils/bin:$PATH"
-    export PATH="/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:/usr/local/opt/texinfo/bin:$PATH"
-    export PATH="/usr/local/opt/curl/bin:/usr/local/opt/openssl@1.1/bin:$PATH"
-    export PATH="/usr/local/opt/python3/Frameworks/Python.framework/Versions/3.6/bin:$PATH"
+    # /opt/local/bin:
+    # export PATH="/usr/local/sbin:/usr/local/opt/coreutils/bin:$PATH"
+    # export PATH="/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:/usr/local/opt/texinfo/bin:$PATH"
+    # export PATH="/usr/local/opt/curl/bin:/usr/local/opt/openssl@1.1/bin:$PATH"
+    # export PATH="/usr/local/opt/python3/Frameworks/Python.framework/Versions/3.6/bin:$PATH"
 
     # For compilers to find this software you may need to set: {{{
     # LDFLAGS:  -L/usr/local/opt/openssl/lib
