@@ -161,6 +161,7 @@ if [[ $(uname -s) == "Darwin" ]]; then
     alias locate="glocate"
     # alias updatedb="gupdatedb"
     alias grep='ggrep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
+    alias date='gdate'
     alias cut='gcut'
     alias sed='gsed'
     alias sort='gsort'
