@@ -11,6 +11,7 @@
     function tca { tar -czvf "$1.tar.gz" "$1" }
     function psa { ps -ef |ag "$1" |ag -vw "ag" }
     function hles { highlight -O xterm256 "$1" |less -R -N }
+    function gvbc { egrep -v "^(#|$)" "$1" }
 
 # export LESS=" -R"
 # export LESSOPEN="|highlight -O truecolor %s"
@@ -68,11 +69,22 @@ fjpane() {
     fi
 }
 
+ftc() {
+    dirname=$(dirname "$1")
+    filename=$(basename "$1")
+    cd ${dirname}
+    dir=$(pwd)
+    osascript -e 'tell app "Finder" to set the clipboard to ( POSIX file "'${dir}/${filename}'" )'
+    cd -
+    # osascript -e 'tell app "Finder" to set the clipboard to ( POSIX file "'$1'" )'
+}
+
 # common alias:
     # alias piua="for i in $(pip3 list --outdate |awk 'NR>2{print $1}');do pip3 install --upgrade $i;done" # make lanch zsh too slow
     # jpnb='cd;jupyter notebook >$HOME/.jupyter/jupyter_notebook_running.log 2>&1 & # the reason is same prevalias
     alias -g NL=' |nl |lolcat'
     alias -g CT=' |column -t'
+    alias -g PC=' |pbcopy'
     alias -g A=' |ag'
     alias -g G=' |egrep -i'
     alias -g H=' |head'

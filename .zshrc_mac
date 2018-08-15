@@ -249,8 +249,10 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 export HH_CONFIG=hicolor        # get more colors
 source ${ZSH}/oh-my-zsh.sh
 source ~/.oh-my-zsh/custom/.fzf.zsh
+export FZF_DEFAULT_COMMAND='fd --type file --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-export FZF_CTRL_T_OPTS="--preview '(highlight -O truecolor -n -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -100'"
+export FZF_CTRL_T_OPTS="--preview '(highlight -O xterm256 -n -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -100'"
 export FZF_DEFAULT_OPTS='
     --color dark,hl:33,hl+:37,fg+:235,bg+:136,fg+:254
     --color info:254,prompt:37,spinner:108,pointer:235,marker:235
