@@ -48,7 +48,7 @@ autoload -U compinit && compinit
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
-# export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:$PATH"
+# export PATH="/usr/local/bin:/usr/local/opt/coreutils/bin/:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:$PATH"
 
 ## configure pyvenv, Homebrew, PATH(GNU CLI tools), catalog ,git on MacOS {{{
 if [[ $(uname -s) == "Darwin" ]]; then
@@ -135,7 +135,7 @@ export EDITOR="$(which vim)"
 # several vim var conf:
 export VIM="/usr/local/opt/vim/share/vim"
 export VIMFILES="${VIM}/vimfiles"
-export VIMRUNTIME=/usr/local/share/vim/vim80
+export VIMRUNTIME=/usr/local/share/vim/vim81
 # "VIMRUNTIME" 变量与 nvim 冲突
 # ------------VIM-------------------------- {{{
 # if [[ $(uname -s) == "Linux" ]]; then
