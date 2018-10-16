@@ -145,11 +145,11 @@ ftc() {
     alias ffww='proxychains4 wget '
     alias ffwa='proxychains4 aria2c -x6 -c '
     alias sshconf="vim ${HOME}/.ssh/config"
-    alias aliconf="vim ${HOME}/gitrepo/Myzshrc/alias.zsh"
+    alias aliconf="vim ${HOME}/gitrepos/Myzshrc/alias.zsh"
     alias zshreload='source ~/.zshrc' # conflict with tmux
-    alias zshconfig="vim ${HOME}/gitrepo/Myzshrc/.zshrc"
-    alias vimconfig="vim ${HOME}/gitrepo/Myvimrc/.vimrc"
-    alias tmuxconfig="vim ${HOME}/gitrepo/Mytmuxconf/.tmux.conf"
+    alias zshconfig="vim ${HOME}/gitrepos/Myzshrc/.zshrc"
+    alias vimconfig="vim ${HOME}/gitrepos/Myvimrc/.vimrc"
+    alias tmuxconfig="vim ${HOME}/gitrepos/Mytmuxconf/.tmux.conf"
 
 
 # for different OS of alias conf:
@@ -157,7 +157,7 @@ ftc() {
 if [[ $(uname -s) == "Darwin" ]]; then
     alias -g C=' |pbcopy'
     alias tq="tianqi"
-    alias mzshconfig="vim ${HOME}/gitrepo/Myzshrc/.zshrc_mac"
+    alias mzshconfig="vim ${HOME}/gitrepos/Myzshrc/.zshrc_mac"
     alias brin='brew install '
     alias brci='brew cask install '
     alias cpf='gcp -f '
@@ -168,11 +168,12 @@ if [[ $(uname -s) == "Darwin" ]]; then
     alias nl="gnl"
     alias du="gdu"
     alias duts="du -ch |tail -1"
-    alias find="gfind"
+    # alias find="gfind"
     alias xargs="gxargs"
     alias locate="glocate"
     # alias updatedb="gupdatedb"
-    alias grep='ggrep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
+    # alias grep='ggrep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
+    alias grep='rg'
     alias date='gdate'
     alias cut='gcut'
     alias sed='gsed'
@@ -184,8 +185,8 @@ if [[ $(uname -s) == "Darwin" ]]; then
     alias tr='gtr'
     alias mdsum='gmd5sum'
     alias netstat='netstat -nptcp'
-    alias pps="/usr/local/opt/python3/Frameworks/Python.framework/Versions/3.6/bin/ptipython3"
-    alias ips="/usr/local/opt/python3/Frameworks/Python.framework/Versions/3.6/bin/ipython3"
+    alias pps="$(which ptipython3)"
+    alias ips="$(which ipython3)"
 else
     # alias for *unix
     alias open=xdg-open

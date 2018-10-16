@@ -41,14 +41,12 @@ export UPDATE_ZSH_DAYS=9
 # vi-mode
 # }}}
 
-plugins=(aws docker colored-man-pages pip extract ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(colored-man-pages pip extract ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
 autoload -U compinit && compinit
 
 ## --------------User configuration--------------
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
-
-# export PATH="/usr/local/bin:/usr/local/opt/coreutils/bin/:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:$PATH"
 
 ## configure pyvenv, Homebrew, PATH(GNU CLI tools), catalog ,git on MacOS {{{
 if [[ $(uname -s) == "Darwin" ]]; then
@@ -61,14 +59,16 @@ if [[ $(uname -s) == "Darwin" ]]; then
 
     # HomeBrew more fast conf:
     #export HOMEBREW_GITHUB_API_TOKEN=""
-    export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
+    # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 
     # GNU cmd tools PATH for Mac:
-    # /opt/local/bin:
-    # export PATH="/usr/local/sbin:/usr/local/opt/coreutils/bin:$PATH"
+    # /opt/local/bin:/usr/local/bin:
+    export PATH="~/Library/Python/3.7/bin:~/Library/Python/2.7/bin:${PATH}"
+    export PATH="/usr/local/opt/coreutils/bin:/usr/local/opt/findutils/libexec/gnubin:${PATH}"
+    export MANPATH="/usr/local/man:/usr/local/opt/coreutils/share/man:/usr/local/opt/findutils/libexec/gnuma:${MANPATH}"
+
     # export PATH="/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:/usr/local/opt/texinfo/bin:$PATH"
     # export PATH="/usr/local/opt/curl/bin:/usr/local/opt/openssl@1.1/bin:$PATH"
-    # export PATH="/usr/local/opt/python3/Frameworks/Python.framework/Versions/3.6/bin:$PATH"
 
     # For compilers to find this software you may need to set: {{{
     # LDFLAGS:  -L/usr/local/opt/openssl/lib
@@ -76,10 +76,10 @@ if [[ $(uname -s) == "Darwin" ]]; then
     # For pkg-config to find this software you may need to set:
     # PKG_CONFIG_PATH: /usr/local/opt/openssl/lib/pkgconfig
     # }}}
-    export MANPATH="/usr/local/share/man:/usr/local/opt/coreutils/share/man:$MANPATH"
+    export MANPATH="/usr/local/share/man:/usr/local/opt/coreutils/share/man:/usr/local/opt/findutils/libexec/gnuman:$MANPATH"
 
     # catalog varpath conf:
-    export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
+    # export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
 
     # git proxy conf: {{{
     # if [[ -n $(ps -ef |grep -i "shadowsocks" |grep -v grep) ]]
@@ -93,6 +93,8 @@ if [[ $(uname -s) == "Darwin" ]]; then
     # }}}
 fi
 ## }}}
+
+# export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:${PATH}"
 
 # eval $(thefuck --alias fff)
 # thefuck install and alias config {{{ #
@@ -246,7 +248,7 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
     # }}}
 
 # add this configuration to ~/.zshrc
-export HH_CONFIG=hicolor        # get more colors
+# export HH_CONFIG=hicolor        # get more colors
 source ${ZSH}/oh-my-zsh.sh
 source ~/.oh-my-zsh/custom/.fzf.zsh
 export FZF_DEFAULT_COMMAND='fd --type file --exclude .git'
@@ -257,4 +259,3 @@ export FZF_DEFAULT_OPTS='
     --color dark,hl:33,hl+:37,fg+:235,bg+:136,fg+:254
     --color info:254,prompt:37,spinner:108,pointer:235,marker:235
     --height 70% --reverse --border'
-

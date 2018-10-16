@@ -34,7 +34,6 @@ plugins=(aws colored-man-pages docker docker-compose extract pip ssh-agent z zsh
 ## --------------User configuration--------------
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
-export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:${PATH}"
 
 ## configure pyvenv, Homebrew, PATH(GNU CLI tools), catalog ,git on MacOS or *unix platform:
 if [[ $(uname -s) == "Darwin" ]]; then
@@ -59,16 +58,17 @@ if [[ $(uname -s) == "Darwin" ]]; then
     # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
     #export HOMEBREW_GITHUB_API_TOKEN=""
     # GNU cmd tools PATH for Mac:
-    export PATH="/usr/local/sbin:/usr/local/opt/coreutils/bin:/usr/local/opt/texinfo/bin:${PATH}"
-    export PATH="/opt/local/bin:/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:${PATH}"
-    export MANPATH="/usr/local/man:/usr/local/opt/coreutils/share/man:${MANPATH}"
+    # export PATH="/opt/local/bin:/usr/local/opt/texinfo/bin:/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:${PATH}"
+    export PATH="~/Library/Python/3.7/bin:~/Library/Python/2.7/bin:${PATH}"
+    export PATH="/usr/local/opt/coreutils/bin:/usr/local/opt/findutils/libexec/gnubin:${PATH}"
+    export MANPATH="/usr/local/man:/usr/local/opt/coreutils/share/man:/usr/local/opt/findutils/libexec/gnuman:${MANPATH}"
     # For compilers to find this software you may need to set:
     # LDFLAGS:  -L/usr/local/opt/openssl/lib
     # CPPFLAGS: -I/usr/local/opt/openssl/include
     # For pkg-config to find this software you may need to set:
     # PKG_CONFIG_PATH: /usr/local/opt/openssl/lib/pkgconfig
     # catalog varpath conf:
-    export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
+    # export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
 else
     ## for *unix platform:
     # pyenv conf:
@@ -80,6 +80,8 @@ else
      fi
     export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 fi
+
+# export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:${PATH}"
 
 ## git curl pip npm mirror repo proxy conf:
 [[ -n $(pgrep "shadowsocks|Shadowsocks") ]] && [[ -n $(curl -q -s ip.cn |grep -E "(省|市)") ]] && {
