@@ -9,7 +9,7 @@
     function mkdf { _Fn="$(basename $1)";_Dn="$(dirname $1)";mkdir -p "$_Dn" && touch "${_Dn}"/"${_Fn}" }
     function nlc { nl "$1" |lolcat }
     function tca { tar -czvf "$1.tar.gz" "$1" }
-    function psa { ps -ef |ag "$1" |ag -vw "ag" }
+    function psa { ps -ef |rg "$1" |rg -vw "rg" }
     function hles { highlight -O xterm256 "$1" |less -R -N }
     function gvbc { egrep -v "^(#|$)" "$1" }
 
@@ -86,6 +86,7 @@ ftc() {
     alias -g CT=' |column -t'
     alias -g PC=' |pbcopy'
     alias -g A=' |ag'
+    alias -g R=' |rg'
     alias -g G=' |egrep -i'
     alias -g H=' |head'
     alias -g T=' |tail'
@@ -133,7 +134,7 @@ ftc() {
     alias dfh='df -Th'
     alias duhl='du -ah --max-depth=1 '
     alias trel='tree -L 1 '
-    alias pip3='python3 -m pip'
+    # alias pip3='python3 -m pip'
     # alias piu="python3 -m pip uninstall "
     alias piu="pip3 uninstall "
     alias pii="pip3 install "

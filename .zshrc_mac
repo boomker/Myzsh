@@ -41,7 +41,7 @@ export UPDATE_ZSH_DAYS=9
 # vi-mode
 # }}}
 
-plugins=(colored-man-pages pip extract ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(colored-man-pages django pip extract ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
 autoload -U compinit && compinit
 
 ## --------------User configuration--------------
@@ -54,8 +54,8 @@ if [[ $(uname -s) == "Darwin" ]]; then
     export PYENV_ROOT="/usr/local/opt/pyenv"
     export VIRTUALENV_ROOT="/usr/local/opt/pyenv-virtualenv"
     export PATH="${PYENV_ROOT}/bin:${VIRTUALENV_ROOT}/bin:$PATH"
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
+    # eval "$(pyenv init -)"
+    # eval "$(pyenv virtualenv-init -)"
 
     # HomeBrew more fast conf:
     #export HOMEBREW_GITHUB_API_TOKEN=""
@@ -251,6 +251,7 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 # export HH_CONFIG=hicolor        # get more colors
 source ${ZSH}/oh-my-zsh.sh
 source ~/.oh-my-zsh/custom/.fzf.zsh
+export BAT_THEME="TwoDark"
 export FZF_DEFAULT_COMMAND='fd --type file --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
