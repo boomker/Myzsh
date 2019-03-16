@@ -194,7 +194,6 @@ else
     alias free='free -mh'
     alias pc='xsel --clipboard --input'
     alias pp='xsel --clipboard --output'
-    alias ss='ss -tnlp |column -t'
     alias mmi="make -j2&&make install"
     alias dstat="dstat -cdlmnpsy"
 fi

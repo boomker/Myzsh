@@ -103,11 +103,11 @@ fi
 
     # pypi mirror repo conf:
     [ ! -d ~/.pip ] && mkdir ~/.pip
-    cp "${HOME}/gitrepo/Myzshrc/pip.conf" "${HOME}/"
+    cp "${HOME}/gitrepos/Myzshrc/pip.conf" "${HOME}/"
 
     # pypi mirror repo conf:
     [ ! -d ~/.pip ] && mkdir ~/.pip
-    # cp "${HOME}/gitrepo/Myzshrc/pip.conf" "${HOME}/.pip/"
+    # cp "${HOME}/gitrepos/Myzshrc/pip.conf" "${HOME}/.pip/"
     tee ~/.pip/pip.conf <<-'EOF'
     [global]
     trusted-host =  mirrors.aliyun.com
@@ -119,7 +119,7 @@ EOF
 
     # pypi mirror repo conf:
     # [ ! -d ~/.pip ] && mkdir ~/.pip
-    # cp "${HOME}/gitrepo/Myzshrc/pip.conf" "${HOME}/"
+    # cp "${HOME}/gitrepos/Myzshrc/pip.conf" "${HOME}/"
     # curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
     [[ -d /etc/docker ]] || mkdir -p /etc/docker
     tee /etc/docker/daemon.json <<-'EOF'
@@ -144,9 +144,9 @@ EOF
 # fi
 
 # alias.zsh conf:
-if [[ -e ${HOME}/gitrepo/Myzshrc/alias.zsh ]]
+if [[ -e ${HOME}/gitrepos/Myzshrc/alias.zsh ]]
 then
-    [[ ! -e ${ZSH_CUSTOM}/alias.zsh ]] && ln -sv ${HOME}/gitrepo/Myzshrc/alias.zsh  ${ZSH_CUSTOM}/alias.zsh
+    [[ ! -e ${ZSH_CUSTOM}/alias.zsh ]] && ln -sv ${HOME}/gitrepos/Myzshrc/alias.zsh  ${ZSH_CUSTOM}/alias.zsh
     # source ${ZSH_CUSTOM}/alias.zsh
 fi
 
@@ -171,16 +171,18 @@ if [[ $(uname -s) == "Linux" ]]; then
     [[ -n $(egrep -i "centos|redhat" /etc/os-release) ]] && \
         VIMRD=$(find /usr/local -type d -name "vim[0-9]*") || VIMRD=$(find /usr/share -type d -name "vim[0-9]*") 
     export VIM="$(dirname ${VIMRD})"
-    export VIMFILES="${VIM}/vimfiles"
+    # export VIMFILES="${VIM}/vimfiles"
+    export VIMFILES="${HOME}/.vim/vimfiles"
     export VIMRUNTIME=${VIMRD}
-        [[ ! -e ${VIMRUNTIME}/colors/solarized8_dark_flat.vim ]] && cp ~/gitrepo/vim-solarized8/colors/* ${VIMRUNTIME}/colors/
+        [[ ! -e ${VIMRUNTIME}/colors/solarized8_dark_flat.vim ]] && cp ~/gitrepos/vim-solarized8/colors/* ${VIMRUNTIME}/colors/
     [[ ! -e ${VIMRUNTIME}/autoload/plug.vim ]] && {
         curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     }
 else
     VIMRD=$(find /usr/local -type d -name "vim[0-9]*") 
     export VIM="$(dirname ${VIMRD})"
-    export VIMFILES="${VIM}/vimfiles"
+    # export VIMFILES="${VIM}/vimfiles"
+    export VIMFILES="${HOME}/.vim/vimfiles"
     export VIMRUNTIME="${VIMRD}"
     # export VIM="/usr/local/opt/neovim/share/nvim"                 # for neovim on MacOS_Darwin
     # export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime"
@@ -212,14 +214,14 @@ fi
 # fzf.zsh
 if [[ -z $(which fzf 2>/dev/null) ]]
 then
-    [[ -d ${HOME}/gitrepo/fzf ]] && {
-        bash ~/gitrepo/fzf/install
-        ln -sv ~/gitrepo/fzf/bin/fzf /usr/bin/fzf
-    } ||git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/gitrepo/fzf
+    [[ -d ${HOME}/gitrepos/fzf ]] && {
+        bash ~/gitrepos/fzf/install
+        ln -sv ~/gitrepos/fzf/bin/fzf /usr/bin/fzf
+    } ||git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/gitrepos/fzf
 else
     [[ -e ${HOME}/.fzf.zsh ]] && mv ${HOME}/.fzf.zsh ${ZSH_CUSTOM}/.fzf.zsh
     export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
-    # [[ ! -e /usr/bin/fzf ]] && ln -sv ${HOME}/gitrepo/fzf/bin/fzf /usr/bin/fzf 2>/dev/null
+    # [[ ! -e /usr/bin/fzf ]] && ln -sv ${HOME}/gitrepos/fzf/bin/fzf /usr/bin/fzf 2>/dev/null
 fi
 
 # ##############################################
