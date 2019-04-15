@@ -12,7 +12,7 @@
 
 # os type judge
 cd ~
-mkdir ~/gitrepo
+mkdir ~/gitrepos
 source /etc/os-release
 case $ID in
     ubuntu)
@@ -24,7 +24,7 @@ case $ID in
             PrettyPrinter psutil hsize httpie ngxtop icdiff future frozendict
         VIMRUNTIME=$(find /usr/share -type d -name "vim[0-9]*" 2>/dev/nul)
         export VIMRUNTIME
-        cd ~/gitrepo && git clone https://github.com/boomker/Myvimrc.git
+        cd ~/gitrepos && git clone https://github.com/boomker/Myvimrc.git
         cd ./Myvimrc && cp onedark.vim gruvbox.vim solarized8_dark_flat.vim "${VIMRUNTIME}/colors"
         curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
         cp .vimrc ~/
@@ -72,7 +72,7 @@ case $ID in
         perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
         perl-ExtUtils-Embed gcc-c++ ncurses-devel \
         # scl enable bash
-        cd ~/gitrepo
+        cd ~/gitrepos
         git clone https://github.com/vim/vim.git
         cd ./vim
         ./configure --with-features=huge \
@@ -87,18 +87,17 @@ case $ID in
                     --enable-gui=gtk2 \
                     --enable-cscope \
                     --prefix=/usr/local
-        VIMRD=$(find /usr/local -type d -name "vim[0-9]*" 2>/dev/nul)
-        make VIMRUNTIMEDIR=${VIMRD}
+        # make VIMRUNTIMEDIR=${VIMRD}
+        make
         make install
         update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
         update-alternatives --set editor /usr/local/bin/vim
-        # export VIMRUNTIME="${VIMRD}"
-        cd ~/gitrepo && git clone https://github.com/boomker/Myvimrc.git
-        git clone https://github.com/lifepillar/vim-solarized8.git
-        # cp ~/gitrepo/vim-solarized8/colors/* ${VIMRUNTIME}/colors/
+        VIMRD=$(find /usr/local -type d -name "vim[0-9]*" 2>/dev/nul)
+        export VIMRUNTIME="${VIMRD}"
+        cd ~/gitrepos && git clone https://github.com/boomker/Myvimrc.git
         # curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
         cd ./Myvimrc
-        tic xterm-256color-italic.terminfo
+        # tic xterm-256color-italic.terminfo
         mv ~/.vimrc{,.bak} 2>/dev/null
         cp .vimrc ~/
         ;;
@@ -109,9 +108,9 @@ esac
 
 
 # git Myself zshell conf repo:
-cd ~/gitrepo
+cd ~/gitrepos
 git clone https://github.com/boomker/Myzshrc.git
-cd ~/gitrepo/Myzshrc
+cd ~/gitrepos/Myzshrc
 mv "${HOME}"/.zshrc{,.bak}
 cp .zshrc ~/
 source ./oh-my-zsh_install.sh

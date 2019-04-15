@@ -69,8 +69,8 @@ main() {
 
   printf "${BLUE}Looking for an existing zsh config...${NORMAL}\n"
   if [ ! -f ~/.zshrc ] || [ -h ~/.zshrc ]; then
-    printf "${YELLOW} Not Found ~/.zshrc.${NORMAL} ${GREEN}copy .zshrc from ~/gitrepo/Myzshrc ${NORMAL}\n";
-    mv ~/gitrepo/Myzshrc/.zshrc ~/.zshrc;
+    printf "${YELLOW} Not Found ~/.zshrc.${NORMAL} ${GREEN}copy .zshrc from ~/gitrepos/Myzshrc ${NORMAL}\n";
+    mv ~/gitrepos/Myzshrc/.zshrc ~/.zshrc;
   fi
 
   # printf "${BLUE}Using the Oh My Zsh template file and adding it to ~/.zshrc${NORMAL}\n"
