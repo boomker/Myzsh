@@ -2,7 +2,7 @@
 export ZSH=${HOME}/.oh-my-zsh
 export ZSH_CUSTOM=${ZSH}/custom
 mkdir -p "${ZSH_CUSTOM}" 2>/dev/null
-[[ $(echo $SHELL 2>/dev/null) == "/bin/bash" ]] && chsh -s /bin/zsh 2>/dev/null
+[[ $(echo $SHELL 2>/dev/null) == "/bin/bash" ]] && chsh -s /usr/bin/zsh 2>/dev/null
 ZSH_THEME="bullet-train"
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -129,6 +129,7 @@ EOF
 EOF
     [[ -n $(which docker 2>/dev/null) ]] && {
         systemctl daemon-reload
+        systemctl enable docker
         systemctl restart docker
     }
 }
@@ -175,9 +176,6 @@ if [[ $(uname -s) == "Linux" ]]; then
     export VIMFILES="${HOME}/.vim/vimfiles"
     export VIMRUNTIME=${VIMRD}
         [[ ! -e ${VIMRUNTIME}/colors/solarized8_dark_flat.vim ]] && cp ~/gitrepos/vim-solarized8/colors/* ${VIMRUNTIME}/colors/
-    [[ ! -e ${VIMRUNTIME}/autoload/plug.vim ]] && {
-        curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    }
 else
     VIMRD=$(find /usr/local -type d -name "vim[0-9]*") 
     export VIM="$(dirname ${VIMRD})"
@@ -209,6 +207,7 @@ if [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-autosuggestions ]] || [[ ! -d ${ZSH_CUSTOM}
 then
     git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
+    git clone https://github.com/zsh-users/zsh-completions ~/.oh-my-zsh/custom/plugins/zsh-completions
 fi
 
 # fzf.zsh
@@ -298,3 +297,5 @@ export FZF_DEFAULT_OPTS='
     --color info:254,prompt:37,spinner:108,pointer:235,marker:235
     --height 70% --reverse --border'
 export HH_CONFIG=hicolor        # get more colors
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
