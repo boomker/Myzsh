@@ -63,7 +63,7 @@ if [[ $(uname -s) == "Darwin" ]]; then
 
     # GNU cmd tools PATH for Mac:
     # /opt/local/bin:/usr/local/bin:
-    export PATH="~/Library/Python/3.7/bin:~/Library/Python/2.7/bin:${PATH}"
+    export PATH="/usr/local/sbin/:~/Library/Python/3.7/bin:~/Library/Python/2.7/bin:${PATH}"
     export PATH="/usr/local/opt/coreutils/bin:/usr/local/opt/findutils/libexec/gnubin:${PATH}"
     export MANPATH="/usr/local/man:/usr/local/opt/coreutils/share/man:/usr/local/opt/findutils/libexec/gnuma:${MANPATH}"
 
