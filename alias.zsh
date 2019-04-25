@@ -1,17 +1,49 @@
 ## alias config:
-#
+
 # common func
-    function aama { ansible all -b -m "$1" -a "$2" }
-    function cpb { cp "$1" "$1-$(date +%F_%H_%M_%S).bak" }
-    function mvb { mv "$1" "$1-$(date +%F_%H_%M_%S).bak" }
-    function mdac { mkdir "$1" && cd "$1" }
-    function rmcd { _CDN="$(basename $PWD)";cd "$(dirname $PWD)";rm -rf "$_CDN" }
-    function mkdf { _Fn="$(basename $1)";_Dn="$(dirname $1)";mkdir -p "$_Dn" && touch "${_Dn}"/"${_Fn}" }
-    function nlc { nl "$1" |lolcat }
-    function tca { tar -czvf "$1.tar.gz" "$1" }
-    function psa { ps -ef |rg "$1" |rg -vw "rg" }
-    function hles { highlight -O xterm256 "$1" |less -R -N }
-    function gvbc { egrep -v "^(#|$)" "$1" }
+    function aama() {
+        ansible all -b -m "$1" -a "$2"
+    }
+
+    function cpb()  {
+        cp "$1" "$1-$(date +%F_%H_%M_%S).bak"
+    }
+
+    function mvb()  {
+        mv "$1" "$1-$(date +%F_%H_%M_%S).bak"
+    }
+
+    function mdac() {
+        mkdir "$1" && cd "$1"
+    }
+
+    function rmcd() {
+        _CDN="$(basename $PWD)";cd "$(dirname $PWD)";rm -rf "$_CDN"
+    }
+
+    function mkdf() {
+        _Fn="$(basename $1)";_Dn="$(dirname $1)";mkdir -p "$_Dn" && touch "${_Dn}"/"${_Fn}"
+    }
+
+    function nlc()  {
+        nl "$1" |lolcat
+    }
+
+    function tca()  {
+        tar -czvf "$1.tar.gz" "$1"
+    }
+
+    function psa()  {
+        ps -ef |rg "$1" |rg -vw "rg"
+    }
+
+    function hles() {
+        highlight -O xterm256 "$1" |less -R -N
+    }
+
+    function gvbc() {
+        egrep -v "^(#|$)" "$1"
+    }
 
 # export LESS=" -R"
 # export LESSOPEN="|highlight -O truecolor %s"
@@ -108,6 +140,7 @@ ftc() {
     # 可以递归对比两目录的差异，包括文件内容的差异
     alias auq="awk '!U[\$0]++' "
     # awk 去重+合并文件内容(相当于两文件的并集，两文件去重后再合并)，而且能保证文件内容顺序
+    alias l.='ls -d .* --color=auto'
     alias lc='lolcat'
     alias ls='ls -p --width=80 --color=auto'
     alias ll='ls -rtlh'
@@ -117,7 +150,7 @@ ftc() {
     alias tssh='TERM=xterm-256color ssh'
     # alias rmaf="rm -rf"
     alias cpf="cp -f "
-    alias cpr="cp -ar "
+    alias cpr="cp -r "
     alias mv='mv -f '
     alias timep="/usr/local/bin/time -p"
     alias gcl="git clone "
@@ -155,9 +188,8 @@ ftc() {
 
 # for different OS of alias conf:
 #     # alias for MacOS_Darwin
-if [[ $(uname -s) == "Darwin" ]]; then
+if [[ $(uname -s) == "Darwin" ]] ; then
     alias -g C=' |pbcopy'
-    alias tq="tianqi"
     alias mzshconfig="vim ${HOME}/gitrepos/Myzshrc/.zshrc_mac"
     alias brin='brew install '
     alias brci='brew cask install '
@@ -174,7 +206,7 @@ if [[ $(uname -s) == "Darwin" ]]; then
     alias locate="glocate"
     # alias updatedb="gupdatedb"
     # alias grep='ggrep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
-    alias grep='rg'
+    # alias grep='rg'
     alias date='gdate'
     alias cut='gcut'
     alias sed='gsed'
@@ -190,7 +222,7 @@ if [[ $(uname -s) == "Darwin" ]]; then
     alias ips="$(which ipython3)"
 else
     # alias for *unix
-    alias open=xdg-open
+    alias open='xdg-open'
     alias free='free -mh'
     alias pc='xsel --clipboard --input'
     alias pp='xsel --clipboard --output'
