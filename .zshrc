@@ -120,6 +120,16 @@ EOF
     # pypi mirror repo conf:
     # [ ! -d ~/.pip ] && mkdir ~/.pip
     # cp "${HOME}/gitrepos/Myzshrc/pip.conf" "${HOME}/"
+
+    #compdef pipenv
+    _pipenv() {
+        eval $(env COMMANDLINE="${words[1,$CURRENT]}" _PIPENV_COMPLETE=complete-zsh  pipenv)
+    }
+    if [[ "$(basename -- ${(%):-%x})" != "_pipenv"  ]]; then
+        autoload -U compinit && compinit
+        compdef _pipenv pipenv
+    fi
+    
     # curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
     [[ -d /etc/docker ]] || mkdir -p /etc/docker
     tee /etc/docker/daemon.json <<-'EOF'
@@ -288,6 +298,7 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 
 source ${ZSH}/oh-my-zsh.sh
 [[ -e ${ZSH_CUSTOM}/.fzf.zsh ]] && source ${ZSH_CUSTOM}/.fzf.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='fd --type file --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
@@ -297,5 +308,3 @@ export FZF_DEFAULT_OPTS='
     --color info:254,prompt:37,spinner:108,pointer:235,marker:235
     --height 70% --reverse --border'
 export HH_CONFIG=hicolor        # get more colors
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
