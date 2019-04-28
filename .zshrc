@@ -185,7 +185,7 @@ if [[ $(uname -s) == "Linux" ]]; then
     # export VIMFILES="${VIM}/vimfiles"
     export VIMFILES="${HOME}/.vim/vimfiles"
     export VIMRUNTIME=${VIMRD}
-        [[ ! -e ${VIMRUNTIME}/colors/solarized8_dark_flat.vim ]] && cp ~/gitrepos/vim-solarized8/colors/* ${VIMRUNTIME}/colors/
+        [[ ! -e ${VIMRUNTIME}/colors/solarized8_dark_flat.vim ]] && cp ${VIMFILES}/bundle/vim-colorschemes/colors/solar* ${VIMRUNTIME}/colors/
 else
     VIMRD=$(find /usr/local -type d -name "vim[0-9]*") 
     export VIM="$(dirname ${VIMRD})"
@@ -224,7 +224,7 @@ fi
 if [[ -z $(which fzf 2>/dev/null) ]]
 then
     [[ -d ${HOME}/gitrepos/fzf ]] && {
-        bash ~/gitrepos/fzf/install
+        bash ~/gitrepos/fzf/install --all
         ln -sv ~/gitrepos/fzf/bin/fzf /usr/bin/fzf
     } ||git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/gitrepos/fzf
 else

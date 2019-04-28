@@ -40,7 +40,7 @@ case $ID in
         }
         # sed -i -re '/\[epel\]/,/^enabled/{s/(enabled)=[0,1]$/\1=1/g}' /etc/yum.repos.d/epel.repo && yum -y update
         yum makecache && yum -y update
-        yum -y install --nogpgcheck git tree tar unzip wget zsh gcc camke the_silver_searcher dstat ncdu htop \
+        yum -y install --nogpgcheck git tree tar unzip wget zsh gcc cmake the_silver_searcher dstat ncdu htop \
             lsof strace socat jq multitail mtr shellcheck pv bind-utils libicu libicu-devel
 
         # Python3
@@ -56,11 +56,11 @@ case $ID in
         ln -sv "/usr/bin/python${LPyV}-config" /usr/bin/python3-config ||ln -sv /usr/bin/python3.6-config /usr/bin/python3-config
         ln -sv "/usr/lib64/python${LPyV}/config-${LPyV}m-x86_64-linux-gnu" "/usr/lib64/python${LPyV}/config"
         pip3 install --upgrade pip||pip install --upgrade pip
-        pip3 install ptipython pip-tools jedi autopep8 glances flake8 PrettyPrinter psutil mhsize \
+        pip install ptipython pip-tools jedi autopep8 glances flake8 PrettyPrinter psutil mhsize \
             httpstat httpie ngxtop icdiff lolcat
         cd && curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer |bash
 
-        exit
+        # exit
         # curl -L get.rvm.io | bash -s stable
         # rvm install 2.4.0
 
@@ -99,7 +99,7 @@ case $ID in
         cd ./Myvimrc
         # tic xterm-256color-italic.terminfo
         mv ~/.vimrc{,.bak} 2>/dev/null
-        cp .vimrc ~/
+        ln -sv $PWD/.vimrc ~/.vimrc
         ;;
     *)
         exit 1
@@ -112,5 +112,5 @@ cd ~/gitrepos
 git clone https://github.com/boomker/Myzshrc.git
 cd ~/gitrepos/Myzshrc
 mv "${HOME}"/.zshrc{,.bak}
-cp .zshrc ~/
+ln -sv $PWD/.zshrc ~/.zshrc
 source ./oh-my-zsh_install.sh
