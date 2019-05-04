@@ -5,48 +5,48 @@ ZSH_THEME="bullet-train"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 DISABLE_AUTO_UPDATE="true"
-HIST_STAMPS="mm/dd"
 
 # zsh default config, but commented {{{
 # Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+    # CASE_SENSITIVE="true"
 
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+    # Uncomment the following line to use hyphen-insensitive completion. Case
+    # sensitive completion must be off. _ and - will be interchangeable.
+    # HYPHEN_INSENSITIVE="true"
 
-# Uncomment the following line to change how often to auto-update (in days).
-export UPDATE_ZSH_DAYS=9
+    # Uncomment the following line to change how often to auto-update (in days).
+    # export UPDATE_ZSH_DAYS=9
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+    # Uncomment the following line to disable colors in ls.
+    # DISABLE_LS_COLORS="true"
 
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+    # Uncomment the following line to disable auto-setting terminal title.
+    # DISABLE_AUTO_TITLE="true"
 
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+    # Uncomment the following line to enable command auto-correction.
+    # ENABLE_CORRECTION="true"
 
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+    # Uncomment the following line to display red dots whilst waiting for completion.
+    # COMPLETION_WAITING_DOTS="true"
 
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+    # Uncomment the following line if you want to disable marking untracked files
+    # under VCS as dirty. This makes repository status check for large repositories
+    # much, much faster.
+    # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# vi-mode
+    # Uncomment the following line if you want to change the command execution time
+    # stamp shown in the history command output.
+    # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+    # vi-mode
 # }}}
 
-plugins=(colored-man-pages django pip extract ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(colored-man-pages extract ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
 autoload -U compinit && compinit
 
 ## --------------User configuration--------------
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
+HIST_STAMPS="mm/dd"
 
 ## configure pyvenv, Homebrew, PATH(GNU CLI tools), catalog ,git on MacOS {{{
 if [[ $(uname -s) == "Darwin" ]]; then
@@ -54,32 +54,21 @@ if [[ $(uname -s) == "Darwin" ]]; then
     export PYENV_ROOT="/usr/local/opt/pyenv"
     export VIRTUALENV_ROOT="/usr/local/opt/pyenv-virtualenv"
     export PATH="${PYENV_ROOT}/bin:${VIRTUALENV_ROOT}/bin:$PATH"
-    # eval "$(pyenv init -)"
-    # eval "$(pyenv virtualenv-init -)"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
 
     # HomeBrew more fast conf:
     #export HOMEBREW_GITHUB_API_TOKEN=""
     # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 
     # GNU cmd tools PATH for Mac:
-    # /opt/local/bin:/usr/local/bin:
+    # export PATH="/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin:${PATH}"
     export PATH="/usr/local/sbin/:~/Library/Python/3.7/bin:~/Library/Python/2.7/bin:${PATH}"
-    export PATH="/usr/local/opt/coreutils/bin:/usr/local/opt/findutils/libexec/gnubin:${PATH}"
-    export MANPATH="/usr/local/man:/usr/local/opt/coreutils/share/man:/usr/local/opt/findutils/libexec/gnuma:${MANPATH}"
+    export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+    export MANPATH="/usr/local/man:/usr/local/share/man:$MANPATH"
+    export MANPATH="/usr/local/opt/coreutils/share/man:/usr/local/opt/findutils/share/man:${MANPATH}"
 
-    # export PATH="/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:/usr/local/opt/texinfo/bin:$PATH"
-    # export PATH="/usr/local/opt/curl/bin:/usr/local/opt/openssl@1.1/bin:$PATH"
-
-    # For compilers to find this software you may need to set: {{{
-    # LDFLAGS:  -L/usr/local/opt/openssl/lib
-    # CPPFLAGS: -I/usr/local/opt/openssl/include
-    # For pkg-config to find this software you may need to set:
-    # PKG_CONFIG_PATH: /usr/local/opt/openssl/lib/pkgconfig
-    # }}}
-    export MANPATH="/usr/local/share/man:/usr/local/opt/coreutils/share/man:/usr/local/opt/findutils/libexec/gnuman:$MANPATH"
-
-    # catalog varpath conf:
-    # export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
+    # export PATH="/usr/local/opt/curl/bin:$PATH"
 
     # git proxy conf: {{{
     # if [[ -n $(ps -ef |grep -i "shadowsocks" |grep -v grep) ]]
@@ -94,7 +83,6 @@ if [[ $(uname -s) == "Darwin" ]]; then
 fi
 ## }}}
 
-# export PATH="/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin:${PATH}"
 
 # eval $(thefuck --alias fff)
 # thefuck install and alias config {{{ #
@@ -126,19 +114,14 @@ fi
 
 ## VIM relevance var conf:
 export EDITOR="$(which vim)"
-# default editor Vim or neovim(nvim): {{{
-# if [ -n $(which vim >/dev/null) ]; then
-    # export EDITOR="$(which vim)"
-# else
-    # export EDITOR="$(which nvim)"
-# fi
-# }}}
 
 # several vim var conf:
-export VIM="/usr/local/opt/vim/share/vim"
-# export VIMFILES="${VIM}/vimfiles"
+# export VIM="/usr/local/opt/vim/share/vim"
+# export VIMRUNTIME="/usr/local/share/vim/vim81"
+
+export VIM="/usr/local/opt/neovim/share/nvim"                 # for neovim on MacOS_Darwin
 export VIMFILES="${HOME}/.vim/vimfiles"
-export VIMRUNTIME="/usr/local/share/vim/vim81"
+export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime"
 # "VIMRUNTIME" 变量与 nvim 冲突
 # ------------VIM-------------------------- {{{
 # if [[ $(uname -s) == "Linux" ]]; then
@@ -155,11 +138,11 @@ export VIMRUNTIME="/usr/local/share/vim/vim81"
 # }}}
 
 # Tomcat Path {{{
-# export JAVA_HOME=/usr/lib/jvm/jdk
-# export TOMCAT_HOME=/opt/tomcat8
-# export CATALINA_HOME=$TOMCAT_HOME
-# export CLASSPATH=.:${JAVA_HOME}/lib:${CATALINA_HOME}/lib
-# export PATH=${JAVA_HOME}/bin:$PATH
+    # export JAVA_HOME=/usr/lib/jvm/jdk
+    # export TOMCAT_HOME=/opt/tomcat8
+    # export CATALINA_HOME=$TOMCAT_HOME
+    # export CLASSPATH=.:${JAVA_HOME}/lib:${CATALINA_HOME}/lib
+    # export PATH=${JAVA_HOME}/bin:$PATH
 # }}}
 
 ## other zsh plugins {{{
@@ -252,6 +235,7 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 # export HH_CONFIG=hicolor        # get more colors
 source ${ZSH}/oh-my-zsh.sh
 # source ~/.oh-my-zsh/custom/.fzf.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export BAT_THEME="TwoDark"
 export FZF_DEFAULT_COMMAND='fd --type file --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -263,6 +247,3 @@ export FZF_DEFAULT_OPTS='
     --height 70% --reverse --border'
 
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -29,7 +29,7 @@ DISABLE_AUTO_UPDATE="true"
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 HIST_STAMPS="mm/dd"
-plugins=(aws colored-man-pages docker docker-compose extract pip ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(colored-man-pages docker extract ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
 
 ## --------------User configuration--------------
 # You may need to manually set your language environment
@@ -43,8 +43,10 @@ if [[ $(uname -s) == "Darwin" ]]; then
     export PATH="${PYENV_ROOT}/bin:${VIRTUALENV_ROOT}/bin:${PATH}"
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
+
     ##HomeBrew mirror proxy conf:
     # /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    
     # 替换brew.git:
     cd "$(brew --repo)"
     git remote set-url origin https://mirrors.aliyun.com/homebrew/brew.git
@@ -53,22 +55,17 @@ if [[ $(uname -s) == "Darwin" ]]; then
     git remote set-url origin https://mirrors.aliyun.com/homebrew/homebrew-core.git
     # 应用生效
     brew update
+
     # 替换homebrew-bottles:
     export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.aliyun.com/homebrew/homebrew-bottles
     # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
     #export HOMEBREW_GITHUB_API_TOKEN=""
+
     # GNU cmd tools PATH for Mac:
-    # export PATH="/opt/local/bin:/usr/local/opt/texinfo/bin:/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:${PATH}"
+    # export PATH="/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:${PATH}"
+    # export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:${PATH}"
     export PATH="~/Library/Python/3.7/bin:~/Library/Python/2.7/bin:${PATH}"
-    export PATH="/usr/local/opt/coreutils/bin:/usr/local/opt/findutils/libexec/gnubin:${PATH}"
-    export MANPATH="/usr/local/man:/usr/local/opt/coreutils/share/man:/usr/local/opt/findutils/libexec/gnuman:${MANPATH}"
-    # For compilers to find this software you may need to set:
-    # LDFLAGS:  -L/usr/local/opt/openssl/lib
-    # CPPFLAGS: -I/usr/local/opt/openssl/include
-    # For pkg-config to find this software you may need to set:
-    # PKG_CONFIG_PATH: /usr/local/opt/openssl/lib/pkgconfig
-    # catalog varpath conf:
-    # export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
+    export MANPATH="/usr/local/man:/usr/local/opt/coreutils/share/man:/usr/local/opt/findutils/share/man:${MANPATH}"
 else
     ## for *unix platform:
     # pyenv conf:
@@ -80,8 +77,6 @@ else
      fi
     export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 fi
-
-# export PATH="/usr/local/bin:/bin:/sbin:/usr/local/sbin:/usr/bin:/usr/sbin:${PATH}"
 
 ## git curl pip npm mirror repo proxy conf:
 [[ -n $(pgrep "shadowsocks|Shadowsocks") ]] && [[ -n $(curl -q -s ip.cn |grep -E "(省|市)") ]] && {
@@ -117,11 +112,7 @@ fi
     format=columns
 EOF
 
-    # pypi mirror repo conf:
-    # [ ! -d ~/.pip ] && mkdir ~/.pip
-    # cp "${HOME}/gitrepos/Myzshrc/pip.conf" "${HOME}/"
-
-    #compdef pipenv
+#compdef pipenv
     _pipenv() {
         eval $(env COMMANDLINE="${words[1,$CURRENT]}" _PIPENV_COMPLETE=complete-zsh  pipenv)
     }
@@ -130,7 +121,7 @@ EOF
         compdef _pipenv pipenv
     fi
     
-    # curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+# curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
     [[ -d /etc/docker ]] || mkdir -p /etc/docker
     tee /etc/docker/daemon.json <<-'EOF'
     {
@@ -169,27 +160,25 @@ else
     export SSH_KEY_PATH="~/.ssh/id_rsa"
 fi
 
-## VIM relevance var conf:
-# default editor Vim or neovim(nvim):
-if [ -n $(which vim >/dev/null) ]; then
-    export EDITOR="$(which vim)"
-else
-    export EDITOR="$(which nvim)"
-fi
+# ## VIM relevance var conf:
+# # default editor Vim or neovim(nvim):
+# if [ -n $(which vim >/dev/null) ]; then
+#     export EDITOR="$(which vim)"
+# else
+#     export EDITOR="$(which nvim)"
+# fi
 
 # several vim var conf:
 if [[ $(uname -s) == "Linux" ]]; then
     [[ -n $(egrep -i "centos|redhat" /etc/os-release) ]] && \
         VIMRD=$(find /usr/local -type d -name "vim[0-9]*") || VIMRD=$(find /usr/share -type d -name "vim[0-9]*") 
     export VIM="$(dirname ${VIMRD})"
-    # export VIMFILES="${VIM}/vimfiles"
     export VIMFILES="${HOME}/.vim/vimfiles"
     export VIMRUNTIME=${VIMRD}
-        [[ ! -e ${VIMRUNTIME}/colors/solarized8_dark_flat.vim ]] && cp ${VIMFILES}/bundle/vim-colorschemes/colors/solar* ${VIMRUNTIME}/colors/
+    [[ ! -e ${VIMRUNTIME}/colors/solarized8_dark_flat.vim ]] && cp ${VIMFILES}/bundle/vim-colorschemes/colors/solar* ${VIMRUNTIME}/colors/
 else
     VIMRD=$(find /usr/local -type d -name "vim[0-9]*") 
     export VIM="$(dirname ${VIMRD})"
-    # export VIMFILES="${VIM}/vimfiles"
     export VIMFILES="${HOME}/.vim/vimfiles"
     export VIMRUNTIME="${VIMRD}"
     # export VIM="/usr/local/opt/neovim/share/nvim"                 # for neovim on MacOS_Darwin
@@ -197,11 +186,11 @@ else
 fi
 
 # Tomcat Path
-# export JAVA_HOME=/usr/lib/jvm/jdk
-# export TOMCAT_HOME=/opt/tomcat8
-# export CATALINA_HOME=${TOMCAT_HOME}
-# export CLASSPATH=.:${JAVA_HOME}/lib:${CATALINA_HOME}/lib
-# export PATH=${JAVA_HOME}/bin:${PATH}
+    # export JAVA_HOME=/usr/lib/jvm/jdk
+    # export TOMCAT_HOME=/opt/tomcat8
+    # export CATALINA_HOME=${TOMCAT_HOME}
+    # export CLASSPATH=.:${JAVA_HOME}/lib:${CATALINA_HOME}/lib
+    # export PATH=${JAVA_HOME}/bin:${PATH}
 
 ## other zsh plugins
 export ZSH_CUSTOM=${ZSH}/custom

@@ -68,7 +68,7 @@ vg() {
 
     if [[ -n $file ]]
     then
-        vim $file
+        nvim $file
     fi
 }
 
@@ -114,25 +114,25 @@ ftc() {
 # common alias:
     # alias piua="for i in $(pip3 list --outdate |awk 'NR>2{print $1}');do pip3 install --upgrade $i;done" # make lanch zsh too slow
     # jpnb='cd;jupyter notebook >$HOME/.jupyter/jupyter_notebook_running.log 2>&1 & # the reason is same prevalias
-    alias -g NL=' |nl |lolcat'
-    alias -g CT=' |column -t'
-    alias -g PC=' |pbcopy'
-    alias -g A=' |ag'
-    alias -g R=' |rg'
-    alias -g G=' |egrep -i'
-    alias -g H=' |head'
-    alias -g T=' |tail'
-    alias -g L=' |less'
-    alias -g J=' |jq'
-    alias -g X=' |xargs'
-    alias -g P=' |parallel'
-    alias -g U=' |uniq'
-    alias -g S=' |sort'
-    alias -g Y=' |tee'
-    alias -g W=' |wc -l'
-    alias afk='ag --nobreak --nonumbers --noheading . | fzf'
-    alias z='z_replacement'
-    alias zip='zip -r '
+    alias -g NL=" |nl |lolcat"
+    alias -g CT=" |column -t"
+    alias -g PC=" |pbcopy"
+    alias -g A=" |ag"
+    alias -g R=" |rg"
+    alias -g G=" |egrep -i"
+    alias -g H=" |head"
+    alias -g T=" |tail"
+    alias -g L=" |less"
+    alias -g J=" |jq"
+    alias -g X=" |xargs"
+    alias -g P=" |parallel"
+    alias -g U=" |uniq"
+    alias -g S=" |sort"
+    alias -g Y=" |tee"
+    alias -g W=" |wc -l"
+    alias afk="ag --nobreak --nonumbers --noheading . | fzf"
+    alias z="z_replacement"
+    alias zip="zip -r "
     alias pps="ptipython3"
     alias ips="ipython3"
     alias tm="tmux"
@@ -140,18 +140,18 @@ ftc() {
     # 可以递归对比两目录的差异，包括文件内容的差异
     alias auq="awk '!U[\$0]++' "
     # awk 去重+合并文件内容(相当于两文件的并集，两文件去重后再合并)，而且能保证文件内容顺序
-    alias l.='ls -d .* --color=auto'
-    alias lc='lolcat'
-    alias ls='ls -p --width=80 --color=auto'
-    alias ll='ls -rtlh'
+    alias l.="ls -d .* --color=auto"
+    alias lc="lolcat"
+    alias ls="ls -p --width=80 --color=auto"
+    alias ll="ls -rtlh"
     alias wl="wc -l"
-    alias sei='sed -i '
-    alias sen='sed -n '
-    alias tssh='TERM=xterm-256color ssh'
+    alias sei="sed -i "
+    alias sen="sed -n "
+    alias tssh="TERM=xterm-256color ssh"
     # alias rmaf="rm -rf"
     alias cpf="cp -f "
     alias cpr="cp -r "
-    alias mv='mv -f '
+    alias mv="mv -f "
     alias timep="/usr/local/bin/time -p"
     alias gcl="git clone "
     alias gaa="git add ."
@@ -162,70 +162,71 @@ ftc() {
     alias gcom="git checkout master"
     alias gfu="git fetch upstream"
     alias gmu="git merge upstream/master"
-    alias grep='grep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
-    alias egrep='egrep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
-    alias dfh='df -Th'
-    alias duhl='du -ah --max-depth=1 '
-    alias trel='tree -L 1 '
-    # alias pip3='python3 -m pip'
+    alias grep="grep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}"
+    alias egrep="egrep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}"
+    alias dfh="df -Th"
+    alias duhl="du -ah --max-depth=1 "
+    alias trel="tree -L 1 "
+    # alias pip3="python3 -m pip"
     # alias piu="python3 -m pip uninstall "
     alias piu="pip3 uninstall "
     alias pii="pip3 install "
     # alias pii="python3 -m pip install "
     alias pus="pip3 install --upgrade pip"
     # alias pypi="/usr/local/opt/pypy3/bin/pip"
-    alias adl='aria2c -x6 -c '
-    alias ffw='proxychains4 '
-    alias ffww='proxychains4 wget '
-    alias ffwa='proxychains4 aria2c -x6 -c '
-    alias sshconf="vim ${HOME}/.ssh/config"
-    alias aliconf="vim ${HOME}/gitrepos/Myzshrc/alias.zsh"
-    alias zshreload='source ~/.zshrc' # conflict with tmux
-    alias zshconfig="vim ${HOME}/gitrepos/Myzshrc/.zshrc"
-    alias vimconfig="vim ${HOME}/gitrepos/Myvimrc/.vimrc"
-    alias tmuxconfig="vim ${HOME}/gitrepos/Mytmuxconf/.tmux.conf"
+    alias adl="aria2c -x6 -c "
+    alias ffw="proxychains4 "
+    alias ffww="proxychains4 wget "
+    alias ffwa="proxychains4 aria2c -x6 -c "
+    alias sshconf="nvim ${HOME}/.ssh/config"
+    alias aliconf="nvim ${HOME}/gitrepos/Myzshrc/alias.zsh"
+    alias zshreload="source ~/.zshrc" # conflict with tmux
+    alias zshconfig="nvim ${HOME}/gitrepos/Myzshrc/.zshrc"
+    alias vimconfig="nvim ${HOME}/gitrepos/Myvimrc/.vimrc"
+    alias tmuxconfig="nvim ${HOME}/gitrepos/Mytmuxconf/.tmux.conf"
 
 
 # for different OS of alias conf:
 #     # alias for MacOS_Darwin
 if [[ $(uname -s) == "Darwin" ]] ; then
-    alias -g C=' |pbcopy'
-    alias mzshconfig="vim ${HOME}/gitrepos/Myzshrc/.zshrc_mac"
-    alias brin='brew install '
-    alias brci='brew cask install '
-    alias cpf='gcp -f '
-    alias cpr='gcp -ar '
-    alias mv='gmv -f '
+    alias -g C=" |pbcopy"
+    alias vim="nvim"
+    alias mzshconfig="nvim ${HOME}/gitrepos/Myzshrc/.zshrc_mac"
+    alias brin="brew install "
+    alias brci="brew cask install "
+    alias cpf="gcp -f "
+    alias cpr="gcp -ar "
+    alias mv="gmv -f "
     alias l="exa -abghl --git --color=automatic"
-    alias ls='gls -p -w 80 --color=auto'
+    alias ls="gls -p -w 80 --color=auto"
     alias nl="gnl"
     alias du="gdu"
     alias duts="du -ch |tail -1"
-    # alias find="gfind"
+    alias find="gfind"
     alias xargs="gxargs"
     alias locate="glocate"
     # alias updatedb="gupdatedb"
-    # alias grep='ggrep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
-    # alias grep='rg'
-    alias date='gdate'
-    alias cut='gcut'
-    alias sed='gsed'
-    alias sort='gsort'
-    alias stat='gstat'
-    alias uniq='guniq'
-    alias awk='gawk'
-    alias df='gdf'
-    alias tr='gtr'
-    alias mdsum='gmd5sum'
-    alias netstat='netstat -nptcp'
+    alias grep="ggrep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}"
+    # alias grep="rg"
+    alias date="gdate"
+    alias cut="gcut"
+    alias sed="gsed"
+    alias sort="gsort"
+    alias stat="gstat"
+    alias uniq="guniq"
+    alias awk="gawk"
+    alias df="gdf"
+    alias tr="gtr"
+    alias mdsum="gmd5sum"
+    alias netstat="netstat -nptcp"
     alias pps="$(which ptipython3)"
     alias ips="$(which ipython3)"
 else
     # alias for *unix
-    alias open='xdg-open'
-    alias free='free -mh'
-    alias pc='xsel --clipboard --input'
-    alias pp='xsel --clipboard --output'
+    alias open="xdg-open"
+    alias free="free -mh"
+    alias pc="xsel --clipboard --input"
+    alias pp="xsel --clipboard --output"
     alias mmi="make -j2&&make install"
     alias dstat="dstat -cdlmnpsy"
 fi
