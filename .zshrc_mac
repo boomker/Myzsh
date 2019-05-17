@@ -38,9 +38,9 @@ DISABLE_AUTO_UPDATE="true"
     # stamp shown in the history command output.
     # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
     # vi-mode
-# }}}
+# }}}colored-man-pages
 
-plugins=(colored-man-pages extract ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(colored-manpages extract ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
 autoload -U compinit && compinit
 
 ## --------------User configuration--------------
@@ -64,7 +64,7 @@ if [[ $(uname -s) == "Darwin" ]]; then
     # GNU cmd tools PATH for Mac:
     # export PATH="/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin:${PATH}"
     export PATH="/usr/local/sbin/:~/Library/Python/3.7/bin:~/Library/Python/2.7/bin:${PATH}"
-    export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+    export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/bin:~/.cargo/bin/:$PATH"
     export MANPATH="/usr/local/man:/usr/local/share/man:$MANPATH"
     export MANPATH="/usr/local/opt/coreutils/share/man:/usr/local/opt/findutils/share/man:${MANPATH}"
 
@@ -150,6 +150,7 @@ export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime"
 # then
     # [[ ! -d ${ZSH_CUSTOM}/themes ]] && mkdir ${ZSH_CUSTOM}/themes
     # git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
+    # git clone https://github.com/zsh-users/zsh-completions.git ~/.oh-my-zsh/custom/plugins/zsh-completions
 # fi
 # }}}
 
@@ -176,6 +177,11 @@ export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime"
 # fi
 # }}}
 
+# nvm config:
+# curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash
+export NVM_DIR="/Users/zhuchunyuan/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
 
 ## 关于历史纪录的配置##############################################{{{
 # 历史纪录条目数量
@@ -200,7 +206,7 @@ setopt AUTO_PUSHD
 setopt PUSHD_IGNORE_DUPS
 
 # 历史纪录文件
-export HISTFILE=~/.zsh_history  # ensure history file visibility
+export HISTFILE=~/.zshistory  # ensure history file visibility
 
 # Emacs风格 键绑定
 bindkey -e
@@ -237,13 +243,12 @@ source ${ZSH}/oh-my-zsh.sh
 # source ~/.oh-my-zsh/custom/.fzf.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export BAT_THEME="TwoDark"
-export FZF_DEFAULT_COMMAND='fd --type file --exclude .git'
+export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-export FZF_CTRL_T_OPTS="--preview '(highlight -O xterm256 -n -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -100'"
-export FZF_DEFAULT_OPTS='
-    --color dark,hl:33,hl+:37,fg+:235,bg+:136,fg+:254
-    --color info:254,prompt:37,spinner:108,pointer:235,marker:235
-    --height 70% --reverse --border'
+export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} ||highlight -O ansi -l {} || cat {}) 2> /dev/null | head -100'"
+export FZF_DEFAULT_OPTS='--height 70% --reverse --border'
+    # --color dark,hl:33,hl+:37,fg+:235,bg+:136,fg+:254
+    # --color info:254,prompt:37,spinner:108,pointer:235,marker:235
 
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
