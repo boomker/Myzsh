@@ -37,8 +37,7 @@ DISABLE_AUTO_UPDATE="true"
     # Uncomment the following line if you want to change the command execution time
     # stamp shown in the history command output.
     # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-    # vi-mode
-# }}}colored-man-pages
+# }}}
 
 plugins=(colored-manpages extract ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
 autoload -U compinit && compinit
@@ -46,7 +45,7 @@ autoload -U compinit && compinit
 ## --------------User configuration--------------
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
-HIST_STAMPS="mm/dd"
+HIST_STAMPS="mm/dd/yyyy"
 
 ## configure pyvenv, Homebrew, PATH(GNU CLI tools), catalog ,git on MacOS {{{
 if [[ $(uname -s) == "Darwin" ]]; then
@@ -210,6 +209,7 @@ export HISTFILE=~/.zshistory  # ensure history file visibility
 
 # Emacs风格 键绑定
 bindkey -e
+# vi-mode
 
 # 以下字符视为单词的一部分
 WORDCHARS='*?_-[]~=&;!#$%^(){}<>'

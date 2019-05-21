@@ -26,7 +26,7 @@ DISABLE_AUTO_UPDATE="true"
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd"
+HIST_STAMPS="mm/dd/yyyy"
 
 plugins=(colored-man-pages docker extract ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
 
@@ -46,8 +46,10 @@ export LANG=en_US.UTF-8
     export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 
 # npm mirror repo conf:
-    [[ -n $(which npm 2>/dev/null) ]] && npm config set registry https://registry.npm.taobao.org
-    npm install -g cnpm --registry=https://registry.npm.taobao.org
+    [[ -n $(which npm 2>/dev/null) ]] && {
+        npm config set registry https://registry.npm.taobao.org
+        npm install -g cnpm --registry=https://registry.npm.taobao.org
+}
 
 # pypi mirror repo conf:
     [ ! -d ~/.pip ] && mkdir ~/.pip
@@ -66,12 +68,14 @@ EOF
 
 # docker config:
 # curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
-    [[ -d /etc/docker ]] || mkdir -p /etc/docker
-    tee /etc/docker/daemon.json <<-'EOF'
-    {
-        "registry-mirrors": ["https://arrn62bl.mirror.aliyuncs.com"]
-    }
+    [[ -d /etc/docker ]] || {
+        mkdir -p /etc/docker
+        tee /etc/docker/daemon.json <<-'EOF'
+        {
+            "registry-mirrors": ["https://arrn62bl.mirror.aliyuncs.com"]
+        }
 EOF
+}
     [[ -n $(which docker 2>/dev/null) ]] && {
         systemctl daemon-reload
         systemctl enable docker
@@ -136,14 +140,19 @@ fi
 
 # several vim var conf:
 if [[ $(uname -s) == "Linux" ]]; then
-    [[ -n $(egrep -i "centos|redhat" /etc/os-release) ]] && \
-        VIMRD=$(find /usr/local -type d -name "vim[0-9]*") || VIMRD=$(find /usr/share -type d -name "vim[0-9]*") 
+    # [[ -n $(egrep -i "centos|redhat" /etc/os-release) ]] && \
+        # VIMRD=$(find /usr/local -type d -name "vim[0-9]*") || VIMRD=$(find /usr/share -type d -name "vim[0-9]*") 
+    [[ -n $(find /usr/local -type d -name "nvim") ]] && VIMRD=$(find /usr/local/nvim -type d -name "runtime")
+    [[ -n $(find /usr/share -type d -name "nvim") ]] && VIMRD=$(find /usr/share/nvim -type d -name "runtime")
     export VIM="$(dirname ${VIMRD})"
-    export VIMFILES="${HOME}/.vim/vimfiles"
     export VIMRUNTIME=${VIMRD}
+    export VIMFILES="${HOME}/.vim/vimfiles"
     [[ ! -e ${VIMRUNTIME}/colors/solarized8_dark_flat.vim ]] && cp ${VIMFILES}/bundle/vim-colorschemes/colors/solar* ${VIMRUNTIME}/colors/
+    [[ ! -e ${VIMRUNTIME}/colors/onedark.vim ]] && cp ${VIMFILES}/bundle/onedark/colors/* ${VIMRUNTIME}/colors/
+    [[ ! -e ${VIMRUNTIME}/autoload/onedark.vim ]] && cp ${VIMFILES}/bundle/onedark/autoload/* ${VIMRUNTIME}/autoload/
 else
-    VIMRD=$(find /usr/local -type d -name "vim[0-9]*") 
+    # VIMRD=$(find /usr/local -type d -name "vim[0-9]*") 
+    [[ -n $(find /usr/local/opt -type d -name "nvim") ]] && VIMRD=$(find /usr/local/opt/nvim -type d -name "runtime")
     export VIM="$(dirname ${VIMRD})"
     export VIMFILES="${HOME}/.vim/vimfiles"
     export VIMRUNTIME="${VIMRD}"

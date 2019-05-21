@@ -31,7 +31,7 @@ case $ID in
         cd && curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
         ;;
     centos|rhel)
-        yum -y install yum-utils &&yum -y install epel-release.noarch || \
+        yum -y install yum-utils epel-release.noarch || \
             rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
         # yum -y install centos-release-scl https://centos7.iuscommunity.org/ius-release.rpm
         ping mirrors.aliyuns.com -c 3 >/dev/null && {
@@ -40,8 +40,10 @@ case $ID in
         }
         # sed -i -re '/\[epel\]/,/^enabled/{s/(enabled)=[0,1]$/\1=1/g}' /etc/yum.repos.d/epel.repo && yum -y update
         yum makecache && yum -y update
-        yum -y install --nogpgcheck git tree tar unzip wget zsh gcc cmake the_silver_searcher dstat ncdu htop \
-            lsof strace socat jq multitail mtr shellcheck pv bind-utils libicu libicu-devel
+        yum -y install --nogpgcheck git tree tar unzip wget zsh gcc cmake  dstat ncdu htop \
+            lsof strace socat jq multitail mtr noevim shellcheck bind-utils lrzsz
+        sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo
+        sudo yum install ripgrep
 
         # Python3
         LatestPy="$(yum search python3|awk -F'[.,-]+' '/^python3[6,6u,7,7u]/{print $1}' |sort -u |tail -1)"
@@ -57,7 +59,7 @@ case $ID in
         ln -sv "/usr/lib64/python${LPyV}/config-${LPyV}m-x86_64-linux-gnu" "/usr/lib64/python${LPyV}/config"
         pip3 install --upgrade pip||pip install --upgrade pip
         pip install ptipython pip-tools jedi autopep8 glances flake8 PrettyPrinter psutil mhsize \
-            httpstat httpie ngxtop icdiff lolcat
+            httpstat httpie ngxtop icdiff lolcat neovim
         cd && curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer |bash
 
         # exit
@@ -65,37 +67,36 @@ case $ID in
         # rvm install 2.4.0
 
         # Vim8.x
-        yum -y remove vim-filesystem vim-common vim-enhanced
-        yum install -y --nogpgcheck lua lua-devel luajit \
-        luajit-devel ctags python27 python27-scldevel tcl-devel \
-        perl perl-devel perl-ExtUtils-ParseXS \
-        perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
-        perl-ExtUtils-Embed gcc-c++ ncurses-devel \
-        # scl enable bash
-        cd ~/gitrepos
-        git clone https://github.com/vim/vim.git
-        cd ./vim
-        ./configure --with-features=huge \
-                    --enable-multibyte \
-                    --enable-rubyinterp=yes \
-                    --enable-pythoninterp=yes \
-                    --with-python-config-dir=/usr/lib64/python2.7/config \
-                    --enable-python3interp=yes \
-                    --with-python3-config-dir="/usr/lib64/python${LPyV}/config" \
-                    --enable-perlinterp=yes \
-                    --enable-luainterp=yes \
-                    --enable-gui=gtk2 \
-                    --enable-cscope \
-                    --prefix=/usr/local
-        # make VIMRUNTIMEDIR=${VIMRD}
-        make
-        make install
-        update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
-        update-alternatives --set editor /usr/local/bin/vim
-        VIMRD=$(find /usr/local -type d -name "vim[0-9]*" 2>/dev/nul)
-        export VIMRUNTIME="${VIMRD}"
+        # yum -y remove vim-filesystem vim-common vim-enhanced
+        # yum install -y --nogpgcheck lua lua-devel luajit \
+        # luajit-devel ctags python27 python27-scldevel tcl-devel \
+        # perl perl-devel perl-ExtUtils-ParseXS \
+        # perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
+        # perl-ExtUtils-Embed gcc-c++ ncurses-devel \
+        # # scl enable bash
+        # cd ~/gitrepos
+        # git clone https://github.com/vim/vim.git
+        # cd ./vim
+        # ./configure --with-features=huge \
+        #             --enable-multibyte \
+        #             --enable-rubyinterp=yes \
+        #             --enable-pythoninterp=yes \
+        #             --with-python-config-dir=/usr/lib64/python2.7/config \
+        #             --enable-python3interp=yes \
+        #             --with-python3-config-dir="/usr/lib64/python${LPyV}/config" \
+        #             --enable-perlinterp=yes \
+        #             --enable-luainterp=yes \
+        #             --enable-gui=gtk2 \
+        #             --enable-cscope \
+        #             --prefix=/usr/local
+        # # make VIMRUNTIMEDIR=${VIMRD}
+        # make
+        # make install
+        # update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
+        # update-alternatives --set editor /usr/local/bin/vim
+        # VIMRD=$(find /usr/local -type d -name "vim[0-9]*" 2>/dev/nul)
+        # export VIMRUNTIME="${VIMRD}"
         cd ~/gitrepos && git clone https://github.com/boomker/Myvimrc.git
-        # curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
         cd ./Myvimrc
         # tic xterm-256color-italic.terminfo
         mv ~/.vimrc{,.bak} 2>/dev/null
