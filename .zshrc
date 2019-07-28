@@ -132,11 +132,11 @@ fi
 
 # ## VIM relevance var conf:
 # # default editor Vim or neovim(nvim):
-# if [ -n $(which vim >/dev/null) ]; then
-#     export EDITOR="$(which vim)"
-# else
-#     export EDITOR="$(which nvim)"
-# fi
+if [ -n $(which nvim >/dev/null) ]; then
+    export EDITOR="$(which nvim)"
+else
+    export EDITOR="$(which vim)"
+fi
 
 # several vim var conf:
 if [[ $(uname -s) == "Linux" ]]; then

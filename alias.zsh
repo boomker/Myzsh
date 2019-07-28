@@ -33,8 +33,8 @@
         ps -ef |rg "$1" |rg -vw "rg"
     }
 
-    function hles() {
-        highlight -O xterm256 "$1" |less -R -N
+    function zipgrep() {
+        zipinfo -t -1 -M "$2" |grep "$1"
     }
 
     function gvbc() {
@@ -170,6 +170,7 @@ if [[ $(uname -s) == "Darwin" ]] ; then
     alias mzshconfig="nvim ${HOME}/gitrepos/Myzshrc/.zshrc_mac"
     alias brin="brew install "
     alias brci="brew cask install "
+    alias echo="gecho"
     alias cpf="gcp -f "
     alias cpr="gcp -ar "
     alias cp="gcp"
@@ -197,6 +198,7 @@ if [[ $(uname -s) == "Darwin" ]] ; then
     alias tr="gtr"
     alias mdsum="gmd5sum"
     alias netstat="netstat -nptcp"
+    alias ping="prettyping"
     alias pps="$(which ptipython3)"
     alias ips="$(which ipython3)"
 else

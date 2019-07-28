@@ -62,7 +62,7 @@ if [[ $(uname -s) == "Darwin" ]]; then
 
     # GNU cmd tools PATH for Mac:
     # export PATH="/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin:${PATH}"
-    export PATH="/usr/local/sbin/:~/Library/Python/3.7/bin:~/Library/Python/2.7/bin:${PATH}"
+    export PATH="~/Library/Python/3.7/bin:/usr/local/opt/python/Frameworks/Python.framework/Versions/3.7/bin/:~/Library/Python/2.7/bin:${PATH}"
     export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/bin:~/.cargo/bin/:$PATH"
     export MANPATH="/usr/local/man:/usr/local/share/man:$MANPATH"
     export MANPATH="/usr/local/opt/coreutils/share/man:/usr/local/opt/findutils/share/man:${MANPATH}"
@@ -112,7 +112,7 @@ fi
 # }}}
 
 ## VIM relevance var conf:
-export EDITOR="$(which vim)"
+export EDITOR="$(which nvim)"
 
 # several vim var conf:
 # export VIM="/usr/local/opt/vim/share/vim"
@@ -240,8 +240,7 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 # add this configuration to ~/.zshrc
 # export HH_CONFIG=hicolor        # get more colors
 source ${ZSH}/oh-my-zsh.sh
-# source ~/.oh-my-zsh/custom/.fzf.zsh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source ${HOME}/.oh-my-zsh/custom/plugins/.fzf.zsh
 export BAT_THEME="TwoDark"
 export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -252,3 +251,5 @@ export FZF_DEFAULT_OPTS='--height 70% --reverse --border'
     # --color info:254,prompt:37,spinner:108,pointer:235,marker:235
 
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
