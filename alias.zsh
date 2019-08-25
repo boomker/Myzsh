@@ -51,6 +51,11 @@
 # export LESS_TERMCAP_ue=$'\E[0m'
 # export LESS_TERMCAP_us=$'\E[01;32m'
 
+tm(){
+    TmSID=$(tmux list-sessions |cut -d':' -f1)
+    [[ -n $TmSID ]] && tmux attach -t $TmSID || tmux
+}
+
 z_replacement()
 {
     [ $# -gt 0 ] && _z "$*" && return
@@ -112,7 +117,6 @@ ftc() {
     # alias zip="zip -r "
     alias pps="ptipython3"
     alias ips="ipython3"
-    alias tm="tmux"
     alias idf="icdiff -r -N"
     # 可以递归对比两目录的差异，包括文件内容的差异
     alias auq="awk '!U[\$0]++' "
