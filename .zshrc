@@ -1,5 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=${HOME}/.oh-my-zsh
+export ZSH_CUSTOM=${ZSH}/custom
 ZSH_THEME="bullet-train"
 DISABLE_AUTO_UPDATE="true"
 
@@ -37,34 +38,39 @@ export LANG=en_US.UTF-8
 [[ $(echo $SHELL 2>/dev/null) == "/bin/bash" ]] && chsh -s /usr/bin/zsh 2>/dev/null
 
 # pyenv conf:
-     if [ -n $(which pyenv 2>/dev/null) ]
+     if [ -n $(command -v pyenv 2>/dev/null) ]
      then
          export PATH="${HOME}/.pyenv/bin:$PATH"
          eval "$(pyenv init -)"
          eval "$(pyenv virtualenv-init -)"
      fi
-    export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-
-# npm mirror repo conf:
-    [[ -n $(which npm 2>/dev/null) ]] && {
-        npm config set registry https://registry.npm.taobao.org
-        npm install -g cnpm --registry=https://registry.npm.taobao.org
-}
+     export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 
 # pypi mirror repo conf:
     [ ! -d ~/.pip ] && mkdir ~/.pip
-    if [ -e "${HOME}/gitrepos/Myzshrc/pip.conf" ]; then
-        cp "${HOME}/gitrepos/Myzshrc/pip.conf" "${HOME}/.pip/"
-    else
-        tee ~/.pip/pip.conf <<-'EOF'
-        [global]
-        trusted-host =  mirrors.aliyun.com
-        index-url = http://mirrors.aliyun.com/pypi/simple
+    tee ~/.pip/pip.conf <<-'EOF'
+    [global]
+    trusted-host =  mirrors.aliyun.com
+    index-url = http://mirrors.aliyun.com/pypi/simple
 
-        [list]
-        format=columns
+    [list]
+    format=columns
 EOF
+
+# compdef pipenv
+    _pipenv() {
+        eval $(env COMMANDLINE="${words[1,$CURRENT]}" _PIPENV_COMPLETE=complete-zsh  pipenv)
+    }
+    if [[ "$(basename -- ${(%):-%x})" != "_pipenv"  ]]; then
+        autoload -U compinit && compinit
+        compdef _pipenv pipenv
     fi
+
+# npm mirror repo conf:
+    [[ -n $(command -v npm 2>/dev/null) ]] && {
+        npm config set registry https://registry.npm.taobao.org
+        npm install -g cnpm --registry=https://registry.npm.taobao.org
+}
 
 # docker config:
 # curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
@@ -76,39 +82,34 @@ EOF
         }
 EOF
 }
-    [[ -n $(which docker 2>/dev/null) ]] && {
+    [[ -n $(command -v docker 2>/dev/null) ]] && {
         systemctl daemon-reload
         systemctl enable docker
         systemctl restart docker
     }
 
-# compdef pipenv
-    _pipenv() {
-        eval $(env COMMANDLINE="${words[1,$CURRENT]}" _PIPENV_COMPLETE=complete-zsh  pipenv)
-    }
-    if [[ "$(basename -- ${(%):-%x})" != "_pipenv"  ]]; then
-        autoload -U compinit && compinit
-        compdef _pipenv pipenv
+    # git proxy conf: {{{
+    if [[ -n $(lsof -nP -iTCP |grep -i "ss-local" |grep -v grep) ]]
+    then
+        git config --global http.proxy socks5://127.0.0.1:1080
+        git config --global https.proxy socks5://127.0.0.1:1080
+        # }
     fi
-    
-## git curl pip npm mirror repo proxy conf:
-# [[ -n $(pgrep "shadowsocks|Shadowsocks") ]] && [[ -n $(curl -q -s ip.cn |grep -E "(省|市)") ]] && {
-    # [[ -z $(egrep -i "(proxy.*socks5)" ${HOME}/.gitconfig 2>/dev/null) ]] && {
-    #     git config --global http.useragent https://github.com.proxy http://127.0.0.1:8090
-    #     git config --global http.proxy socks5://127.0.0.1:1086
-    #     git config --global https.proxy socks5://127.0.0.1:1086
-    # }
+    # }}}
 
-    # curl proxy conf:
-#     [[ -z $(grep -i "socks5" ~/.curlc 2>/dev/null) ]] && echo "socks5 = "127.0.0.1:1086"" >>~/.curlrc
-# }
-
-##### [[ -n $(curl -q -s ip.cn |grep -E "(市|省)") ]] && {
+    # golang proxy conf: {{{
+    if [[ -n $(lsof -nP -iTCP |grep -i "ss-local" |grep -v grep) ]]
+    then
+        export GOPROXY="127.0.0.1:1080"
+    else
+         export GOPROXY="https://goproxy.io"
+    fi
+    # }}}
 
 # thefuck conf:
-# if [[ -z $(which thefuck 2>/dev/null) ]]
+# if [[ -z $(command -v thefuck 2>/dev/null) ]]
 # then
-    # [[ -z $(which gcc 2>/dev/null) ]] && break
+    # [[ -z $(command -v gcc 2>/dev/null) ]] && break
     # pip3 install --upgrade pip
     # pip3 install thefuck
 # else
@@ -132,16 +133,15 @@ fi
 
 # ## VIM relevance var conf:
 # # default editor Vim or neovim(nvim):
-if [ -n $(which nvim >/dev/null) ]; then
-    export EDITOR="$(which nvim)"
+if [ -n $(command -v nvim >/dev/null) ]; then
+    export EDITOR="$(command -v nvim)"
 else
-    export EDITOR="$(which vim)"
+    export EDITOR="$(command -v vim)"
 fi
 
 # several vim var conf:
-if [[ $(uname -s) == "Linux" ]]; then
     # [[ -n $(egrep -i "centos|redhat" /etc/os-release) ]] && \
-        # VIMRD=$(find /usr/local -type d -name "vim[0-9]*") || VIMRD=$(find /usr/share -type d -name "vim[0-9]*") 
+        # VIMRD=$(find /usr/local -type d -name "vim[0-9]*") || VIMRD=$(find /usr/share -type d -name "vim[0-9]*")
     [[ -n $(find /usr/local -type d -name "nvim") ]] && VIMRD=$(find /usr/local/nvim -type d -name "runtime")
     [[ -n $(find /usr/share -type d -name "nvim") ]] && VIMRD=$(find /usr/share/nvim -type d -name "runtime")
     export VIM="$(dirname ${VIMRD})"
@@ -150,15 +150,10 @@ if [[ $(uname -s) == "Linux" ]]; then
     [[ ! -e ${VIMRUNTIME}/colors/solarized8_dark_flat.vim ]] && cp ${VIMFILES}/bundle/vim-colorschemes/colors/solar* ${VIMRUNTIME}/colors/
     [[ ! -e ${VIMRUNTIME}/colors/onedark.vim ]] && cp ${VIMFILES}/bundle/onedark/colors/* ${VIMRUNTIME}/colors/
     [[ ! -e ${VIMRUNTIME}/autoload/onedark.vim ]] && cp ${VIMFILES}/bundle/onedark/autoload/* ${VIMRUNTIME}/autoload/
-else
-    # VIMRD=$(find /usr/local -type d -name "vim[0-9]*") 
-    [[ -n $(find /usr/local/opt -type d -name "nvim") ]] && VIMRD=$(find /usr/local/opt/nvim -type d -name "runtime")
-    export VIM="$(dirname ${VIMRD})"
-    export VIMFILES="${HOME}/.vim/vimfiles"
-    export VIMRUNTIME="${VIMRD}"
-    # export VIM="/usr/local/opt/neovim/share/nvim"                 # for neovim on MacOS_Darwin
-    # export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime"
-fi
+
+# Golang path setting
+GoRoot="/usr/local/go"
+PATH=$PATH:${GoRoot}/bin
 
 # Tomcat Path
     # export JAVA_HOME=/usr/lib/jvm/jdk
@@ -168,7 +163,6 @@ fi
     # export PATH=${JAVA_HOME}/bin:${PATH}
 
 ## other zsh plugins
-export ZSH_CUSTOM=${ZSH}/custom
 if [[ ! -e ${ZSH_CUSTOM}/themes/bullet-train.zsh-theme ]]
 then
     [[ ! -d ${ZSH_CUSTOM}/themes ]] && mkdir -p ${ZSH_CUSTOM}/themes
@@ -185,7 +179,7 @@ then
 fi
 
 # fzf.zsh
-if [[ -z $(which fzf 2>/dev/null) ]]
+if [[ -z $(command -v fzf 2>/dev/null) ]]
 then
     [[ -d ${HOME}/gitrepos/fzf ]] && {
         bash ~/gitrepos/fzf/install --all
@@ -196,8 +190,8 @@ else
 fi
 
 # nvm config:
-# curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash
-export NVM_DIR="${HOME}/.nvm"
+# git clone https://github.com/nvm-sh/nvm.git .nvm
+export NVM_DIR="/usr/local/opt/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # ##############################################
@@ -278,7 +272,3 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
 export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} ||highlight -O ansi -l {} || cat {}) 2> /dev/null | head -100'"
 export FZF_DEFAULT_OPTS='--height 70% --reverse --border'
-    # --color dark,hl:33,hl+:37,fg+:235,bg+:136,fg+:254
-    # --color info:254,prompt:37,spinner:108,pointer:235,marker:235
-
-# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

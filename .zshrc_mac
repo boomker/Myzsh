@@ -67,24 +67,29 @@ if [[ $(uname -s) == "Darwin" ]]; then
     export MANPATH="/usr/local/man:/usr/local/share/man:$MANPATH"
     export MANPATH="/usr/local/opt/coreutils/share/man:/usr/local/opt/findutils/share/man:${MANPATH}"
 
-    # export PATH="/usr/local/opt/curl/bin:$PATH"
-
     # git proxy conf: {{{
-    # if [[ -n $(ps -ef |grep -i "shadowsocks" |grep -v grep) ]]
-    # then
-        # [[ -z $(egrep "(proxy.*socks)" ${HOME}/.gitconfig 2>/dev/null) ]] && {
-        # git config --global http.useragent https://github.com.proxy http://127.0.0.1:8090
-        # git config --global http.proxy socks5://127.0.0.1:1086
-        # git config --global https.proxy socks5://127.0.0.1:1086
-        # }
-    # fi
+    if [[ -n $(lsof -nP -iTCP |grep -i "ss-local" |grep -v grep) ]]
+    then
+        # git config --global http.useragent https://github.com.proxy http://127.0.0.1:1087
+        git config --global http.proxy socks5://127.0.0.1:1080
+        git config --global https.proxy socks5://127.0.0.1:1080
+    fi
+    # }}}
+
+    # golang proxy conf: {{{
+    if [[ -n $(lsof -nP -iTCP |grep -i "ss-local" |grep -v grep) ]]
+    then
+        export GOPROXY="127.0.0.1:1080"
+    else
+         export GOPROXY="https://goproxy.io"
+    fi
     # }}}
 fi
 ## }}}
 
 
 # eval $(thefuck --alias fff)
-# thefuck install and alias config {{{ #
+# thefuck install and alias config {{{
 # if [[ -z $(which thefuck 2>/dev/null) ]]
 # then
     # [[ -z $(which gcc 2>/dev/null) ]] && break
@@ -92,13 +97,6 @@ fi
     # pip3 install thefuck
 # else
     # eval $(thefuck --alias fff)
-# fi
-# }}} thefuck #
-
-# alias.zsh conf: {{{
-# if [[ -e ${HOME}/gitrepo/Myzshrc/alias.zsh ]]
-# then
-    # [[ ! -e ${ZSH_CUSTOM}/alias.zsh ]] && ln -sv ${HOME}/gitrepo/Myzshrc/alias.zsh  ${ZSH_CUSTOM}/alias.zsh
 # fi
 # }}}
 
@@ -111,18 +109,11 @@ fi
 # fi
 # }}}
 
-## VIM relevance var conf:
-export EDITOR="$(which nvim)"
-
-# several vim var conf:
-# export VIM="/usr/local/opt/vim/share/vim"
-# export VIMRUNTIME="/usr/local/share/vim/vim81"
-
-export VIM="/usr/local/opt/neovim/share/nvim"                 # for neovim on MacOS_Darwin
-export VIMFILES="${HOME}/.vim/vimfiles"
-export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime"
-# "VIMRUNTIME" 变量与 nvim 冲突
-# ------------VIM-------------------------- {{{
+## ------------VIM environment path config-------------------------- {{{
+    export EDITOR="$(which nvim)"
+    export VIM="/usr/local/opt/neovim/share/nvim"
+    export VIMFILES="${HOME}/.vim/vimfiles"
+    export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime"
 # if [[ $(uname -s) == "Linux" ]]; then
     # export VIM="/usr/local/share/vim"
     # export VIMFILES="${VIM}/vimfiles"
@@ -142,6 +133,13 @@ export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime"
     # export CATALINA_HOME=$TOMCAT_HOME
     # export CLASSPATH=.:${JAVA_HOME}/lib:${CATALINA_HOME}/lib
     # export PATH=${JAVA_HOME}/bin:$PATH
+# }}}
+
+# alias.zsh conf: {{{
+# if [[ -e ${HOME}/gitrepo/Myzshrc/alias.zsh ]]
+# then
+    # [[ ! -e ${ZSH_CUSTOM}/alias.zsh ]] && ln -sv ${HOME}/gitrepo/Myzshrc/alias.zsh  ${ZSH_CUSTOM}/alias.zsh
+# fi
 # }}}
 
 ## other zsh plugins {{{
@@ -176,9 +174,11 @@ export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime"
 # fi
 # }}}
 
+# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
 # nvm config:
 # curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash
-export NVM_DIR="/Users/zhuchunyuan/.nvm"
+export NVM_DIR="/usr/local/opt/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 
@@ -247,9 +247,3 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
 export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} ||highlight -O ansi -l {} || cat {}) 2> /dev/null | head -100'"
 export FZF_DEFAULT_OPTS='--height 70% --reverse --border'
-    # --color dark,hl:33,hl+:37,fg+:235,bg+:136,fg+:254
-    # --color info:254,prompt:37,spinner:108,pointer:235,marker:235
-
-# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

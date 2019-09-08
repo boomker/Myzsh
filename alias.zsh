@@ -17,7 +17,7 @@
         mkdir "$1" && cd "$1"
     }
 
-    function rmcd() {
+    function rmpd() {
         _CDN="$(basename $PWD)";cd "$(dirname $PWD)";rm -rf "$_CDN"
     }
 
@@ -33,6 +33,7 @@
         ps -ef |rg "$1" |rg -vw "rg"
     }
 
+    # for macos
     function zipgrep() {
         zipinfo -t -1 -M "$2" |grep "$1"
     }
@@ -41,6 +42,10 @@
         egrep -v "^(#|$)" "$1"
     }
 
+    tpaf()
+    {
+        tree -p "$1" |awk '/\[-/{print $NF}'
+    }
 # export LESS=" -R"
 # export LESSOPEN="|highlight -O truecolor %s"
 # export LESS_TERMCAP_mb=$'\E[01;31m'
@@ -54,6 +59,13 @@
 tm(){
     TmSID=$(tmux list-sessions |cut -d':' -f1)
     [[ -n $TmSID ]] && tmux attach -t $TmSID || tmux
+}
+
+proxy(){
+    export http_proxy=http://127.0.0.1:1087
+    export https_proxy=http://127.0.0.1:1087
+    export ftp_proxy=http://127.0.0.1:1087
+    exec ${@:1}
 }
 
 z_replacement()
@@ -97,15 +109,15 @@ ftc() {
 # common alias:
     # alias piua="for i in $(pip3 list --outdate |awk 'NR>2{print $1}');do pip3 install --upgrade $i;done" # make lanch zsh too slow
     # jpnb='cd;jupyter notebook >$HOME/.jupyter/jupyter_notebook_running.log 2>&1 & # the reason is same prevalias
-    # alias -g A=" |ag"
-    # alias -g G=" |egrep -i"
+
+    alias -g G=" |egrep -i"
     alias -g R=" |rg -S"
     alias -g H=" |head"
     alias -g T=" |tail"
     alias -g L=" |less"
     alias -g N=" |nl "
     alias -g F=" |fzf"
-    alias -g J=" |jq"
+    alias -g J=" |jq ."
     alias -g X=" |xargs"
     alias -g P=" |parallel"
     alias -g U=" |uniq"
@@ -129,24 +141,20 @@ ftc() {
     alias sei="sed -i "
     alias sen="sed -n "
     alias tssh="TERM=xterm-256color ssh"
-    # alias rmaf="rm -rf"
-    alias cpf="cp -f "
-    alias cpr="cp -r "
-    alias mv="mv -f "
-    alias timep="/usr/local/bin/time -p"
+    # alias timep="/usr/local/bin/time -p"
     alias gcl="git clone "
     alias gaa="git add ."
     alias gcm="git commit -m "
     alias gpo="git push origin ||git push -u origin"
     alias gidf="git-icdiff"
     alias gco="git checkout "
-    alias gcom="git checkout master"
+    alias gcm="git checkout master"
     alias gfu="git fetch upstream"
     alias gmu="git merge upstream/master"
     alias grep="egrep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}"
     alias dfh="df -Th"
-    alias duhl="du -ah --max-depth=1 "
-    alias trel="tree -L 1 "
+    # alias duhl="du -ah --max-depth=1 "
+    # alias trel="tree -L 1 "
     # alias pip3="python3 -m pip"
     # alias piu="python3 -m pip uninstall "
     alias piu="pip3 uninstall "
@@ -160,6 +168,7 @@ ftc() {
     alias ffwa="proxychains4 aria2c -x6 -c "
     alias sshconf="nvim ${HOME}/.ssh/config"
     alias aliconf="nvim ${HOME}/gitrepos/Myzshrc/alias.zsh"
+    alias alsreload="source ${HOME}/gitrepos/Myzshrc/alias.zsh"
     alias zshreload="source ~/.zshrc" # conflict with tmux
     alias zshconfig="nvim ${HOME}/gitrepos/Myzshrc/.zshrc"
     alias vimconfig="nvim ${HOME}/gitrepos/Myvimrc/.vimrc"
@@ -171,12 +180,12 @@ ftc() {
 if [[ $(uname -s) == "Darwin" ]] ; then
     alias -g PC=" |pbcopy"
     alias vim="nvim"
-    alias mzshconfig="nvim ${HOME}/gitrepos/Myzshrc/.zshrc_mac"
+    alias zshconfig="nvim ${HOME}/gitrepos/Myzshrc/.zshrc_mac"
     alias brin="brew install "
     alias brci="brew cask install "
     alias echo="gecho"
-    alias cpf="gcp -f "
-    alias cpr="gcp -ar "
+    # alias cpf="gcp -f "
+    # alias cpr="gcp -ar "
     alias cp="gcp"
     alias mv="gmv -f "
     alias man="gman"
@@ -184,7 +193,7 @@ if [[ $(uname -s) == "Darwin" ]] ; then
     alias ls="gls -p -w 80 --color=auto"
     alias nl="gnl"
     alias du="gdu"
-    alias duts="du -ch |tail -1"
+    # alias duts="du -ch |tail -1"
     alias find="gfind"
     alias xargs="gxargs"
     alias locate="glocate"
@@ -201,14 +210,14 @@ if [[ $(uname -s) == "Darwin" ]] ; then
     alias df="gdf"
     alias tr="gtr"
     alias mdsum="gmd5sum"
-    alias netstat="netstat -nptcp"
+    alias lstcp="lsof -nP -iTCP"
     alias ping="prettyping"
     alias pps="$(which ptipython3)"
     alias ips="$(which ipython3)"
 else
     # alias for *unix
     alias open="xdg-open"
-    alias free="free -mh"
+    alias free="free -htw"
     alias pc="xsel --clipboard --input"
     alias pp="xsel --clipboard --output"
     alias mmi="make -j2&&make install"
