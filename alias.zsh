@@ -148,7 +148,6 @@ ftc() {
     alias gpo="git push origin ||git push -u origin"
     alias gidf="git-icdiff"
     alias gco="git checkout "
-    alias gcm="git checkout master"
     alias gfu="git fetch upstream"
     alias gmu="git merge upstream/master"
     alias grep="egrep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}"
