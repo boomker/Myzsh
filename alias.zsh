@@ -209,6 +209,7 @@ if [[ $(uname -s) == "Darwin" ]] ; then
     alias df="gdf"
     alias tr="gtr"
     alias mdsum="gmd5sum"
+    alias readlink="greadlink"
     alias lstcp="lsof -nP -iTCP"
     alias ping="prettyping"
     alias pps="$(which ptipython3)"

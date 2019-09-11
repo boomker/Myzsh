@@ -48,14 +48,16 @@ export LANG=en_US.UTF-8
 
 # pypi mirror repo conf:
     [ ! -d ~/.pip ] && mkdir ~/.pip
-    tee ~/.pip/pip.conf <<-'EOF'
-    [global]
-    trusted-host =  mirrors.aliyun.com
-    index-url = http://mirrors.aliyun.com/pypi/simple
+    [[ -z $(grep "aliyun" ~/.pip/pip.conf) ]] && {
+        cat >> ~/.pip/pip.conf <<-'EOF'
+        [global]
+        trusted-host =  mirrors.aliyun.com
+        index-url = http://mirrors.aliyun.com/pypi/simple
 
-    [list]
-    format=columns
+        [list]
+        format=columns
 EOF
+}
 
 # compdef pipenv
     _pipenv() {
@@ -67,7 +69,7 @@ EOF
     fi
 
 # npm mirror repo conf:
-    [[ -n $(command -v npm 2>/dev/null) ]] && {
+    [[ -n $(command -v npm 2>/dev/null) && -z $(grep "taobao" ~/.npmrc) ]] && {
         npm config set registry https://registry.npm.taobao.org
         npm install -g cnpm --registry=https://registry.npm.taobao.org
 }
@@ -133,27 +135,27 @@ fi
 
 # ## VIM relevance var conf:
 # # default editor Vim or neovim(nvim):
-if [ -n $(command -v nvim >/dev/null) ]; then
+if [ -n $(command -v nvim 2>/dev/null) ]; then
+    [[ -n $(find /usr/local -type d -name "nvim") ]] && VIMRD=$(find /usr/local/nvim -type d -name "runtime")
+    [[ -n $(find /usr/share -type d -name "nvim") ]] && VIMRD=$(find /usr/share/nvim -type d -name "runtime")
+    export VIM="$(dirname ${VIMRD})"
+    export VIMRUNTIME=${VIMRD}
     export EDITOR="$(command -v nvim)"
 else
     export EDITOR="$(command -v vim)"
 fi
 
-# several vim var conf:
-    # [[ -n $(egrep -i "centos|redhat" /etc/os-release) ]] && \
-        # VIMRD=$(find /usr/local -type d -name "vim[0-9]*") || VIMRD=$(find /usr/share -type d -name "vim[0-9]*")
-    [[ -n $(find /usr/local -type d -name "nvim") ]] && VIMRD=$(find /usr/local/nvim -type d -name "runtime")
-    [[ -n $(find /usr/share -type d -name "nvim") ]] && VIMRD=$(find /usr/share/nvim -type d -name "runtime")
-    export VIM="$(dirname ${VIMRD})"
-    export VIMRUNTIME=${VIMRD}
-    export VIMFILES="${HOME}/.vim/vimfiles"
-    [[ ! -e ${VIMRUNTIME}/colors/solarized8_dark_flat.vim ]] && cp ${VIMFILES}/bundle/vim-colorschemes/colors/solar* ${VIMRUNTIME}/colors/
-    [[ ! -e ${VIMRUNTIME}/colors/onedark.vim ]] && cp ${VIMFILES}/bundle/onedark/colors/* ${VIMRUNTIME}/colors/
-    [[ ! -e ${VIMRUNTIME}/autoload/onedark.vim ]] && cp ${VIMFILES}/bundle/onedark/autoload/* ${VIMRUNTIME}/autoload/
+export VIMFILES="${HOME}/.vim/vimfiles"
+# move vim colorstheme:
+    # [[ ! -e ${VIMRUNTIME}/colors/solarized8_dark_flat.vim ]] && cp ${VIMFILES}/bundle/vim-colorschemes/colors/solar* ${VIMRUNTIME}/colors/
+    [[ -d ${VIMFILES}/bundle/onedark.vim ]] && {
+        cp -ar ${VIMFILES}/bundle/onedark.vim/colors/*   ${VIMRUNTIME}/colors/
+        cp -ar ${VIMFILES}/bundle/onedark.vim/autoload/* ${VIMRUNTIME}/autoload/
+    }
 
 # Golang path setting
-GoRoot="/usr/local/go"
-PATH=$PATH:${GoRoot}/bin
+    GoRoot="/usr/local/go"
+    PATH=$PATH:${GoRoot}/bin
 
 # Tomcat Path
     # export JAVA_HOME=/usr/lib/jvm/jdk
