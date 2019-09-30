@@ -17,18 +17,26 @@ source /etc/os-release
 case $ID in
     ubuntu)
         apt-get update
-        apt -y install git tree tar unzip wget zsh silversearcher-ag gcc cmake dstat htop jq multitail shellcheck python3-pip
-        apt -y install software-properties-common && add-apt-repository ppa:jonathonf/vim && apt update && apt -y install vim
+        apt -y install git tree tar unzip wget zsh  gcc cmake dstat htop jq multitail shellcheck python3-pip
+        # apt -y install software-properties-common && add-apt-repository ppa:jonathonf/vim && apt update && apt -y install vim
         pip3 install --upgrade pip || pip install --upgrade pip
-        python3 -m pip install ptipython pip-tools jedi autopep8 glances flake8 \
-            PrettyPrinter psutil hsize httpie ngxtop icdiff future frozendict
-        VIMRUNTIME=$(find /usr/share -type d -name "vim[0-9]*" 2>/dev/nul)
-        export VIMRUNTIME
-        cd ~/gitrepos && git clone https://github.com/boomker/Myvimrc.git
-        cd ./Myvimrc && cp onedark.vim gruvbox.vim solarized8_dark_flat.vim "${VIMRUNTIME}/colors"
-        curl -fLo "${VIMRUNTIME}/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        python3 -m pip install ptipython pip-tools jedi autopep8 flake8 PrettyPrinter psutil mhsize icdiff
+        # \ httpie ngxtop future frozendict
         cp .vimrc ~/
         cd && curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+
+        # nodejs npm
+        curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
+        sudo apt-get install -y nodejs
+        sudo apt-get install -y build-essential
+        sudo npm install -g npm
+
+        #noevim
+        NvimApp_uri=$(curl -sL https://github.com/neovim/neovim/releases/latest |awk -F'[ =]+' '/href.*\.appimage"/{print $4}')
+	    echo "https://github.com"$(echo $NvimApp_uri |tr -d '"') |xargs curl -sLO
+	    ./nvim.appimage --appimage-extract
+        cp -r ./squashfs-root/usr/bin/nvim /usr/local/bin/nvim
+	    chmod +x /usr/local/bin/nvim
         ;;
     centos|rhel)
         yum -y install yum-utils epel-release.noarch || \
@@ -57,50 +65,30 @@ case $ID in
         ln -sv "/usr/bin/python${LPyV}" /usr/bin/python3 ||ln -sv /usr/bin/python3.6 /usr/bin/python3
         ln -sv "/usr/bin/python${LPyV}-config" /usr/bin/python3-config ||ln -sv /usr/bin/python3.6-config /usr/bin/python3-config
         ln -sv "/usr/lib64/python${LPyV}/config-${LPyV}m-x86_64-linux-gnu" "/usr/lib64/python${LPyV}/config"
-        pip3 install --upgrade pip||pip install --upgrade pip
-        pip install ptipython pip-tools jedi autopep8 glances flake8 PrettyPrinter psutil mhsize \
-            httpstat httpie ngxtop icdiff lolcat neovim
+        pip3 install --upgrade pip || pip install --upgrade pip
+        pip install ptipython pip-tools jedi autopep8 flake8 PrettyPrinter psutil mhsize  httpie ngxtop icdiff neovim
         cd && curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer |bash
 
-        # exit
-        # curl -L get.rvm.io | bash -s stable
-        # rvm install 2.4.0
+        # nodejs npm
+        curl -sL https://rpm.nodesource.com/setup_11.x | bash -
+        sudo yum install -y nodejs
+        curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
+        sudo yum install yarn
+        sudo npm install -g npm
 
-        # Vim8.x
-        # yum -y remove vim-filesystem vim-common vim-enhanced
-        # yum install -y --nogpgcheck lua lua-devel luajit \
-        # luajit-devel ctags python27 python27-scldevel tcl-devel \
-        # perl perl-devel perl-ExtUtils-ParseXS \
-        # perl-ExtUtils-XSpp perl-ExtUtils-CBuilder \
-        # perl-ExtUtils-Embed gcc-c++ ncurses-devel \
-        # # scl enable bash
-        # cd ~/gitrepos
-        # git clone https://github.com/vim/vim.git
-        # cd ./vim
-        # ./configure --with-features=huge \
-        #             --enable-multibyte \
-        #             --enable-rubyinterp=yes \
-        #             --enable-pythoninterp=yes \
-        #             --with-python-config-dir=/usr/lib64/python2.7/config \
-        #             --enable-python3interp=yes \
-        #             --with-python3-config-dir="/usr/lib64/python${LPyV}/config" \
-        #             --enable-perlinterp=yes \
-        #             --enable-luainterp=yes \
-        #             --enable-gui=gtk2 \
-        #             --enable-cscope \
-        #             --prefix=/usr/local
-        # # make VIMRUNTIMEDIR=${VIMRD}
-        # make
-        # make install
-        # update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
-        # update-alternatives --set editor /usr/local/bin/vim
-        # VIMRD=$(find /usr/local -type d -name "vim[0-9]*" 2>/dev/nul)
-        # export VIMRUNTIME="${VIMRD}"
+        #noevim
+        NvimApp_uri=$(curl -sL https://github.com/neovim/neovim/releases/latest |awk -F'[ =]+' '/href.*\.appimage"/{print $4}')
+	    echo "https://github.com"$(echo $NvimApp_uri |tr -d '"') |xargs curl -sLO
+	    ./nvim.appimage --appimage-extract
+        cp -r ./squashfs-root/usr/bin/nvim /usr/local/bin/nvim
+	    chmod +x /usr/local/bin/nvim
+
+        # vim
         cd ~/gitrepos && git clone https://github.com/boomker/Myvimrc.git
         cd ./Myvimrc
         # tic xterm-256color-italic.terminfo
         mv ~/.vimrc{,.bak} 2>/dev/null
-        ln -sv $PWD/.vimrc ~/.vimrc
+        ln -sv ${PWD}/.vimrc ~/.vimrc
         ;;
     *)
         exit 1
@@ -112,6 +100,6 @@ esac
 cd ~/gitrepos
 git clone https://github.com/boomker/Myzshrc.git
 cd ~/gitrepos/Myzshrc
-mv "${HOME}"/.zshrc{,.bak}
-ln -sv $PWD/.zshrc ~/.zshrc
 source ./oh-my-zsh_install.sh
+mv "${HOME}"/.zshrc{,.bak}
+ln -sv ${PWD}/.zshrc ~/.zshrc
