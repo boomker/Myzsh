@@ -99,6 +99,11 @@ EOF
     fi
     # }}}
 
+    # rust
+    curl https://sh.rustup.rs -sSf | sh
+    cargo install bat ripgrep
+    # https://github.com/universal-ctags/ctags
+
     # golang proxy conf: {{{
     if [[ -n $(lsof -nP -iTCP |grep -i "ss-local" |grep -v grep) ]]
     then
@@ -240,6 +245,7 @@ setopt PUSHD_IGNORE_DUPS
 
 ## Emacs风格 键绑定
 bindkey -e
+bindkey '^u' backward-kill-line
 
 #以下字符视为单词的一部分
 WORDCHARS='*?_-[]~=&;!#$%^(){}<>'

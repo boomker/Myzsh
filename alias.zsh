@@ -56,6 +56,10 @@
 # export LESS_TERMCAP_ue=$'\E[0m'
 # export LESS_TERMCAP_us=$'\E[01;32m'
 
+transfer() {
+    curl --progress-bar --upload-file "$1" https://transfer.sh/$(basename "$1") | tee /dev/null;
+}
+
 tm(){
     TmSID=$(tmux list-sessions |cut -d':' -f1)
     [[ -n $TmSID ]] && tmux attach -t $TmSID || tmux
