@@ -63,28 +63,29 @@ if [[ $(uname -s) == "Darwin" ]]; then
     # GNU cmd tools PATH for Mac:
     # export PATH="/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin:${PATH}"
     export PATH="~/Library/Python/3.7/bin:/usr/local/opt/python/Frameworks/Python.framework/Versions/3.7/bin/:~/Library/Python/2.7/bin:${PATH}"
-    export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/bin:~/.cargo/bin/:$PATH"
+    export PATH="/opt/local/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/bin:~/.cargo/bin/:$PATH"
     export MANPATH="/usr/local/man:/usr/local/share/man:$MANPATH"
     export MANPATH="/usr/local/opt/coreutils/share/man:/usr/local/opt/findutils/share/man:${MANPATH}"
 
-    # git proxy conf: {{{
-    if [[ -n $(lsof -nP -iTCP |grep -i "ss-local" |grep -v grep) ]]
-    then
-        # git config --global http.useragent https://github.com.proxy http://127.0.0.1:1087
-        git config --global http.proxy socks5://127.0.0.1:1080
-        git config --global https.proxy socks5://127.0.0.1:1080
-    fi
-    # }}}
-
-    # golang proxy conf: {{{
-    if [[ -n $(lsof -nP -iTCP |grep -i "ss-local" |grep -v grep) ]]
-    then
-        export GOPROXY="127.0.0.1:1080"
-    else
-         export GOPROXY="https://goproxy.io"
-    fi
-    # }}}
 fi
+
+# proxy config {{{
+if [[ -n $(lsof -nP -i :1087 -a -i :1080 2>/dev/null) ]]
+then
+    git config --global http.proxy socks5://127.0.0.1:1080
+    # git proxy config
+    git config --global https.proxy socks5://127.0.0.1:1080
+    export GOPROXY="127.0.0.1:1080"
+elif [ -n $(lsof -nP -i :8100) ]; then
+    git config --global http.proxy socks5://127.0.0.1:8100
+    # git proxy config
+    git config --global https.proxy socks5://127.0.0.1:8100
+    export GOPROXY="127.0.0.1:8100"
+else
+    # golang proxy conf
+    export GOPROXY="https://goproxy.io"
+fi
+# }}}
 ## }}}
 
 
@@ -248,3 +249,11 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
 export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} ||highlight -O ansi -l {} || cat {}) 2> /dev/null | head -100'"
 export FZF_DEFAULT_OPTS='--height 70% --reverse --border'
+# nohup goflyway -up=cf://go.wallbroken.xyz:8880 -k=BWFW#cf-0924 -l=:8100 &
+# nohup goflyway -up=cf://go.wallbroken.xyz:2905 -k=VGWF-km#2019 -l=:8100 &
+
+# 设置使用代理
+# alias setproxy="export https_proxy=http://127.0.0.1:1087; export http_proxy=http://127.0.0.1:1087; export all_proxy=socks5://127.0.0.1:1080"
+# 设置取消使用代理
+# alias unsetproxy="unset http_proxy; unset https_proxy; unset all_proxy; echo 'Unset proxy successfully'"
+

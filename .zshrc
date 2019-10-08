@@ -90,28 +90,23 @@ EOF
         systemctl restart docker
     }
 
-    # git proxy conf: {{{
-    if [[ -n $(lsof -nP -iTCP |grep -i "ss-local" |grep -v grep) ]]
-    then
-        git config --global http.proxy socks5://127.0.0.1:1080
-        git config --global https.proxy socks5://127.0.0.1:1080
-        # }
-    fi
-    # }}}
+## proxy conf: {{{
+if [[ -z $(lsof -nP -i :1087 -a -i :1080 2>/dev/null) ]]
+then
+    git config --global http.proxy socks5://0.0.0.0:1080
+    # git proxy config
+    git config --global https.proxy socks5://0.0.0.0:1080
+    export GOPROXY="0.0.0.0:1080"
+else
+    # golang proxy conf
+    export GOPROXY="https://goproxy.io"
+fi
+# }}}
 
     # rust
-    curl https://sh.rustup.rs -sSf | sh
-    cargo install bat ripgrep
+    # curl https://sh.rustup.rs -sSf | sh
+    # cargo install bat ripgrep
     # https://github.com/universal-ctags/ctags
-
-    # golang proxy conf: {{{
-    if [[ -n $(lsof -nP -iTCP |grep -i "ss-local" |grep -v grep) ]]
-    then
-        export GOPROXY="127.0.0.1:1080"
-    else
-         export GOPROXY="https://goproxy.io"
-    fi
-    # }}}
 
 # thefuck conf:
 # if [[ -z $(command -v thefuck 2>/dev/null) ]]
