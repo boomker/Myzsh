@@ -39,7 +39,7 @@ DISABLE_AUTO_UPDATE="true"
     # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # }}}
 
-plugins=(colored-manpages extract ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(man extract ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
 autoload -U compinit && compinit
 
 ## --------------User configuration--------------
@@ -63,28 +63,28 @@ if [[ $(uname -s) == "Darwin" ]]; then
     # GNU cmd tools PATH for Mac:
     # export PATH="/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin:${PATH}"
     export PATH="~/Library/Python/3.7/bin:/usr/local/opt/python/Frameworks/Python.framework/Versions/3.7/bin/:~/Library/Python/2.7/bin:${PATH}"
-    export PATH="/opt/local/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/bin:~/.cargo/bin/:$PATH"
+    export PATH="/opt/local/bin:/usr/local/sbin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/bin:~/.cargo/bin/:$PATH"
     export MANPATH="/usr/local/man:/usr/local/share/man:$MANPATH"
     export MANPATH="/usr/local/opt/coreutils/share/man:/usr/local/opt/findutils/share/man:${MANPATH}"
 
 fi
 
 # proxy config {{{
-if [[ -n $(lsof -nP -i :1087 -a -i :1080 2>/dev/null) ]]
-then
-    git config --global http.proxy socks5://127.0.0.1:1080
-    # git proxy config
-    git config --global https.proxy socks5://127.0.0.1:1080
-    export GOPROXY="127.0.0.1:1080"
-elif [ -n $(lsof -nP -i :8100) ]; then
-    git config --global http.proxy socks5://127.0.0.1:8100
-    # git proxy config
-    git config --global https.proxy socks5://127.0.0.1:8100
-    export GOPROXY="127.0.0.1:8100"
-else
-    # golang proxy conf
-    export GOPROXY="https://goproxy.io"
-fi
+# if [[ -n $(lsof -nP -i :1087 -a -i :1080 2>/dev/null) ]]
+# then
+#     git config --global http.proxy socks5://127.0.0.1:1080
+#     # git proxy config
+#     git config --global https.proxy socks5://127.0.0.1:1080
+#     export GOPROXY="127.0.0.1:1080"
+# elif [ -n $(lsof -nP -i :8100) ]; then
+#     git config --global http.proxy socks5://127.0.0.1:8100
+#     # git proxy config
+#     git config --global https.proxy socks5://127.0.0.1:8100
+#     export GOPROXY="127.0.0.1:8100"
+# else
+#     # golang proxy conf
+#     export GOPROXY="https://goproxy.io"
+# fi
 # }}}
 ## }}}
 
@@ -243,6 +243,7 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 # export HH_CONFIG=hicolor        # get more colors
 source ${ZSH}/oh-my-zsh.sh
 source ${HOME}/.oh-my-zsh/custom/plugins/.fzf.zsh
+export SHELL="$(which zsh)"
 export BAT_THEME="TwoDark"
 export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -256,4 +257,3 @@ export FZF_DEFAULT_OPTS='--height 70% --reverse --border'
 # alias setproxy="export https_proxy=http://127.0.0.1:1087; export http_proxy=http://127.0.0.1:1087; export all_proxy=socks5://127.0.0.1:1080"
 # 设置取消使用代理
 # alias unsetproxy="unset http_proxy; unset https_proxy; unset all_proxy; echo 'Unset proxy successfully'"
-

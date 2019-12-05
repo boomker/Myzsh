@@ -97,9 +97,14 @@ esac
 
 
 # git Myself zshell conf repo:
-cd ~/gitrepos
-git clone https://github.com/boomker/Myzshrc.git
-cd ~/gitrepos/Myzshrc
-source ./oh-my-zsh_install.sh
+git clone https://github.com/boomker/Myzshrc.git ~/gitrepos && cd ~/gitrepos/Myzshrc
+git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto" && {
+    setopt EXTENDED_GLOB
+    for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
+    ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+    done
+}
+# source ./oh-my-zsh_install.sh
+cp ./zpreztorc "${HOME}"/.zpreztorc
 mv "${HOME}"/.zshrc{,.bak}
-ln -sv ${PWD}/.zshrc ~/.zshrc
+ln -sv "${PWD}"/.zshrc ~/.zshrc

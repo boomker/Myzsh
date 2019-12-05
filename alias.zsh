@@ -191,6 +191,7 @@ if [[ $(uname -s) == "Darwin" ]] ; then
     # alias cpr="gcp -ar "
     alias cp="gcp"
     alias mv="gmv -f "
+    alias mkdir="gmkdir -pv "
     alias man="gman"
     alias l="exa -abghl --git --color=automatic"
     alias ls="gls -p -w 80 --color=auto"
