@@ -1,7 +1,14 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block, everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Path to your oh-my-zsh installation.
 export ZSH=${HOME}/.oh-my-zsh
 export ZSH_CUSTOM=${ZSH}/custom
-ZSH_THEME="bullet-train"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 DISABLE_AUTO_UPDATE="true"
@@ -62,8 +69,8 @@ if [[ $(uname -s) == "Darwin" ]]; then
 
     # GNU cmd tools PATH for Mac:
     # export PATH="/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin:${PATH}"
-    export PATH="~/Library/Python/3.7/bin:/usr/local/opt/python/Frameworks/Python.framework/Versions/3.7/bin/:~/Library/Python/2.7/bin:${PATH}"
-    export PATH="/opt/local/bin:/usr/local/sbin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/bin:~/.cargo/bin/:$PATH"
+    export PATH="/usr/local/opt/python/bin/:~/Library/Python/2.7/bin:${PATH}"
+    export PATH="/usr/local/sbin:/opt/local/bin:$HOME/.yarn/bin:~/.cargo/bin/:$PATH"
     export MANPATH="/usr/local/man:/usr/local/share/man:$MANPATH"
     export MANPATH="/usr/local/opt/coreutils/share/man:/usr/local/opt/findutils/share/man:${MANPATH}"
 
@@ -242,18 +249,28 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 # add this configuration to ~/.zshrc
 # export HH_CONFIG=hicolor        # get more colors
 source ${ZSH}/oh-my-zsh.sh
-source ${HOME}/.oh-my-zsh/custom/plugins/.fzf.zsh
-export SHELL="$(which zsh)"
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ${ZSH_CUSTOM}/plugins/.p10k.zsh
 export BAT_THEME="TwoDark"
-export FZF_DEFAULT_COMMAND='rg --files'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} ||highlight -O ansi -l {} || cat {}) 2> /dev/null | head -100'"
-export FZF_DEFAULT_OPTS='--height 70% --reverse --border'
-# nohup goflyway -up=cf://go.wallbroken.xyz:8880 -k=BWFW#cf-0924 -l=:8100 &
-# nohup goflyway -up=cf://go.wallbroken.xyz:2905 -k=VGWF-km#2019 -l=:8100 &
+
+# ------fzf configuration----------
+    source ${HOME}/.oh-my-zsh/custom/plugins/.fzf.zsh
+    export FZF_DEFAULT_COMMAND='rg --files'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+    export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color= \
+        always {} ||highlight -O ansi -l {} || cat {}) 2> /dev/null | head -100'"
+    export FZF_DEFAULT_OPTS='--height 70% --reverse --border'
+
+# ---------proxy config----------
+    # nohup goflyway -up=cf://go.wallbroken.xyz:8880 -k=BWFW#cf-0924 -l=:8100 &
+    # nohup goflyway -up=cf://go.wallbroken.xyz:2905 -k=VGWF-km#2019 -l=:8100 &
 
 # 设置使用代理
-# alias setproxy="export https_proxy=http://127.0.0.1:1087; export http_proxy=http://127.0.0.1:1087; export all_proxy=socks5://127.0.0.1:1080"
+# setproxy="export https_proxy=http://127.0.0.1:1087; \
+    # export http_proxy=http://127.0.0.1:1087; \
+    # export all_proxy=socks5://127.0.0.1:1080"
+
 # 设置取消使用代理
-# alias unsetproxy="unset http_proxy; unset https_proxy; unset all_proxy; echo 'Unset proxy successfully'"
+    # unsetproxy="unset http_proxy; unset https_proxy; \
+    # unset all_proxy; echo 'Unset proxy successfully'"
