@@ -29,7 +29,7 @@
         tar -czvf "$1.tar.gz" "$1"
     }
 
-    function psa()  {
+    function psr()  {
         ps -ef |rg "$1" |rg -vw "rg"
     }
 
