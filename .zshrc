@@ -1,7 +1,7 @@
 # Path to your oh-my-zsh installation.
 export ZSH=${HOME}/.oh-my-zsh
 export ZSH_CUSTOM=${ZSH}/custom
-ZSH_THEME="bullet-train"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to use case-sensitive completion.
@@ -165,12 +165,12 @@ export VIMFILES="${HOME}/.vim/vimfiles"
     # export PATH=${JAVA_HOME}/bin:${PATH}
 
 ## other zsh plugins
-if [[ ! -e ${ZSH_CUSTOM}/themes/bullet-train.zsh-theme ]]
-then
-    [[ ! -d ${ZSH_CUSTOM}/themes ]] && mkdir -p ${ZSH_CUSTOM}/themes
-    rm -rf ${ZSH_CUSTOM}/themes/*
-    git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
-fi
+# if [[ ! -e ${ZSH_CUSTOM}/themes/bullet-train.zsh-theme ]]
+# then
+#     [[ ! -d ${ZSH_CUSTOM}/themes ]] && mkdir -p ${ZSH_CUSTOM}/themes
+#     rm -rf ${ZSH_CUSTOM}/themes/*
+#     git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
+# fi
 
 # powerful plugins like fish
 if [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-autosuggestions ]] || [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting ]]
@@ -266,12 +266,31 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
     zstyle ':completion:*:warnings' format $'\e[01;31m -- No Matches Found --\e[0m'
     zstyle ':completion:*:corrections' format $'\e[01;32m -- %d (errors: %e) --\e[0m'
 
+# add this configuration to ~/.zshrc
 # export HH_CONFIG=hicolor        # get more colors
 source ${ZSH}/oh-my-zsh.sh
-[[ -e ${ZSH_CUSTOM}/.fzf.zsh ]] && source ${ZSH_CUSTOM}/.fzf.zsh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='rg --files'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} ||highlight -O ansi -l {} || cat {}) 2> /dev/null | head -100'"
-export FZF_DEFAULT_OPTS='--height 70% --reverse --border'
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ${ZSH_CUSTOM}/plugins/.p10k.zsh
+export BAT_THEME="TwoDark"
+
+# ------fzf configuration----------
+    source ${HOME}/.oh-my-zsh/custom/plugins/.fzf.zsh
+    export FZF_DEFAULT_COMMAND='rg --files'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+    export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color= \
+        always {} ||highlight -O ansi -l {} || cat {}) 2> /dev/null | head -100'"
+    export FZF_DEFAULT_OPTS='--height 70% --reverse --border'
+
+# ---------proxy config----------
+    # nohup goflyway -up=cf://go.wallbroken.xyz:8880 -k=BWFW#cf-0924 -l=:8100 &
+    # nohup goflyway -up=cf://go.wallbroken.xyz:2905 -k=VGWF-km#2019 -l=:8100 &
+
+# 设置使用代理
+# setproxy="export https_proxy=http://127.0.0.1:1087; \
+    # export http_proxy=http://127.0.0.1:1087; \
+    # export all_proxy=socks5://127.0.0.1:1080"
+
+# 设置取消使用代理
+    # unsetproxy="unset http_proxy; unset https_proxy; \
+    # unset all_proxy; echo 'Unset proxy successfully'"
