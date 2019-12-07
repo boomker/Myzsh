@@ -3,6 +3,9 @@
 # confirmations, etc.) must go above this block, everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+elif  [[ ! -f ~/.p10k.zsh ]]; then
+    mv ~/.p10k.zsh ${ZSH_CUSTOM}/plugins/.p10k.zsh
+    source ${ZSH_CUSTOM}/plugins/.p10k.zsh
 fi
 
 # Path to your oh-my-zsh installation.
@@ -54,6 +57,7 @@ autoload -U compinit && compinit
 export LANG=en_US.UTF-8
 HIST_STAMPS="mm/dd/yyyy"
 
+
 ## configure pyvenv, Homebrew, PATH(GNU CLI tools), catalog ,git on MacOS {{{
 if [[ $(uname -s) == "Darwin" ]]; then
     # pyenv &&pyenv-virtualenv configuration:
@@ -75,8 +79,10 @@ if [[ $(uname -s) == "Darwin" ]]; then
     export MANPATH="/usr/local/opt/coreutils/share/man:/usr/local/opt/findutils/share/man:${MANPATH}"
 
 fi
+## }}}
 
-# proxy config {{{
+
+## proxy config {{{
 # if [[ -n $(lsof -nP -i :1087 -a -i :1080 2>/dev/null) ]]
 # then
 #     git config --global http.proxy socks5://127.0.0.1:1080
@@ -92,12 +98,10 @@ fi
 #     # golang proxy conf
 #     export GOPROXY="https://goproxy.io"
 # fi
-# }}}
 ## }}}
 
 
-# eval $(thefuck --alias fff)
-# thefuck install and alias config {{{
+## thefuck install and alias config {{{
 # if [[ -z $(which thefuck 2>/dev/null) ]]
 # then
     # [[ -z $(which gcc 2>/dev/null) ]] && break
@@ -106,7 +110,8 @@ fi
 # else
     # eval $(thefuck --alias fff)
 # fi
-# }}}
+## }}}
+
 
 ## ssh keygen location {{{
  # if [[ -d ~/.ssh ]]; then
@@ -135,6 +140,7 @@ fi
 # fi
 # }}}
 
+
 # Tomcat Path {{{
     # export JAVA_HOME=/usr/lib/jvm/jdk
     # export TOMCAT_HOME=/opt/tomcat8
@@ -143,12 +149,14 @@ fi
     # export PATH=${JAVA_HOME}/bin:$PATH
 # }}}
 
+
 # alias.zsh conf: {{{
 # if [[ -e ${HOME}/gitrepo/Myzshrc/alias.zsh ]]
 # then
     # [[ ! -e ${ZSH_CUSTOM}/alias.zsh ]] && ln -sv ${HOME}/gitrepo/Myzshrc/alias.zsh  ${ZSH_CUSTOM}/alias.zsh
 # fi
 # }}}
+
 
 ## other zsh plugins {{{
 # if [[ ! -e ${ZSH_CUSTOM}/themes/bullet-train.zsh-theme ]]
@@ -159,6 +167,7 @@ fi
 # fi
 # }}}
 
+
 # powerful plugins like fish {{{
 # if [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-autosuggestions ]] || [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting ]]
 # then
@@ -167,6 +176,7 @@ fi
     # export ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(end-of-line vi-forward-char vi-end-of-line vi-add-eol)
 # fi
 # }}}
+
 
 # fzf.zsh {{{
 # if [[ -z $(which fzf 2>/dev/null) ]]
@@ -191,29 +201,30 @@ export NVM_DIR="/usr/local/opt/nvm"
 
 
 ## 关于历史纪录的配置##############################################{{{
-# 历史纪录条目数量
-export HISTSIZE=10000
+    # 历史纪录条目数量
+    export HISTSIZE=10000
 
-# 注销后保存的历史纪录条目数量
-export SAVEHIST=10000
+    # 注销后保存的历史纪录条目数量
+    export SAVEHIST=10000
 
-# 以附加的方式写入历史纪录
-setopt INC_APPEND_HISTORY
+    # 以附加的方式写入历史纪录
+    setopt INC_APPEND_HISTORY
 
-# 如果连续输入的命令相同，历史纪录中只保留一个
-setopt HIST_IGNORE_DUPS
+    # 如果连续输入的命令相同，历史纪录中只保留一个
+    setopt HIST_IGNORE_DUPS
 
-# 为历史纪录中的命令添加时间戳
-setopt EXTENDED_HISTORY
+    # 为历史纪录中的命令添加时间戳
+    setopt EXTENDED_HISTORY
 
-#启用 cd 命令的历史纪录，cd -[TAB]进入历史路径
-setopt AUTO_PUSHD
+    #启用 cd 命令的历史纪录，cd -[TAB]进入历史路径
+    setopt AUTO_PUSHD
 
-#相同的历史路径只保留一个
-setopt PUSHD_IGNORE_DUPS
+    #相同的历史路径只保留一个
+    setopt PUSHD_IGNORE_DUPS
 
-# 历史纪录文件
-export HISTFILE=~/.zshistory  # ensure history file visibility
+    # 历史纪录文件
+    export HISTFILE=~/.zshistory  # ensure history file visibility
+## }}}
 
 # Emacs风格 键绑定
 bindkey -e
@@ -250,7 +261,7 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 # export HH_CONFIG=hicolor        # get more colors
 source ${ZSH}/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ${ZSH_CUSTOM}/plugins/.p10k.zsh
+source ${ZSH_CUSTOM}/plugins/.p10k.zsh
 export BAT_THEME="TwoDark"
 
 # ------fzf configuration----------

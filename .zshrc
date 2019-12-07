@@ -2,7 +2,6 @@
 export ZSH=${HOME}/.oh-my-zsh
 export ZSH_CUSTOM=${ZSH}/custom
 ZSH_THEME="powerlevel10k/powerlevel10k"
-DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -27,16 +26,74 @@ DISABLE_AUTO_UPDATE="true"
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+DISABLE_AUTO_UPDATE="true"
 HIST_STAMPS="mm/dd/yyyy"
-
-plugins=(colored-man-pages docker extract ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
-
-## --------------User configuration--------------
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
+plugins=(colored-man-pages \
+        docker \
+        extract \
+        ssh-agent \
+        z \
+        zsh-completions \
+        zsh-autosuggestions \
+        zsh-syntax-highlighting)
+
+## --------------User configuration--------------
+
 [[ $(echo $SHELL 2>/dev/null) == "/bin/bash" ]] && chsh -s /usr/bin/zsh 2>/dev/null
 
+# thefuck conf:
+# if [[ -z $(command -v thefuck 2>/dev/null) ]]
+# then
+    # [[ -z $(command -v gcc 2>/dev/null) ]] && break
+    # pip3 install --upgrade pip
+    # pip3 install thefuck
+# else
+    # eval $(thefuck --alias fff)
+# fi
+
+
+# alias.zsh conf:
+if [[ ! -e ${ZSH_CUSTOM}/alias.zsh ]]
+then
+    ln -sv ${HOME}/gitrepos/Myzshrc/alias.zsh  ${ZSH_CUSTOM}/alias.zsh
+    # source ${ZSH_CUSTOM}/alias.zsh
+fi
+
+
+## ssh
+ if [ -d ~/.ssh ]; then
+    export SSH_KEY_PATH="~/.ssh/id_rsa"
+else
+    mkdir ~/.ssh
+    export SSH_KEY_PATH="~/.ssh/id_rsa"
+fi
+
+
+## VIM related var conf:{{{
+# default editor Vim or neovim(nvim):
+if [ -n $(command -v nvim 2>/dev/null) ]; then
+    [[ -n $(find /usr/local -type d -name "nvim") ]] && VIMRD=$(find /usr/local/nvim -type d -name "runtime")
+    [[ -n $(find /usr/share -type d -name "nvim") ]] && VIMRD=$(find /usr/share/nvim -type d -name "runtime")
+    export VIM="$(dirname ${VIMRD})"
+    export VIMRUNTIME=${VIMRD}
+    export EDITOR="$(command -v nvim)"
+else
+    export EDITOR="$(command -v vim)"
+fi
+
+export VIMFILES="${HOME}/.vim/vimfiles"
+# move vim colorstheme:
+    [[ -d ${VIMFILES}/bundle/onedark.vim ]] && {
+        cp -ar ${VIMFILES}/bundle/onedark.vim/colors/*   ${VIMRUNTIME}/colors/
+        cp -ar ${VIMFILES}/bundle/onedark.vim/autoload/* ${VIMRUNTIME}/autoload/
+    }
+###}}}
+
+
+## python, pyenv, pypi registry, pipenv .etc configuration----------{{{
 # pyenv conf:
      if [ -n $(command -v pyenv 2>/dev/null) ]
      then
@@ -59,6 +116,7 @@ export LANG=en_US.UTF-8
 EOF
 }
 
+
 # compdef pipenv
     _pipenv() {
         eval $(env COMMANDLINE="${words[1,$CURRENT]}" _PIPENV_COMPLETE=complete-zsh  pipenv)
@@ -67,12 +125,15 @@ EOF
         autoload -U compinit && compinit
         compdef _pipenv pipenv
     fi
+## }}}
+
 
 # npm mirror repo conf:
     [[ -n $(command -v npm 2>/dev/null) && -z $(grep "taobao" ~/.npmrc) ]] && {
         npm config set registry https://registry.npm.taobao.org
         npm install -g cnpm --registry=https://registry.npm.taobao.org
 }
+
 
 # docker config:
 # curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
@@ -90,6 +151,7 @@ EOF
         systemctl restart docker
     }
 
+
 ## proxy conf: {{{
 if [[ -z $(lsof -nP -i :1087 -a -i :1080 2>/dev/null) ]]
 then
@@ -103,59 +165,22 @@ else
 fi
 # }}}
 
-    # rust
-    # curl https://sh.rustup.rs -sSf | sh
-    # cargo install bat ripgrep
-    # https://github.com/universal-ctags/ctags
 
-# thefuck conf:
-# if [[ -z $(command -v thefuck 2>/dev/null) ]]
-# then
-    # [[ -z $(command -v gcc 2>/dev/null) ]] && break
-    # pip3 install --upgrade pip
-    # pip3 install thefuck
-# else
-    # eval $(thefuck --alias fff)
-# fi
+# nvm config:
+# git clone https://github.com/nvm-sh/nvm.git .nvm
+export NVM_DIR="/usr/local/opt/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
-# alias.zsh conf:
-if [[ -e ${HOME}/gitrepos/Myzshrc/alias.zsh ]]
-then
-    [[ ! -e ${ZSH_CUSTOM}/alias.zsh ]] && ln -sv ${HOME}/gitrepos/Myzshrc/alias.zsh  ${ZSH_CUSTOM}/alias.zsh
-    # source ${ZSH_CUSTOM}/alias.zsh
-fi
-
-## ssh
- if [ -d ~/.ssh ]; then
-    export SSH_KEY_PATH="~/.ssh/id_rsa"
-else
-    mkdir ~/.ssh
-    export SSH_KEY_PATH="~/.ssh/id_rsa"
-fi
-
-# ## VIM relevance var conf:
-# # default editor Vim or neovim(nvim):
-if [ -n $(command -v nvim 2>/dev/null) ]; then
-    [[ -n $(find /usr/local -type d -name "nvim") ]] && VIMRD=$(find /usr/local/nvim -type d -name "runtime")
-    [[ -n $(find /usr/share -type d -name "nvim") ]] && VIMRD=$(find /usr/share/nvim -type d -name "runtime")
-    export VIM="$(dirname ${VIMRD})"
-    export VIMRUNTIME=${VIMRD}
-    export EDITOR="$(command -v nvim)"
-else
-    export EDITOR="$(command -v vim)"
-fi
-
-export VIMFILES="${HOME}/.vim/vimfiles"
-# move vim colorstheme:
-    # [[ ! -e ${VIMRUNTIME}/colors/solarized8_dark_flat.vim ]] && cp ${VIMFILES}/bundle/vim-colorschemes/colors/solar* ${VIMRUNTIME}/colors/
-    [[ -d ${VIMFILES}/bundle/onedark.vim ]] && {
-        cp -ar ${VIMFILES}/bundle/onedark.vim/colors/*   ${VIMRUNTIME}/colors/
-        cp -ar ${VIMFILES}/bundle/onedark.vim/autoload/* ${VIMRUNTIME}/autoload/
-    }
 
 # Golang path setting
     GoRoot="/usr/local/go"
     PATH=$PATH:${GoRoot}/bin
+
+# rust
+    # curl https://sh.rustup.rs -sSf | sh
+# cargo install bat ripgrep
+    # https://github.com/universal-ctags/ctags
+
 
 # Tomcat Path
     # export JAVA_HOME=/usr/lib/jvm/jdk
@@ -163,6 +188,7 @@ export VIMFILES="${HOME}/.vim/vimfiles"
     # export CATALINA_HOME=${TOMCAT_HOME}
     # export CLASSPATH=.:${JAVA_HOME}/lib:${CATALINA_HOME}/lib
     # export PATH=${JAVA_HOME}/bin:${PATH}
+
 
 ## other zsh plugins
 # if [[ ! -e ${ZSH_CUSTOM}/themes/bullet-train.zsh-theme ]]
@@ -172,6 +198,7 @@ export VIMFILES="${HOME}/.vim/vimfiles"
 #     git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
 # fi
 
+
 # powerful plugins like fish
 if [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-autosuggestions ]] || [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting ]]
 then
@@ -179,6 +206,7 @@ then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
     git clone https://github.com/zsh-users/zsh-completions ~/.oh-my-zsh/custom/plugins/zsh-completions
 fi
+
 
 # fzf.zsh
 if [[ -z $(command -v fzf 2>/dev/null) ]]
@@ -191,10 +219,6 @@ else
     [[ -e ${HOME}/.fzf.zsh ]] && mv ${HOME}/.fzf.zsh ${ZSH_CUSTOM}/
 fi
 
-# nvm config:
-# git clone https://github.com/nvm-sh/nvm.git .nvm
-export NVM_DIR="/usr/local/opt/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # ##############################################
 ## 关于历史纪录的配置
@@ -269,8 +293,13 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 # add this configuration to ~/.zshrc
 # export HH_CONFIG=hicolor        # get more colors
 source ${ZSH}/oh-my-zsh.sh
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ${ZSH_CUSTOM}/plugins/.p10k.zsh
+[[ ! -f ~/.p10k.zsh ]] && {
+    mv ~/.p10k.zsh ${ZSH_CUSTOM}/plugins/
+    source ${ZSH_CUSTOM}/plugins/.p10k.zsh
+}
+
 export BAT_THEME="TwoDark"
 
 # ------fzf configuration----------
