@@ -97,12 +97,11 @@ esac
 
 
 # git Myself zshell conf repo:
+zsh
 git clone https://github.com/boomker/Myzshrc.git ~/gitrepos && cd ~/gitrepos/Myzshrc
 git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto" && {
-    # setopt EXTENDED_GLOB
-    # for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
-    for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/*; do
-        mv "${HOME}"/.zshrc{,.bak}
+    setopt EXTENDED_GLOB
+    for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
         ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
     done
 }
