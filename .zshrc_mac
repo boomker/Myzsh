@@ -258,7 +258,7 @@ source ${ZSH}/oh-my-zsh.sh
 # confirmations, etc.) must go above this block, everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-elif  [[ ! -f ~/.p10k.zsh ]]; then
+elif  [[ -e ~/.p10k.zsh ]]; then
     mv ~/.p10k.zsh ${ZSH_CUSTOM}/plugins/.p10k.zsh
     source ${ZSH_CUSTOM}/plugins/.p10k.zsh
 fi

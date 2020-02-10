@@ -183,6 +183,7 @@ ftc() {
 if [[ $(uname -s) == "Darwin" ]] ; then
     alias -g PC=" |pbcopy"
     alias vim="nvim"
+    alias vscode="/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code"
     alias zshconfig="nvim ${HOME}/gitrepos/Myzshrc/.zshrc_mac"
     alias brin="brew install "
     alias brci="brew cask install "
