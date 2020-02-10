@@ -63,8 +63,8 @@ if [[ $(uname -s) == "Darwin" ]]; then
     # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 
     # GNU cmd tools PATH for Mac:
-    # export PATH="/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin:${PATH}"
-    export PATH="/usr/local/opt/python/bin/:~/Library/Python/2.7/bin:${PATH}"
+    # export PATH="/usr/local/opt/python/bin/:/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin:${PATH}"
+    export PATH="~/Library/Python/2.7/bin:${PATH}"
     export PATH="/usr/local/sbin:/opt/local/bin:$HOME/.yarn/bin:~/.cargo/bin/:$PATH"
     export MANPATH="/usr/local/man:/usr/local/share/man:$MANPATH"
     export MANPATH="/usr/local/opt/coreutils/share/man:/usr/local/opt/findutils/share/man:${MANPATH}"
