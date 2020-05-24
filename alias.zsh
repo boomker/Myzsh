@@ -110,6 +110,32 @@ ftc() {
     # osascript -e 'tell app "Finder" to set the clipboard to ( POSIX file "'$1'" )'
 }
 
+ffv() {
+    fd "$1" |fzf --preview '(bat --style=numbers --color=always {}) 2> /dev/null | head -100'|xargs nvim -o
+}
+
+frv() {
+    local line
+    line=$(
+        rg --no-heading --column --smart-case "$1" | cut -d: -f1,2,3 |
+            fzf --preview-window=right:65%:wrap --preview \
+                'bat --terminal-width ${$(($(tput cols) * 0.75 - 2))%.*} --color always \
+        "$(echo {}  | cut -d: -f1 )" \
+        -H  $(echo {} | cut -d: -f2)  \
+        -r  $((\
+                $((\
+                    $(echo {} | cut -d: -f2)-8 \
+                ))>0 \
+                ? $((\
+                    $(echo {} | cut -d: -f2)-8 \
+                )) \
+                : 0\
+            )):$((\
+                $(echo {} | cut -d: -f2)+$(tput lines)/2-1\
+            ))'
+    ) && nvim "$(cut -d':' -f1 <<<"$line")" +$(cut -d':' -f2 <<<"$line")
+}
+
 # common alias:
     # alias piua="for i in $(pip3 list --outdate |awk 'NR>2{print $1}');do pip3 install --upgrade $i;done" # make lanch zsh too slow
     # jpnb='cd;jupyter notebook >$HOME/.jupyter/jupyter_notebook_running.log 2>&1 & # the reason is same prevalias
@@ -144,7 +170,7 @@ ftc() {
     alias wl="wc -l"
     alias sei="sed -i "
     alias sen="sed -n "
-    alias tssh="TERM=xterm-256color ssh"
+    alias ssh="TERM=xterm-256color ssh"
     # alias timep="/usr/local/bin/time -p"
     alias gcl="git clone "
     alias gaa="git add ."
@@ -196,6 +222,7 @@ if [[ $(uname -s) == "Darwin" ]] ; then
     alias man="gman"
     alias l="exa -abghl --git --color=automatic"
     alias ls="gls -p -w 80 --color=auto"
+    alias tailf="gtail -f"
     alias nl="gnl"
     alias du="gdu"
     # alias duts="du -ch |tail -1"

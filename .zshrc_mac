@@ -64,8 +64,8 @@ if [[ $(uname -s) == "Darwin" ]]; then
 
     # GNU cmd tools PATH for Mac:
     # export PATH="/usr/local/opt/python/bin/:/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin:${PATH}"
-    export PATH="~/Library/Python/2.7/bin:${PATH}"
-    export PATH="/usr/local/sbin:/opt/local/bin:$HOME/.yarn/bin:~/.cargo/bin/:$PATH"
+    # export PATH="~/Library/Python/2.7/bin:${PATH}"
+    export PATH="/usr/local/bin:/opt/local/bin:$HOME/.yarn/bin:~/.cargo/bin/:$PATH"
     export MANPATH="/usr/local/man:/usr/local/share/man:$MANPATH"
     export MANPATH="/usr/local/opt/coreutils/share/man:/usr/local/opt/findutils/share/man:${MANPATH}"
 
@@ -267,9 +267,11 @@ source ${ZSH_CUSTOM}/plugins/.p10k.zsh
 
 export BAT_THEME="TwoDark"
 
+FD_OPTIONS="--follow --exclude .git --exclude .idea --exclude node_modules --exclude venv"
 # ------fzf configuration----------
     source ${HOME}/.oh-my-zsh/custom/plugins/.fzf.zsh
-    export FZF_DEFAULT_COMMAND='rg --files'
+    # export FZF_DEFAULT_COMMAND='rg --files'
+    export FZF_DEFAULT_COMMAND="fd --type f --type l ${FD_OPTIONS}"
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
     export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
     export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color= \
