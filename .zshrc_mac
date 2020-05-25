@@ -64,8 +64,8 @@ if [[ $(uname -s) == "Darwin" ]]; then
 
     # GNU cmd tools PATH for Mac:
     # export PATH="/usr/local/opt/python/bin/:/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin:${PATH}"
-    # export PATH="~/Library/Python/2.7/bin:${PATH}"
-    export PATH="/usr/local/bin:/opt/local/bin:$HOME/.yarn/bin:~/.cargo/bin/:$PATH"
+    export PATH="/Users/zhuchunyuan/p4clitools:~/Library/Python/2.7/bin:${PATH}"
+    export PATH="/usr/local/sbin:/opt/local/bin:$HOME/.yarn/bin:~/.cargo/bin/:$PATH"
     export MANPATH="/usr/local/man:/usr/local/share/man:$MANPATH"
     export MANPATH="/usr/local/opt/coreutils/share/man:/usr/local/opt/findutils/share/man:${MANPATH}"
 
@@ -132,12 +132,13 @@ fi
 # }}}
 
 
-# Tomcat Path {{{
-    # export JAVA_HOME=/usr/lib/jvm/jdk
+# JDK/Tomcat Path {{{
+    export JAVA_HOME=/usr/local/opt/java11
     # export TOMCAT_HOME=/opt/tomcat8
     # export CATALINA_HOME=$TOMCAT_HOME
+    export CLASSPATH=.:${JAVA_HOME}/libexec/openjdk.jdk/Contents/Home/lib
     # export CLASSPATH=.:${JAVA_HOME}/lib:${CATALINA_HOME}/lib
-    # export PATH=${JAVA_HOME}/bin:$PATH
+    export PATH=${JAVA_HOME}/bin:$PATH
 # }}}
 
 
@@ -259,7 +260,7 @@ source ${ZSH}/oh-my-zsh.sh
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 elif  [[ -e ~/.p10k.zsh ]]; then
-    mv ~/.p10k.zsh ${ZSH_CUSTOM}/plugins/.p10k.zsh
+    mv -f ~/.p10k.zsh ${ZSH_CUSTOM}/plugins/.p10k.zsh
     source ${ZSH_CUSTOM}/plugins/.p10k.zsh
 fi
 
@@ -290,3 +291,17 @@ FD_OPTIONS="--follow --exclude .git --exclude .idea --exclude node_modules --exc
 # 设置取消使用代理
     # unsetproxy="unset http_proxy; unset https_proxy; \
     # unset all_proxy; echo 'Unset proxy successfully'"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+export PATH=/Users/zhuchunyuan/.p4clitools:/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin:/Users/zhuchunyuan/.p4clitools:/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/opt/java11/bin:/usr/local/sbin:/opt/local/bin:/Users/zhuchunyuan/.yarn/bin:~/.cargo/bin/:/Users/zhuchunyuan/p4clitools:~/Library/Python/2.7/bin:/usr/local/opt/pyenv-virtualenv/shims:/usr/local/opt/pyenv/shims:/usr/local/opt/pyenv/bin:/usr/local/opt/pyenv-virtualenv/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/zhuchunyuan/.sdkman/candidates/gradle/current/bin:/usr/local/opt/java11/bin:/usr/local/sbin:/opt/local/bin:/Users/zhuchunyuan/.yarn/bin:~/.cargo/bin/:/Users/zhuchunyuan/p4clitools:~/Library/Python/2.7/bin:/usr/local/opt/pyenv-virtualenv/shims:/usr/local/opt/pyenv/shims:/usr/local/opt/pyenv/bin:/usr/local/opt/pyenv-virtualenv/bin:/Users/zhuchunyuan/.oh-my-zsh/custom/plugins/fzf/bin
+
+# P4ConfigEntry
+export P4CHARSET=utf8
+export P4CLIENT=fantasyworld_zhuchunyuan_dev
+export P4USER=youxijun_client01
+export P4PORT=p4d.xindong.com:1666
+export P4IGNORE=.p4ignore
+unset P4CONFIG
+# P4ConfigEnd
