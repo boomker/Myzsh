@@ -76,19 +76,6 @@ case $ID in
         sudo yum install yarn
         sudo npm install -g npm
 
-        #noevim
-        NvimApp_uri=$(curl -sL https://github.com/neovim/neovim/releases/latest |awk -F'[ =]+' '/href.*\.appimage"/{print $4}')
-	    echo "https://github.com"$(echo $NvimApp_uri |tr -d '"') |xargs curl -sLO
-	    ./nvim.appimage --appimage-extract
-        cp -r ./squashfs-root/usr/bin/nvim /usr/local/bin/nvim
-	    chmod +x /usr/local/bin/nvim
-
-        # vim
-        cd ~/gitrepos && git clone https://github.com/boomker/Myvimrc.git
-        cd ./Myvimrc
-        # tic xterm-256color-italic.terminfo
-        mv ~/.vimrc{,.bak} 2>/dev/null
-        ln -sv ${PWD}/.vimrc ~/.vimrc
         ;;
     *)
         exit 1
@@ -97,14 +84,12 @@ esac
 
 
 # git Myself zshell conf repo:
-zsh
 git clone https://github.com/boomker/Myzshrc.git ~/gitrepos && cd ~/gitrepos/Myzshrc
-git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto" && {
-    setopt EXTENDED_GLOB
-    for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
-        ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
-    done
-}
-# source ./oh-my-zsh_install.sh
+git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+Link_CMD="setopt EXTENDED_GLOB
+for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
+    ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+done"
+echo $Link_CMD |zsh -s
 cp ./zpreztorc "${HOME}"/.zpreztorc
 ln -sv "${PWD}"/.zshrc ~/.zshrc
