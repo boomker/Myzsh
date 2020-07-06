@@ -40,7 +40,7 @@ ZSH_DISABLE_COMPFIX="true"
     # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # }}}
 
-plugins=(man extract ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(man extract z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
 autoload -U compinit && compinit
 
 ## --------------User configuration--------------
@@ -271,7 +271,6 @@ export BAT_THEME="TwoDark"
 FD_OPTIONS="--follow --exclude .git --exclude .idea --exclude node_modules --exclude venv"
 # ------fzf configuration----------
     source ${HOME}/.oh-my-zsh/custom/plugins/.fzf.zsh
-    # export FZF_DEFAULT_COMMAND='rg --files'
     export FZF_DEFAULT_COMMAND="fd --type f --type l ${FD_OPTIONS}"
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
     export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
@@ -299,7 +298,7 @@ export PATH=/Users/zhuchunyuan/.p4clitools:/bin:/usr/bin:/usr/local/bin:/sbin:/u
 
 # P4ConfigEntry
 export P4CHARSET=utf8
-export P4CLIENT=fantasyworld_zhuchunyuan_dev
+export P4CLIENT=fantasyworld_chunyuanzhu_dev
 export P4USER=youxijun_client01
 export P4PORT=p4d.xindong.com:1666
 export P4IGNORE=.p4ignore
