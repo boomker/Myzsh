@@ -1,47 +1,29 @@
-# Path to your oh-my-zsh installation.
-export ZSH=${HOME}/.oh-my-zsh
-export ZSH_CUSTOM=${ZSH}/custom
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-DISABLE_AUTO_UPDATE="true"
-ZSH_DISABLE_COMPFIX="true"
 
-# zsh default config, but commented {{{
-# Uncomment the following line to use case-sensitive completion.
-    # CASE_SENSITIVE="true"
+# Executes commands at the start of an interactive session.
 
-    # Uncomment the following line to use hyphen-insensitive completion. Case
-    # sensitive completion must be off. _ and - will be interchangeable.
-    # HYPHEN_INSENSITIVE="true"
 
-    # Uncomment the following line to change how often to auto-update (in days).
-    # export UPDATE_ZSH_DAYS=9
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-    # Uncomment the following line to disable colors in ls.
-    # DISABLE_LS_COLORS="true"
+PREZMODIR="${HOME}/.zprezto/modules"
+# 延迟执行或加载zsh 命令或脚本
+# git clone https://github.com/romkatv/zsh-defer.git ${PREZMODIR}/
+source ${PREZMODIR}/zsh-defer/zsh-defer.plugin.zsh
 
-    # Uncomment the following line to disable auto-setting terminal title.
-    # DISABLE_AUTO_TITLE="true"
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
 
-    # Uncomment the following line to enable command auto-correction.
-    # ENABLE_CORRECTION="true"
+# Customize to your needs...
 
-    # Uncomment the following line to display red dots whilst waiting for completion.
-    # COMPLETION_WAITING_DOTS="true"
-
-    # Uncomment the following line if you want to disable marking untracked files
-    # under VCS as dirty. This makes repository status check for large repositories
-    # much, much faster.
-    # DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-    # Uncomment the following line if you want to change the command execution time
-    # stamp shown in the history command output.
-    # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# }}}
-
-plugins=(man extract ssh-agent z zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
-autoload -U compinit && compinit
 
 ## --------------User configuration--------------
 # You may need to manually set your language environment
@@ -60,47 +42,16 @@ if [[ $(uname -s) == "Darwin" ]]; then
 
     # HomeBrew more fast conf:
     #export HOMEBREW_GITHUB_API_TOKEN=""
+    export HOMEBREW_CASK_OPTS="--appdir=/Applications"
     # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 
     # GNU cmd tools PATH for Mac:
-    # export PATH="/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin:${PATH}"
-    export PATH="/usr/local/opt/python/bin/:~/Library/Python/2.7/bin:${PATH}"
+    export PATH="/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/opt/python/bin/:${PATH}"
     export PATH="/usr/local/sbin:/opt/local/bin:$HOME/.yarn/bin:~/.cargo/bin/:$PATH"
     export MANPATH="/usr/local/man:/usr/local/share/man:$MANPATH"
     export MANPATH="/usr/local/opt/coreutils/share/man:/usr/local/opt/findutils/share/man:${MANPATH}"
 
 fi
-## }}}
-
-
-## proxy config {{{
-# if [[ -n $(lsof -nP -i :1087 -a -i :1080 2>/dev/null) ]]
-# then
-#     git config --global http.proxy socks5://127.0.0.1:1080
-#     # git proxy config
-#     git config --global https.proxy socks5://127.0.0.1:1080
-#     export GOPROXY="127.0.0.1:1080"
-# elif [ -n $(lsof -nP -i :8100) ]; then
-#     git config --global http.proxy socks5://127.0.0.1:8100
-#     # git proxy config
-#     git config --global https.proxy socks5://127.0.0.1:8100
-#     export GOPROXY="127.0.0.1:8100"
-# else
-#     # golang proxy conf
-#     export GOPROXY="https://goproxy.io"
-# fi
-## }}}
-
-
-## thefuck install and alias config {{{
-# if [[ -z $(which thefuck 2>/dev/null) ]]
-# then
-    # [[ -z $(which gcc 2>/dev/null) ]] && break
-    # pip3 install --upgrade pip
-    # pip3 install thefuck
-# else
-    # eval $(thefuck --alias fff)
-# fi
 ## }}}
 
 
@@ -116,8 +67,8 @@ fi
 ## ------------VIM environment path config-------------------------- {{{
     export EDITOR="$(which nvim)"
     export VIM="/usr/local/opt/neovim/share/nvim"
-    export VIMFILES="${HOME}/.vim/vimfiles"
-    export VIMRUNTIME="/usr/local/opt/neovim/share/nvim/runtime"
+    export VIMFILES="${HOME}/.nvim/vimfiles"
+    export VIMRUNTIME="${HOME}/.nvim/runtime"
 # if [[ $(uname -s) == "Linux" ]]; then
     # export VIM="/usr/local/share/vim"
     # export VIMFILES="${VIM}/vimfiles"
@@ -132,63 +83,36 @@ fi
 # }}}
 
 
-# Tomcat Path {{{
-    # export JAVA_HOME=/usr/lib/jvm/jdk
+# JDK/Tomcat Path {{{
+    export JAVA_HOME=/usr/local/opt/java11
     # export TOMCAT_HOME=/opt/tomcat8
     # export CATALINA_HOME=$TOMCAT_HOME
+    export CLASSPATH=.:${JAVA_HOME}/libexec/openjdk.jdk/Contents/Home/lib
     # export CLASSPATH=.:${JAVA_HOME}/lib:${CATALINA_HOME}/lib
-    # export PATH=${JAVA_HOME}/bin:$PATH
+    export PATH=${JAVA_HOME}/bin:$PATH
 # }}}
 
 
-# alias.zsh conf: {{{
-# if [[ -e ${HOME}/gitrepo/Myzshrc/alias.zsh ]]
-# then
-    # [[ ! -e ${ZSH_CUSTOM}/alias.zsh ]] && ln -sv ${HOME}/gitrepo/Myzshrc/alias.zsh  ${ZSH_CUSTOM}/alias.zsh
-# fi
-# }}}
+# alias.zsh conf:
+  zsh-defer source ~/.alias.zsh
 
 
-## other zsh plugins {{{
-# if [[ ! -e ${ZSH_CUSTOM}/themes/bullet-train.zsh-theme ]]
-# then
-    # [[ ! -d ${ZSH_CUSTOM}/themes ]] && mkdir ${ZSH_CUSTOM}/themes
-    # git clone https://github.com/caiogondim/bullet-train.zsh.git ${ZSH_CUSTOM}/themes/
-    # git clone https://github.com/zsh-users/zsh-completions.git ~/.oh-my-zsh/custom/plugins/zsh-completions
-# fi
-# }}}
+# ------fzf configuration----------
+  [ -f ~/.fzf.zsh ] && zsh-defer source ~/.fzf.zsh
+    export FZF_DEFAULT_COMMAND="fd --type f --type l ${FD_OPTIONS}"
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+    export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color= \
+        always {} ||highlight -O ansi -l {} || cat {}) 2> /dev/null | head -100'"
+    export FZF_DEFAULT_OPTS='--height 70% --reverse --border'
 
-
-# powerful plugins like fish {{{
-# if [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-autosuggestions ]] || [[ ! -d ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting ]]
-# then
-    # git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
-    # git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
-    # export ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(end-of-line vi-forward-char vi-end-of-line vi-add-eol)
-# fi
-# }}}
-
-
-# fzf.zsh {{{
-# if [[ -z $(which fzf 2>/dev/null) ]]
-# then
-    # [[ ! -d ${HOME}/gitrepo ]] && mkdir ${HOME}/gitrepo
-    # [[ -d ${HOME}/gitrepo/fzf ]] && break
-    # git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/gitrepo/fzf
-    # source ${HOME}/gitrepo/fzf/install
-# else
-    # [[ -e ${HOME}/.fzf.zsh ]] && mv ${HOME}/.fzf.zsh ${ZSH_CUSTOM}/.fzf.zsh
-    # [[ -e ${ZSH_CUSTOM}/.fzf.zsh ]] && source ${ZSH_CUSTOM}/.fzf.zsh
-    # [[ ! -e /usr/bin/fzf ]] && ln -sv ${HOME}/gitrepo/fzf/bin/fzf /usr/bin/fzf 2>/dev/null
-# fi
-# }}}
-
-# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# iterm2_shell_integration configuration:
+test -e "${HOME}/.iterm2_shell_integration.zsh" && zsh-defer source "${HOME}/.iterm2_shell_integration.zsh"
 
 # nvm config:
 # curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash
 export NVM_DIR="/usr/local/opt/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+zsh-defer -c '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"'  # This loads nvm
 
 
 ## 关于历史纪录的配置##############################################{{{
@@ -248,41 +172,30 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
     zstyle ':completion:*:corrections' format $'\e[01;32m -- %d (errors: %e) --\e[0m'
     # }}}
 
-# add this configuration to ~/.zshrc
-# export HH_CONFIG=hicolor        # get more colors
-source ${ZSH}/oh-my-zsh.sh
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block, everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-elif  [[ -e ~/.p10k.zsh ]]; then
-    mv ~/.p10k.zsh ${ZSH_CUSTOM}/plugins/.p10k.zsh
-    source ${ZSH_CUSTOM}/plugins/.p10k.zsh
-fi
 
 export BAT_THEME="TwoDark"
 
-# ------fzf configuration----------
-    source ${HOME}/.oh-my-zsh/custom/plugins/.fzf.zsh
-    export FZF_DEFAULT_COMMAND='rg --files'
-    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-    export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-    export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color= \
-        always {} ||highlight -O ansi -l {} || cat {}) 2> /dev/null | head -100'"
-    export FZF_DEFAULT_OPTS='--height 70% --reverse --border'
+FD_OPTIONS="--follow --exclude .git --exclude .idea --exclude node_modules --exclude venv"
 
-# ---------proxy config----------
-    # nohup goflyway -up=cf://go.wallbroken.xyz:8880 -k=BWFW#cf-0924 -l=:8100 &
-    # nohup goflyway -up=cf://go.wallbroken.xyz:2905 -k=VGWF-km#2019 -l=:8100 &
 
 # 设置使用代理
-# setproxy="export https_proxy=http://127.0.0.1:1087; \
-    # export http_proxy=http://127.0.0.1:1087; \
-    # export all_proxy=socks5://127.0.0.1:1080"
+  alias setproxy="export https_proxy=http://127.0.0.1:1087; \
+      export http_proxy=http://127.0.0.1:1087; \
+      export all_proxy=socks5://127.0.0.1:1080"
 
 # 设置取消使用代理
-    # unsetproxy="unset http_proxy; unset https_proxy; \
-    # unset all_proxy; echo 'Unset proxy successfully'"
+    alias unsetproxy="unset http_proxy; unset https_proxy; \
+    unset all_proxy; echo 'Unset proxy successfully'"
+
+# P4ConfigEntry
+export P4CHARSET=utf8
+export P4CLIENT=fantasyworld_chunyuanzhu_dev
+export P4USER=zhuchunyuan
+export P4PORT=p4d.xindong.com:1666
+export P4IGNORE=.p4ignore
+unset P4CONFIG
+# P4ConfigEnd
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/xiaocg/.sdkman"
+[[ -s "/Users/xiaocg/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/xiaocg/.sdkman/bin/sdkman-init.sh"
