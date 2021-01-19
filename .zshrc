@@ -187,14 +187,6 @@ FD_OPTIONS="--follow --exclude .git --exclude .idea --exclude node_modules --exc
     alias unsetproxy="unset http_proxy; unset https_proxy; \
     unset all_proxy; echo 'Unset proxy successfully'"
 
-# P4ConfigEntry
-export P4CHARSET=utf8
-export P4CLIENT=fantasyworld_chunyuanzhu_dev
-export P4USER=zhuchunyuan
-export P4PORT=p4d.xindong.com:1666
-export P4IGNORE=.p4ignore
-unset P4CONFIG
-# P4ConfigEnd
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/xiaocg/.sdkman"
