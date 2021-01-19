@@ -144,7 +144,6 @@ zsh-defer -c '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"'  # This loads nvm
 # Emacs风格 键绑定
 bindkey -e
 bindkey '^u' backward-kill-line
-# vi-mode
 
 # 以下字符视为单词的一部分
 WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
