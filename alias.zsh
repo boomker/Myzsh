@@ -17,6 +17,8 @@
     alias -g W=" |wc -l"
     alias -g CT=" |column -t"
     alias zft="z_replacement"
+    alias -g AT=" |as-tree"
+    alias z="z_replacement"
     # alias zip="zip -r "
     alias pps="ptipython3"
     alias ips="ipython3"
@@ -36,7 +38,7 @@
     alias gaa="git add ."
     alias gcm="git commit -m "
     alias gpo="git push origin ||git push -u origin"
-    alias gidf="git-icdiff"
+    alias giff="git-icdiff"
     alias gco="git checkout "
     alias grep="egrep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}"
     alias dfh="df -Th"
@@ -235,11 +237,11 @@ fi
         git remote get-url origin |xargs open
     }
 
-    git-cc() {
+    gce() {
         repoUrl=$1
         [[ ${repoUrl: -3} != git ]] && repoUrl="${repoUrl}.git"
         repoName=$(echo ${repoUrl} |awk -F'[/.]+' '{print $(NF-1)}')
-        git clone $1 && cd ${repoName}
+        git clone $repoUrl && cd ${repoName}
     }
 
 # for macos
