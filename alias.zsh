@@ -16,7 +16,6 @@
     alias -g Y=" |tee"
     alias -g W=" |wc -l"
     alias -g CT=" |column -t"
-    alias zft="z_replacement"
     alias -g AT=" |as-tree"
     alias z="z_replacement"
     # alias zip="zip -r "
